@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Notifications\ResetPasswordNotification;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -33,5 +34,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function cursos()
+    {
+        return $this->belongsToMany('App\Curso');
+    }
+
+    public function realizadas()
+    {
+        return $this->hasMany('App\Realizada');
+    }
 
 }
