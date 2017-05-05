@@ -1,8 +1,6 @@
-@extends('layouts.app')
+<?php $__env->startSection('title', 'Reenev - Bienvenido'); ?>
 
-@section('title', 'Reenev - Bienvenido')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
         <div class="flex-center position-ref full-height">
             
@@ -21,4 +19,5 @@
         
         </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ config('app.locale') }}">
+<html lang="<?php echo e(config('app.locale')); ?>">
 
 <head>
 
@@ -8,15 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
-    <title>@yield('title')</title>
+    <title><?php echo $__env->yieldContent('title'); ?></title>
 
     <!-- Scripts -->
     <script>
-        window.Reenev = {!! json_encode([
+        window.Reenev = <?php echo json_encode([
             'csrfToken' => csrf_token(),
-        ]) !!};
+        ]); ?>;
     </script>
 
     <!-- Fonts -->
@@ -24,7 +24,7 @@
 
     <!-- Styles -->
 
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
 
     <style>
 
@@ -101,7 +101,7 @@
 
                     <!-- Branding Image -->
                     <strong>
-                        <a class="navbar-brand" style="color: dodgerblue;" href="{{ url('/') }}">{{ config('app.name', 'Reenev') }}</a>
+                        <a class="navbar-brand" style="color: dodgerblue;" href="<?php echo e(url('/')); ?>"><?php echo e(config('app.name', 'Reenev')); ?></a>
                     </strong>
                 
                 </div>
@@ -117,40 +117,41 @@
                     <ul class="nav navbar-nav navbar-right">
                         
                         <!-- Authentication Links -->
-                        @if (Auth::guest())
-                            <li><a href="{{ route('register') }}">Registrarme</a></li>
-                            <li><a href="{{ route('login') }}">Entrar</a></li>
-                        @else
+                        <?php if(Auth::guest()): ?>
+                            <li><a href="<?php echo e(route('register')); ?>">Registrarme</a></li>
+                            <li><a href="<?php echo e(route('login')); ?>">Entrar</a></li>
+                        <?php else: ?>
 
-                            @cannot('accion', App\Modelo::class)
-                            <li><a href="{{ url('/home') }}">Realizar encuesta</a></li>
-                            @endcannot
+                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->denies('accion', App\Modelo::class)): ?>
+                            <li><a href="<?php echo e(url('/home')); ?>">Realizar encuesta</a></li>
+                            <?php endif; ?>
 
-                            @can('accion', App\Modelo::class)
-                                <li><a href="{{ url('/encuestas') }}">Encuestas</a></li>
-                                <li><a href="{{ url('/docentes') }}">Docentes</a></li>
-                                <li><a href="{{ url('/cursos') }}">Cursos</a></li>
-                            @endcan
+                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('accion', App\Modelo::class)): ?>
+                                <li><a href="<?php echo e(url('/encuestas')); ?>">Encuestas</a></li>
+                                <li><a href="<?php echo e(url('/docentes')); ?>">Docentes</a></li>
+                                <li><a href="<?php echo e(url('/cursos')); ?>">Cursos</a></li>
+                            <?php endif; ?>
 
-                            <li><a href="{{ url('/home') }}"><strong>Perfil</strong></a></li>
+                            <li><a href="<?php echo e(url('/home')); ?>"><strong>Perfil</strong></a></li>
 
                             <li class="dropdown">
                                 
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    <?php echo e(Auth::user()->name); ?> <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
 
                                     <li>
-                                        <a href="{{ route('logout') }}"
+                                        <a href="<?php echo e(route('logout')); ?>"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Salir
                                         </a>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
+                                        <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+                                            <?php echo e(csrf_field()); ?>
+
         
                                         </form>
         
@@ -160,7 +161,7 @@
         
                             </li>
 
-                        @endif
+                        <?php endif; ?>
         
                     </ul>
         
@@ -170,13 +171,13 @@
         
         </nav>
 
-        @yield('content')
+        <?php echo $__env->yieldContent('content'); ?>
 
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/scripts.js') }}"></script>
+    <script src="<?php echo e(asset('js/app.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/scripts.js')); ?>"></script>
 
 </body>
 
