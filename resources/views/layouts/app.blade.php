@@ -11,36 +11,21 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title')</title>
-
-    <!-- Styles -->
-    <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
-
-    <!-- Scripts -->
-    
-    <script src="{{ asset('js/app.js') }}"></script>
-    
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
-    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script> -->
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
-    
-    <script src="{{ asset('js/funciones.js') }}"></script>
-    
-    <script>
-        window.Reenev = {!! json_encode([
-            'csrfToken' => csrf_token(),
-        ]) !!};
-    </script>
-
-    <!-- Fonts -->
+     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <!-- Scripts -->
+
+    
+    <script>
+        window.Reenev = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+    </script>
     <style>
 
         html, body {
@@ -193,10 +178,10 @@
 
     <!-- Scripts -->
 
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/scripts.js') }}"></script>
 
 
 </body>
+    <script src="{{ asset('js/funciones.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
 </html>
