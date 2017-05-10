@@ -3,6 +3,7 @@
 @section('title', 'Registrarme - Reenev')
 
 @section('content')
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -58,6 +59,7 @@
                             <label for="apellido2" class="col-md-4 control-label">Segundo apellido</label>
 
                             <div class="col-md-6">
+             
                                 <input id="apellido2" type="text" class="form-control" name="apellido2" value="{{ old('apellido2') }}" placeholder="Rodriguez" required autofocus>
 
                                 @if ($errors->has('apellido2'))
@@ -95,7 +97,7 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>                 
+                        </div>
 
                         <div class="form-group{{ $errors->has('ci') ? ' has-error' : '' }}">
                             <label for="ci" class="col-md-4 control-label">Cedula</label>
