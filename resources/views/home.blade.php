@@ -21,7 +21,7 @@
                 		<strong>Estudiante del TIP :</strong>
                 		{{ Auth::user()->name }} {{ Auth::user()->apellido }}
                 	</div>
-                @endif -->
+                @endif 
 
                 <div class="panel-heading">
                     
@@ -33,7 +33,14 @@
 
                     <p>Aca irian todos los datos del perfil</p>
 
-                </div>
+                </div> -->
+
+                    @if( Auth::user()->esAdmin )
+                        @include('admin.welcomeAdmin')
+                    @else
+                        @include('welcomeStudent')
+                    @endif
+
             
             </div>
         
