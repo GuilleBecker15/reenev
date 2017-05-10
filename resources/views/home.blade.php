@@ -25,7 +25,7 @@
 
                 <div class="panel-heading">
                     
-                    <center><h1>Perfil de '{{ Auth::user()->name }}'</h1></center>
+                    <center><h1>Perfil de '{{ Auth::user()->name1 }}'</h1></center>
 
                 </div>
                 
