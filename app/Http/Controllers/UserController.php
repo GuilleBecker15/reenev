@@ -33,6 +33,8 @@ class UserController extends Controller
         //$users = User::latest()->paginate();
         //$users = User::all();
         $users = User::all();
+        //var_dump($users->toJson());
+        //dd($users->toJson());
         return view('userAll', compact('users'));
 
 

@@ -88,7 +88,7 @@
                             <label for="generacion" class="col-md-4 control-label">Generacion</label>
 
                             <div class="col-md-6">
-                                <input id="generacion" type="date" class="form-control" name="generacion" value="{{ $user->generacion }}" required autofocus>
+                                <select id="generacion" type="text" class="form-control" name="generacion" value="{{ $user->generacion }}" required autofocus></select>
 
                                 @if ($errors->has('generacion'))
                                     <span class="help-block">
