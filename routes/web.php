@@ -16,6 +16,9 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+/*Route::get('404', function () {
+	return view('404');
+});*/
 Route::resource('Users', 'UserController');
 Route::get('/home', 'HomeController@index');
-
+Route::get('/{any}', function($any){ return view('404'); })->where('any', '.*');
