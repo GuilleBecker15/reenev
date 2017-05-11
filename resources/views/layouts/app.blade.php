@@ -11,23 +11,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title')</title>
-
-    <!-- Styles -->
-    <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
-
-    <!-- Scripts -->
-    
-    <script src="{{ asset('js/app.js') }}"></script>
-    
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
-    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script> -->
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
-    
-    <script src="{{ asset('js/funciones.js') }}"></script>
-    
+        
     <script>
         window.Reenev = {!! json_encode([
             'csrfToken' => csrf_token(),
@@ -36,6 +20,9 @@
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
 
     <!-- Styles -->
 
@@ -137,7 +124,8 @@
                         @else
 
                             @cannot('accion', App\Modelo::class)
-                            <li><a href="{{ url('/home') }}">Realizar encuesta</a></li>
+                            <li><a href="{{ url('/home') }}">Completar encuesta</a></li>
+                            <li><a href="{{ url('/home') }}">Mis encuestas</a></li>
                             @endcannot
 
                             @can('accion', App\Modelo::class)
@@ -146,10 +134,7 @@
                                 <li><a href="{{ url('/cursos') }}">Cursos</a></li>
                             @endcan
 
-                            <!--<li><a href="{{ url('/home') }}"><strong>Perfil</strong></a></li>-->
-
-
-                            <li><a href="{{ route('Users.show', Auth::user() )}}">Perfil</a></li>
+                            <li><a href="{{ route('Users.edit', Auth::user() )}}">Mis datos</a></li>
 
                             <li class="dropdown">
                                 
@@ -192,11 +177,10 @@
     </div>
 
     <!-- Scripts -->
-
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/scripts.js') }}"></script>
+    <script src="{{ asset('js/funciones.js') }}"></script>
 
-
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </body>
 
 </html>

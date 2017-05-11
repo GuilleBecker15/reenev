@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Http\Traits\Utilidades;
 
 class RegisterController extends Controller
 {
@@ -21,6 +22,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+    use Utilidades;
 
     /**
      * Where to redirect users after registration.
@@ -52,7 +54,7 @@ class RegisterController extends Controller
             'name2' => 'required|string|max:255',
             'apellido1' => 'required|string|max:255',
             'apellido2' => 'required|string|max:255',
-            'nacimiento' => 'required|date', 
+            'nacimiento' => 'required|string', 
             'generacion' => 'required|integer',
             'ci' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
@@ -68,16 +70,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        
+        $nacimiento = $this->sqlDateFormat($data['nacimiento']);
+
         return User::create([
             'name1' => $data['name1'],
             'name2' => $data['name2'],
             'apellido1' => $data['apellido1'],
             'apellido2' => $data['apellido2'],
-            'nacimiento' => $data['nacimiento'],
+            'nacimiento' => $nacimiento,
             'generacion' => $data['generacion'],
             'ci' => $data['ci'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    
     }
+
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="<?php echo e(config('app.locale')); ?>">
 
 <head>
@@ -11,8 +11,7 @@
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
     <title><?php echo $__env->yieldContent('title'); ?></title>
-
-    <!-- Scripts -->
+        
     <script>
         window.Reenev = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -21,6 +20,9 @@
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
 
     <!-- Styles -->
 
@@ -112,7 +114,6 @@
                     <ul class="nav navbar-nav">
                         &nbsp;
                     </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         
@@ -123,7 +124,8 @@
                         <?php else: ?>
 
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->denies('accion', App\Modelo::class)): ?>
-                            <li><a href="<?php echo e(url('/home')); ?>">Realizar encuesta</a></li>
+                            <li><a href="<?php echo e(url('/home')); ?>">Completar encuesta</a></li>
+                            <li><a href="<?php echo e(url('/home')); ?>">Mis encuestas</a></li>
                             <?php endif; ?>
 
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('accion', App\Modelo::class)): ?>
@@ -132,12 +134,12 @@
                                 <li><a href="<?php echo e(url('/cursos')); ?>">Cursos</a></li>
                             <?php endif; ?>
 
-                            <li><a href="<?php echo e(url('/home')); ?>"><strong>Perfil</strong></a></li>
+                            <li><a href="<?php echo e(route('Users.edit', Auth::user() )); ?>">Mis datos</a></li>
 
                             <li class="dropdown">
                                 
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    <?php echo e(Auth::user()->name); ?> <span class="caret"></span>
+                                    <?php echo e(Auth::user()->name1); ?> <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
@@ -177,8 +179,9 @@
 
     <!-- Scripts -->
     <script src="<?php echo e(asset('js/app.js')); ?>"></script>
-    <script src="<?php echo e(asset('js/scripts.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/funciones.js')); ?>"></script>
 
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </body>
 
 </html>
