@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="<?php echo e(config('app.locale')); ?>">
 
 <head>
@@ -22,7 +22,6 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
 
     <!-- Styles -->
 
@@ -124,8 +123,8 @@
                         <?php else: ?>
 
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->denies('accion', App\Modelo::class)): ?>
-                            <li><a href="<?php echo e(url('/home')); ?>">Completar encuesta</a></li>
-                            <li><a href="<?php echo e(url('/home')); ?>">Mis encuestas</a></li>
+                                <li><a href="<?php echo e(url('/home')); ?>">Completar encuesta</a></li>
+                                <li><a href="<?php echo e(url('/home')); ?>">Mis encuestas</a></li>
                             <?php endif; ?>
 
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('accion', App\Modelo::class)): ?>

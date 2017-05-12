@@ -1,12 +1,26 @@
 $('document').ready(function(){
 	
-	combo = document.getElementById('generacion');
-	
+	var combo = document.getElementById('generacion');
+	var valor = combo.getAttribute('value');
 	var hoy = new Date();
-	var html = "";
+	var html = ""; //Luego se concatenara
+	var selected = false;
+
+	if (isNaN(valor)) valor = 2008; //No es lo mismo que "i"
+
+	for (var i=2008; i<=hoy.getFullYear(); i++) {
+		
+		if (i==valor && valor>2008 && !selected) {
+
+			html =  html + '<option selected value="' + i + '">'+ i +'</option>';
+			selected = true;
+
+		} else {
+
+			html =  html + '<option value="' + i + '">'+ i +'</option>';
+		
+		}
 	
-	for (var i = 2008; i <= hoy.getFullYear() ; i++) {
-		html =  html + '<option value="' + i + '">'+ i +'</option>'
 	}
 	
 	combo.innerHTML = html;

@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
 
 <head>
@@ -22,7 +22,6 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
 
     <!-- Styles -->
 
@@ -124,8 +123,8 @@
                         @else
 
                             @cannot('accion', App\Modelo::class)
-                            <li><a href="{{ url('/home') }}">Completar encuesta</a></li>
-                            <li><a href="{{ url('/home') }}">Mis encuestas</a></li>
+                                <li><a href="{{ url('/home') }}">Completar encuesta</a></li>
+                                <li><a href="{{ url('/home') }}">Mis encuestas</a></li>
                             @endcannot
 
                             @can('accion', App\Modelo::class)

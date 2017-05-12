@@ -11,17 +11,31 @@ trait Utilidades {
     	$this->authorize('accion', Modelo::class);
     }
 
-    public function sqlDateFormat($cadena)
+    public function sqlDateFormat($uyDateFormat)
     {
         //Recibe "dd/mm/aaaa" y retorna "aaaa-mm-dd"
 
-        $arreglo = explode("/", $cadena);
+        $arreglo = explode("/", $uyDateFormat);
         
-        $aaaa = $arreglo[2];
-        $mm = $arreglo[1];
         $dd = $arreglo[0];
+        $mm = $arreglo[1];
+        $aaaa = $arreglo[2];
 
         return $aaaa."-".$mm."-".$dd;
+
+    }
+
+    public function uyDateFormat($sqlDateFormat)
+    {
+        //Recibe "aaaa-mm-dd" y retorna "dd/mm/aaaa"
+
+        $arreglo = explode("-", $sqlDateFormat);
+        
+        $aaaa = $arreglo[0];
+        $mm = $arreglo[1];
+        $dd = $arreglo[2];
+
+        return $dd."/".$mm."/".$aaaa;
 
     }
 
