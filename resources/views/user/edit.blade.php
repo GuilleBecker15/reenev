@@ -10,7 +10,7 @@
 
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Ver o modificar datos del usuario</div>
+                <div class="panel-heading"><h1>Datos del usuario</h1></div>
 
                 <div class="panel-body">
 
@@ -35,8 +35,6 @@
                             </div>
 
                         </div>
-
-                        <hr>
 
                         <div class="form-group{{ $errors->has('name1') ? ' has-error' : '' }}">
 
@@ -99,7 +97,7 @@
                             <label for="nacimiento" class="col-md-4 control-label">Fecha de Nacimiento</label>
 
                             <div class="col-md-6">
-                                <input disabled onfocusout="validarFecha('nacimiento')" id="nacimiento" type="fecha" class="form-control" name="nacimiento" value="{{ $user->nacimiento }}" required autofocus>
+                                <input disabled onfocusout="validarFecha('nacimiento')" id="nacimiento" type="fecha" class="form-control" name="nacimiento" value="{{ $user->uyNacimiento($user->nacimiento) }}" required autofocus>
 
                                 @if ($errors->has('nacimiento'))
                                     <span class="help-block">
