@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Debes introducir tus credenciales</div>
+                <div class="panel-heading"><h1>Iniciar sesion en Reenev</h1></div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="<?php echo e(route('login')); ?>">
                         <?php echo e(csrf_field()); ?>
@@ -18,9 +18,9 @@
                                 <input id="email" type="email" class="form-control" name="email" value="<?php echo e(old('email')); ?>" required autofocus>
 
                                 <?php if($errors->has('email')): ?>
-                                    <span class="help-block">
-                                        <strong><?php echo e($errors->first('email')); ?></strong>
-                                    </span>
+                                <span class="help-block">
+                                    <strong><?php echo e($errors->first('email')); ?></strong>
+                                </span>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -32,9 +32,9 @@
                                 <input id="password" type="password" class="form-control" name="password" required>
 
                                 <?php if($errors->has('password')): ?>
-                                    <span class="help-block">
-                                        <strong><?php echo e($errors->first('password')); ?></strong>
-                                    </span>
+                                <span class="help-block">
+                                    <strong><?php echo e($errors->first('password')); ?></strong>
+                                </span>
                                 <?php endif; ?>
                             </div>
                         </div>
