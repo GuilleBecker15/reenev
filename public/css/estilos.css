@@ -1,0 +1,59 @@
+html, body {
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+    height: 100%;
+}
+
+h1 {
+    color: dodgerblue;
+    text-align: center;
+    font-weight: bold;
+    border: none;
+}
+
+nav {
+    box-shadow: 0 0 10px gray;
+}
+
+.full-height {
+    height: 50vh;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-ref {
+    position: relative;
+}
+
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+}
+
+.content {
+    text-align: center;
+}
+
+.title {
+    font-size: 180px;
+    color: dodgerblue;
+}
+
+.links > a {
+    color: darkslategray;
+    padding: 0 25px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.m-b-md {
+    margin-bottom: 30px;
+}
