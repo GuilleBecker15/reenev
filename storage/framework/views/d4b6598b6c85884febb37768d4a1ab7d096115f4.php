@@ -15,7 +15,8 @@
     <script> window.Reenev = <?php echo json_encode(['csrfToken' => csrf_token(),]); ?>; </script>
 
     <!-- Styles -->
-    <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
+<!--     <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
+ -->    <link href="<?php echo e(asset('bootstrap-3.3.7-dist/css/bootstrap.min.css')); ?>" rel="stylesheet">
     <link href="<?php echo e(asset('css/estilos.css')); ?>" rel="stylesheet">
 
 </head>
@@ -61,14 +62,15 @@
                         <?php else: ?>
 
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->denies('accion', App\Modelo::class)): ?>
-                        <li><a href="<?php echo e(url('/home')); ?>">Completar encuesta</a></li>
-                        <li><a href="<?php echo e(url('/home')); ?>">Mis encuestas</a></li>
+                        <li><a href="<?php echo e(url('/')); ?>">Completar encuesta</a></li>
+                        <li><a href="<?php echo e(url('/')); ?>">Encuestas completadas</a></li>
                         <?php endif; ?>
 
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('accion', App\Modelo::class)): ?>
-                        <li><a href="<?php echo e(url('/encuestas')); ?>">Encuestas</a></li>
-                        <li><a href="<?php echo e(url('/docentes')); ?>">Docentes</a></li>
-                        <li><a href="<?php echo e(url('/cursos')); ?>">Cursos</a></li>
+                        <li><a href="<?php echo e(route('Cursos.index')); ?>">Cursos</a></li>
+                        <li><a href="<?php echo e(route('Docentes.index')); ?>">Docentes</a></li>
+                        <li><a href="<?php echo e(route('Encuestas.index')); ?>">Encuestas</a></li>
+                        <li><a href="<?php echo e(route('Users.index')); ?>">Usuarios</a></li>
                         <?php endif; ?>
 
                         <li><a href="<?php echo e(route('Users.edit', Auth::user() )); ?>">Mis datos</a></li>
@@ -115,7 +117,9 @@
 </div>
 
 <!-- Scripts -->
-<script src="<?php echo e(asset('js/app.js')); ?>"></script>
+<!-- <script src="<?php echo e(asset('js/app.js')); ?>"></script>
+ --><script src="<?php echo e(asset('js/jquery-3.2.1.min.js')); ?>"></script>
+<script src="<?php echo e(asset('bootstrap-3.3.7-dist/js/bootstrap.min.js')); ?>"></script>
 <script src="<?php echo e(asset('js/funciones.js')); ?>"></script>
 
 </body>

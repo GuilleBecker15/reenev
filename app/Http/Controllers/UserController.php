@@ -25,27 +25,6 @@ class UserController extends Controller
         return view('admin.users', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     public function show($id)
     {
 
@@ -103,6 +82,20 @@ class UserController extends Controller
 
             return $this->edit($user->id);
 
+        }
+
+        return view('welcome');
+
+    }
+
+    public function hacerAdmin($id)
+    {
+        
+        if (Auth::user()->esAdmin) {
+            $user = User::findOrFail($id);
+            $user->esAdmin=true;
+            $user->save();
+            return $this->show($user->id);
         }
 
         return view('welcome');

@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title', 'Administrar Usuarios')
+@section('title', 'Administrar Encuestas')
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Administrar Usuarios</h1></div>
+                <div class="panel-heading"><h1>Administrar Encuestas</h1></div>
                 <div class="panel-body">
                 <div class="row">
                   
@@ -13,7 +13,7 @@
 
                       <form class="navbar-form navbar-left">
                         <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Apellido o C.I.">
+                          <input type="text" class="form-control" placeholder="Asunto o descripcion">
                           <span class="input-group-btn">
                             <button class="btn btn-default" type="button">Buscar</button>
                           </span>
@@ -42,43 +42,24 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Primer nombre</th>
-                                    <th>Segundo nombre</th>
-                                    <th>Primer apellido</th>
-                                    <th>Segundo apellido</th>
-                                    <th>Fecha de nacimiento</th>
-                                    <th>Generacion</th>
-                                    <th>C.I.</th>
-                                    <th>eMail</th>
-                                    <th>Tipo</th>
-                                    <th></th>
-                                    <th></th>
+                                    <th>Inicia</th>
+                                    <th>Vence</th>
+                                    <th>Asunto</th>
+                                    <th>Descripcion</th>
                                 </tr>
                             </thead>
-                            @foreach ($users as $key => $user)
+                            @foreach ($encuestas as $key => $encuesta)
                             <tbody>
                                 <tr>
-                                    <td>{{ $user->id }}</td>
-                                    <td>{{ $user->name1 }}</td>
-                                    <td>{{ $user->name2 }}</td>
-                                    <td>{{ $user->apellido1 }}</td>
-                                    <td>{{ $user->apellido2 }}</td>
-                                    <td>{{ $user->uyNacimiento($user->nacimiento) }}</td>
-                                    <td>{{ $user->generacion }}</td>
-                                    <td>{{ $user->ci }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->tipo($user->esAdmin) }}</td>
-                                    <td>
-                                        {{ Form::open(['method' => 'GET', 'route' => ['Users.show', $user->id]]) }}
-                                        {{ Form::hidden('id', $user->id) }}
-                                        {{ Form::submit('Ver', ['class' => 'btn btn-xs btn-info']) }}
-                                        {{Form::close()}}
-                                    </td>
+                                    <td>{{ $encuesta->id }}</td>
+                                    <td>{{ $encuesta->inicio }}</td>
+                                    <td>{{ $encuesta->vence }}</td>
+                                    <td>{{ $encuesta->asunto }}</td>
+                                    <td>{{ $encuesta->descripcion }}</td>
                                 </tr>
                             </tbody>
                             @endforeach
                         </table>
-
                     </div>
                 </div>
             </div>

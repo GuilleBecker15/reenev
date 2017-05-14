@@ -8,7 +8,7 @@
 
     <div class="row">
 
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Datos del usuario</h1></div>
 
@@ -19,11 +19,13 @@
                         <input name="_method" type="hidden" value="PUT">
                         {{ csrf_field() }}
 
-                        <div class="form-group">
+                    <div class="form-group">
 
-                            <div class="col-md-12">
+                        <label for="name1" class="col-md-4 control-label">Opciones</label>
 
-                                <select
+                        <div class="col-md-6">
+
+                            <select
                                 onchange="habilitar_o_no()"
                                 id="verModificar" type="text" class="form-control" name="modificar" required autofocus>
 
@@ -33,7 +35,7 @@
                             </select>
 
                         </div>
-
+                    
                     </div>
 
                     <div class="form-group{{ $errors->has('name1') ? ' has-error' : '' }}">

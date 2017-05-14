@@ -1,8 +1,7 @@
-html, body {
-    font-family: 'Raleway', sans-serif;
+/*html, body {
     margin: 0;
     height: 100%;
-}
+}*/
 
 h1 {
     color: dodgerblue;
@@ -11,9 +10,9 @@ h1 {
     border: none;
 }
 
-nav {
+/*nav {
     box-shadow: 0 0 10px gray;
-}
+}*/
 
 .full-height {
     height: 50vh;
@@ -40,14 +39,14 @@ nav {
 }
 
 .title {
-    font-size: 180px;
+    font-size: 160px;
     color: dodgerblue;
 }
 
 .links > a {
     color: darkslategray;
-    padding: 0 25px;
-    font-size: 18px;
+    padding: 0 28px;
+    font-size: 14px;
     font-weight: 600;
     letter-spacing: .1rem;
     text-decoration: none;
@@ -56,4 +55,17 @@ nav {
 
 .m-b-md {
     margin-bottom: 30px;
+}
+
+@media (max-width: 600px) {
+
+    .title {
+        font-size: 80px;
+    }
+
+    .links > a {
+        font-size: 14px;
+        padding: 0 7px;
+    }
+
 }

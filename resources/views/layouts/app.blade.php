@@ -15,7 +15,8 @@
     <script> window.Reenev = {!!json_encode(['csrfToken' => csrf_token(),])!!}; </script>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+<!--     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+ -->    <link href="{{ asset('bootstrap-3.3.7-dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/estilos.css') }}" rel="stylesheet">
 
 </head>
@@ -61,14 +62,15 @@
                         @else
 
                         @cannot('accion', App\Modelo::class)
-                        <li><a href="{{ url('/home') }}">Completar encuesta</a></li>
-                        <li><a href="{{ url('/home') }}">Mis encuestas</a></li>
+                        <li><a href="{{ url('/') }}">Completar encuesta</a></li>
+                        <li><a href="{{ url('/') }}">Encuestas completadas</a></li>
                         @endcannot
 
                         @can('accion', App\Modelo::class)
-                        <li><a href="{{ url('/encuestas') }}">Encuestas</a></li>
-                        <li><a href="{{ url('/docentes') }}">Docentes</a></li>
-                        <li><a href="{{ url('/cursos') }}">Cursos</a></li>
+                        <li><a href="{{ route('Cursos.index')}}">Cursos</a></li>
+                        <li><a href="{{ route('Docentes.index')}}">Docentes</a></li>
+                        <li><a href="{{ route('Encuestas.index')}}">Encuestas</a></li>
+                        <li><a href="{{ route('Users.index')}}">Usuarios</a></li>
                         @endcan
 
                         <li><a href="{{ route('Users.edit', Auth::user() )}}">Mis datos</a></li>
@@ -114,7 +116,9 @@
 </div>
 
 <!-- Scripts -->
-<script src="{{ asset('js/app.js') }}"></script>
+<!-- <script src="{{ asset('js/app.js') }}"></script>
+ --><script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ asset('bootstrap-3.3.7-dist/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/funciones.js') }}"></script>
 
 </body>

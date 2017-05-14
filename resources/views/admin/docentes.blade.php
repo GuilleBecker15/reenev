@@ -1,15 +1,15 @@
 @extends('layouts.app')
-@section('title', 'Administrar Usuarios')
+@section('title', 'Administrar Docentes')
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Administrar Usuarios</h1></div>
+                <div class="panel-heading"><h1>Administrar Docentes</h1></div>
                 <div class="panel-body">
                 <div class="row">
                   
-                  <div class="col-md-12">
+                  <div class="col-md-8">
 
                       <form class="navbar-form navbar-left">
                         <div class="input-group">
@@ -19,7 +19,9 @@
                           </span>
                         </div>
                       </form>
-                      
+
+                      </div>
+                  <div class="col-md-4">
                       <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Tareas administrativas <span class="caret"></span></a>
@@ -42,43 +44,24 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Primer nombre</th>
-                                    <th>Segundo nombre</th>
-                                    <th>Primer apellido</th>
-                                    <th>Segundo apellido</th>
-                                    <th>Fecha de nacimiento</th>
-                                    <th>Generacion</th>
-                                    <th>C.I.</th>
                                     <th>eMail</th>
-                                    <th>Tipo</th>
-                                    <th></th>
-                                    <th></th>
+                                    <th>C.I.</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
                                 </tr>
                             </thead>
-                            @foreach ($users as $key => $user)
+                            @foreach ($docentes as $key => $docente)
                             <tbody>
                                 <tr>
-                                    <td>{{ $user->id }}</td>
-                                    <td>{{ $user->name1 }}</td>
-                                    <td>{{ $user->name2 }}</td>
-                                    <td>{{ $user->apellido1 }}</td>
-                                    <td>{{ $user->apellido2 }}</td>
-                                    <td>{{ $user->uyNacimiento($user->nacimiento) }}</td>
-                                    <td>{{ $user->generacion }}</td>
-                                    <td>{{ $user->ci }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->tipo($user->esAdmin) }}</td>
-                                    <td>
-                                        {{ Form::open(['method' => 'GET', 'route' => ['Users.show', $user->id]]) }}
-                                        {{ Form::hidden('id', $user->id) }}
-                                        {{ Form::submit('Ver', ['class' => 'btn btn-xs btn-info']) }}
-                                        {{Form::close()}}
-                                    </td>
+                                    <td>{{ $docente->id }}</td>
+                                    <td>{{ $docente->email }}</td>
+                                    <td>{{ $docente->ci }}</td>
+                                    <td>{{ $docente->nombre }}</td>
+                                    <td>{{ $docente->apellido }}</td>
                                 </tr>
                             </tbody>
                             @endforeach
                         </table>
-
                     </div>
                 </div>
             </div>
