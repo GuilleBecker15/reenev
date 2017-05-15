@@ -32,46 +32,46 @@
 
                    			 <input name="_method" type="hidden" value="PUT">
                         	{{ csrf_field() }}
-								<div class="form-group{{ $errors->has('pass2') ? ' has-error' : '' }}">
-										<label for="pass1" class="col-md-4 control-label">contraseña nueva</label>
+								<div class="form-group{{ $errors->has('pass1') ? ' has-error' : '' }}">
+										<label for="pass1" class="col-md-4 control-label">Contraseña nueva</label>
 									<div class="col-md-6">
-										<input id="pass1" type="text" name="pass1" value="" class="form-control" required>										
-									</div>
-									@if ($errors->has('pass2'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('pass2') }}</strong>
-                                    </span>
-                                	@endif
-								</div>
+										<input id="pass1" type="text" name="pass1" value="" class="form-control" required>	
+									</div>						
+									<div class="col-md-6 col-md-offset-4">
+										@if ($errors->has('pass1'))
+	                                    <span class="help-block">
+	                                        <strong>{{ $errors->first('pass1') }}</strong>
+	                                    </span>
+	                                	@endif                                		
+                                	</div>
+								</div>				
 
-								<div class="form-group">
-									<div class="col-md-4 ">
-										<label>Repita la contraseña</label>
-									</div>									
+								<div class="form-group{{ $errors->has('pass2') ? ' has-error' : '' }}">
+										<label for="pass2" class="col-md-4 control-label">Repita contraseña </label>
 									<div class="col-md-6">
 										<input id="pass2" type="text" name="pass2" value="" class="form-control" required>										
 									</div>
+									<div class="col-md-6 col-md-offset-4">	
+										@if ($errors->has('pass2'))
+	                                    <span class="help-block">
+	                                        <strong>{{ $errors->first('pass2') }}</strong>
+	                                    </span>
+	                                	@endif
+	                                </div>
 								</div>
 
-								<!-- <div class="form-group">
-									<div class="col-md-4 ">
-										<label>contraseña actual</label>
-									</div>									
-									<div class="col-md-6">
-										<input id="pass" type="text" name="pass" value="" class="form-control" required>										
-									</div>
-								</div> -->
-
 								<div class="form-group{{ $errors->has('pass') ? ' has-error' : '' }}">
-										<label for="pass" class="col-md-4 control-label">contraseña nueva</label>
+										<label for="pass" class="col-md-4 control-label">Contraseña actual</label>
 									<div class="col-md-6">
 										<input id="pass" type="text" name="pass" value="" class="form-control" required>										
 									</div>
-									@if ($errors->has('pass'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('pass') }}</strong>
-                                    </span>
-                                	@endif
+									<div class="col-md-offset-4 col-md-6">
+										@if ($errors->has('pass'))
+	                                    <span class="help-block">
+	                                        <strong>{{ $errors->first('pass') }}</strong>
+	                                    </span>
+	                                	@endif
+	                                </div>
 								</div>
 
 							    <div class="form-group">
