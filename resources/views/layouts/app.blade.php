@@ -16,6 +16,7 @@
         window.Reenev = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
+
     </script>
 
     <!-- Fonts -->
@@ -77,6 +78,14 @@
 
         .m-b-md {
             margin-bottom: 30px;
+        }
+        
+        .btn-modificar {
+            float: right;
+            width: 40%;
+        }
+        .btn-cambiarPass {
+            width: 50%;
         }
 
     </style>

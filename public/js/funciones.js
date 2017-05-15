@@ -11,6 +11,49 @@ $('document').ready(function(){
 	
 	combo.innerHTML = html;
 
+	$('#modificarDatos').click(function(e){
+		e.preventDefault();
+
+			var datos 			= document.getElementById('formularioModificacion');
+			var url 			= datos.getAttribute('action');
+			var datos 			= {};
+			datos.name1 		= $('#name1').val();
+			datos.name2 		= $('#name2').val();
+			datos.apellido1 	= $('#apellido1').val();
+			datos.apellido2 	= $('#apellido2').val();
+			datos.nacimiento 	= $('#nacimiento').val();
+			datos.generacion 	= $('#generacion').val();
+			datos.email 		= $('#email').val();
+			datos.ci 			= $('#ci').val();
+			datos.confirmarPass = $('#confirmarPass').val();
+			console.log(datos);
+
+			$.ajax({
+				type: 	"PUT",
+				url:   	url,
+				data: 	datos,
+				cache: 	false,
+				dataType: 'json',
+					 
+			}).always(function(response, status){
+				console.log(response);
+				console.log('---------------------------------');
+				console.log(status);
+				console.log('---------------------------------');
+				if(response.status == '442'){
+					console.log('contrasenia no coincide');
+				} else if(response.status == '500'){
+					console.log('Error interno del server');
+					}
+					else{
+					//location.reload();						
+					}
+			});
+
+			return false;
+
+	});
+
 });
 
 var inputs = document.querySelectorAll('input[type=fecha]');
@@ -68,7 +111,7 @@ function fechaValida(aaaa,mm,dd) {
 
 function habilitar_o_no() {
 	
-	var cadena_ids = "name1,name2,apellido1,apellido2,nacimiento,generacion,ci,email,modificar"
+	var cadena_ids = "name1,name2,apellido1,apellido2,nacimiento,generacion,ci,email,modificar,cambiarPass"
 	var verModificar = document.getElementById("verModificar");
     var opcion = verModificar.options[verModificar.selectedIndex].value;
 	var arreglo_ids = cadena_ids.split(',');
@@ -87,3 +130,40 @@ function habilitar_o_no() {
     }
 
 }
+
+/*	$(document).ready(function(){
+		$("#myModal").modal('show');
+	});*/
+	$("#modificar").click(function() {
+		$("#myModal").modal('show');		
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+//---------------------------------------------------//
+
+/*var inputemail = document.getElementById('email');
+inputemail.addEventListener('change', validarEmail);
+function vaildarEmail(evt){
+	var texto = inputemail.value, xhr = new XMLHttpRequest();
+	xhr.onload = function(evt){
+		var resultado = xhr.responseText;
+		//------algo algo-----/
+	};
+	xhr.error = function(evt){
+		console.log('error',err);
+	};
+	xhr.open('GET', 'controladoralgo.php');
+	xhr.send({email:texto});
+
+}*/
+//---------------------------------------------------//

@@ -13,8 +13,13 @@
                 <div class="panel-heading">Ver o modificar datos del usuario</div>
 
                 <div class="panel-body">
-
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('Users.update', $user->id ) }}">
+                    @if(Session::has('error')||Session::has('message'))
+                        <div class="alert alert-{{ Session::get('error-type') }} alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <i class="glyphicon glyphicon-{{ Session::get('error-type') == 'error' ? 'ok' : 'remove'}}"></i> {{ Session::get('error') }}
+                        </div>
+                    @endif
+                    <form id="formularioModificacion" class="form-horizontal" role="form" method="POST" action="{{ route('Users.update', $user->id ) }}">
 
                     <input name="_method" type="hidden" value="PUT">
                         {{ csrf_field() }}
@@ -33,7 +38,6 @@
                                 </select>
 
                             </div>
-
                         </div>
 
                         <hr>
@@ -152,13 +156,52 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button disabled id="modificar" type="submit" class="btn btn-primary">
-                                    Modifcar
+                            <div class="col-md-6 col-md-offset-4 ">
+                                <button disabled id="cambiarPass" type="button" class="btn btn-primary btn-cambiarPass" onClick="location.href='{{ route('cambiarPass', $user->id) }}'">
+                                    Cambiar contraseña
+                                </button>
+                                <button disabled id="modificar" type="button" class="btn btn-primary btn-modificar">
+                                    Modifcar-
                                 </button>
                             </div>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <button id="miboton" type="submit" class="btn btn-primary">Mi boton</button>
+ --><!-- Ventana modal para modificar -->
+ <div class="col-md-8 col-md-offset-4">     
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Corfirmacion</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Para guardar los cambios debe introducir su contrase&ntilde;a</p>
+                    <p class="text-warning">Intruduzca su contrase&ntilde;a</p>
+                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                        <label for="password" class="col-md-4 control-label">Contraseña</label>
+
+                        <div class="col-md-8">
+                            <input id="confirmarPass" type="password" class="form-control" name="password" required>
+
+                            @if ($errors->has('password'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
+                        </div><br>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button id="modificarDatos" type="button" class="btn btn-primary">Guardar datos</button>
                 </div>
             </div>
         </div>
