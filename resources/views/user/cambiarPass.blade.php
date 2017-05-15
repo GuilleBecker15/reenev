@@ -19,15 +19,27 @@
                                 	var_dump(bcrypt('qwerty'));
                                 	echo "<br>-------------------------<br>";
                                 	var_dump($user->password);*/
-                                	if (isset($errors)) {
-                                		var_dump($errors->first('pass2'));
+                                	/*if (Session::has('error')  ) {
+                                		var_dump(Session::get('error'));
                                 	}
+                                	echo "<br>-------------------------<br>";                                	
+                                	if (Session::has('message')  ) {
+                                		var_dump(Session::get('message'));
+                                	}*/
                                 ?>
 
 						<br>
 						
 					</div>
 					<div class="panel-body">
+						@if(Session::has('error')||Session::has('message'))
+                        <div class="alert alert-{{ Session::get('error-type') }} alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <i class="glyphicon glyphicon-{{ Session::get('error-type') == 'error' ? 'ok' : 'remove'}}"></i> {{ Session::get('message') }}
+                        </div>
+                    	@endif
+
+
 						<form id="formularioUpdatePass" class="form-horizontal" role="form" method="POST" action="{{ route('updatePass', $user->id ) }}">
 
                    			 <input name="_method" type="hidden" value="PUT">
@@ -35,7 +47,7 @@
 								<div class="form-group{{ $errors->has('pass1') ? ' has-error' : '' }}">
 										<label for="pass1" class="col-md-4 control-label">Contraseña nueva</label>
 									<div class="col-md-6">
-										<input id="pass1" type="text" name="pass1" value="" class="form-control" required>	
+										<input id="pass1" type="password" name="pass1" value="" class="form-control" placeholder="******" required>	
 									</div>						
 									<div class="col-md-6 col-md-offset-4">
 										@if ($errors->has('pass1'))
@@ -49,7 +61,7 @@
 								<div class="form-group{{ $errors->has('pass2') ? ' has-error' : '' }}">
 										<label for="pass2" class="col-md-4 control-label">Repita contraseña </label>
 									<div class="col-md-6">
-										<input id="pass2" type="text" name="pass2" value="" class="form-control" required>										
+										<input id="pass2" type="password" name="pass2" value="" class="form-control" placeholder="******" required>										
 									</div>
 									<div class="col-md-6 col-md-offset-4">	
 										@if ($errors->has('pass2'))
@@ -63,7 +75,7 @@
 								<div class="form-group{{ $errors->has('pass') ? ' has-error' : '' }}">
 										<label for="pass" class="col-md-4 control-label">Contraseña actual</label>
 									<div class="col-md-6">
-										<input id="pass" type="text" name="pass" value="" class="form-control" required>										
+										<input id="pass" type="password" name="pass" value="" class="form-control" placeholder="******" required>										
 									</div>
 									<div class="col-md-offset-4 col-md-6">
 										@if ($errors->has('pass'))

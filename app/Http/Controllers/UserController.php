@@ -145,9 +145,7 @@ class UserController extends Controller
 
     public function updatePass(Request $request, $id){
         $usuario = User::findOrFail($id);
-        // $validator = parent::getValidatorInstance();
-        // return view('user.cambiarPass', ['user'=>$usuario])->withErrors('La contraseña introducida es incorrecta');
-        // return view('user.cambiarPass', ['user'=>$usuario, 'errores' => 'maloso']);
+
         if(Auth::user()->id == $id){
             $message = [
                 'same' => 'Las contraseñas deben coincidir.'
@@ -159,13 +157,13 @@ class UserController extends Controller
             ], $message);
             if($validator->fails())
                return view('user.cambiarPass', ['user'=>$usuario])->withErrors($validator, 'pass1');
-            // if(bcrypt($request->get('pass'))==$usuario->password){
             if(Hash::check($request->get('pass'), $usuario->password)){
                 $usuario->password=bcrypt($request->pass1);
                 $usuario->save();
-                return view('user.cambiarPass', ['user'=>$usuario ])->with('algo','BIeN');
+                $request->session()->flash('message', 'Todo muy bien!');
+                return view('user.cambiarPass', ['user'=>$usuario ]);
             }
-            return view('user.cambiarPass', ['user'=>$usuario])->with('algo','TodoMAL');
+            return view('user.cambiarPass', ['user'=>$usuario])->withErrors('La contraseña actual es incorrecta', 'pass');
             
         }
 
