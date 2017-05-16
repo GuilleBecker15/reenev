@@ -29,5 +29,6 @@ Route::put('updatePass/{user}', [ 'uses' => 'UserController@updatePass', 'as' =>
 
 Route::get('/{any}', function($any){ return view('404'); })->where('any', '.*');
 
+Route::post('/updateByAjax/{id}', [ 'uses' => 'UserController@updateByAjax', 'as' => 'Users.updateByAjax']);
 
 // ['as' => 'my-profile', 'uses' => 'ProfileController@myProfile']

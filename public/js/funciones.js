@@ -11,12 +11,17 @@ $('document').ready(function(){
 	
 	combo.innerHTML = html;
 
+	$(document).on('click','.btn-modificar',function(e){
+		$('#myModal').modal('show');
+	});
+
 	$('#modificarDatos').click(function(e){
 		e.preventDefault();
-
+			$('#myModal').modal('hide');
 			var datos 			= document.getElementById('formularioModificacion');
 			var url 			= datos.getAttribute('action');
 			var datos 			= {};
+			var token			= $('[name="_token"]').val();
 			datos.name1 		= $('#name1').val();
 			datos.name2 		= $('#name2').val();
 			datos.apellido1 	= $('#apellido1').val();
@@ -27,34 +32,62 @@ $('document').ready(function(){
 			datos.ci 			= $('#ci').val();
 			datos.confirmarPass = $('#confirmarPass').val();
 			console.log(datos);
+			console.log(token);
+
+			
 
 			$.ajax({
-				type: 	"PUT",
+				type: 	'post',
 				url:   	url,
-				data: 	datos,
-				cache: 	false,
+				data: 	JSON.stringify(datos),
 				dataType: 'json',
-					 
-			}).always(function(response, status){
-				console.log(response);
-				console.log('---------------------------------');
-				console.log(status);
-				console.log('---------------------------------');
-				if(response.status == '442'){
-					console.log('contrasenia no coincide');
-				} else if(response.status == '500'){
-					console.log('Error interno del server');
-					}
-					else{
-					//location.reload();						
-					}
+				async : true,
+				cache : false,
+				headers: {'X-CSRF-TOKEN': token,
+						'Content-Type': 'application/json'
+				},
+				success: function(response){
+					console.log("Repuest bien");
+					console.log(response);
+
+				},
+				error: function(response){
+					console.log("paso un error");
+					console.log(response);
+				} 
 			});
 
-			return false;
-
+			// return false;
 	});
 
+
+	/*$('#modificarDatos')
+	var ultimo = document.getElementById('divpass')
+	var string = ultimo.outerHTML
+	todo = document.getElementById('divaniadir').innerHTML = string*/
+
+	/*$("#formularioModificacion").submit(function(e) {
+		e.preventDefault();
+		$("#myModal").modal('show');
+			$("#modificarDatos").click(function() {
+				document.getElementById("divpass").style.display = 'none';
+				var ultimo = document.getElementById('divpass');
+				var string = ultimo.outerHTML;
+				todo = document.getElementById('divaniadir').innerHTML = string;
+				console.log(todo);
+				alert(todo);
+			$("#formularioModificacion").unbind('submit').submit();
+			});
+	});*/
+
 });
+
+/*$(document).on("submit", "formularioModificacion", function(e){
+	e.preventDefault();
+	alert('It works!!');
+	return false;
+});*/
+
 
 var inputs = document.querySelectorAll('input[type=fecha]');
 
@@ -134,9 +167,7 @@ function habilitar_o_no() {
 /*	$(document).ready(function(){
 		$("#myModal").modal('show');
 	});*/
-	$("#modificar").click(function() {
-		$("#myModal").modal('show');		
-	});
+	
 
 
 

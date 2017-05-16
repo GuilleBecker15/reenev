@@ -11,15 +11,37 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Ver o modificar datos del usuario</div>
-
+                <br>
+                <!-- <?php 
+                    if (Session::has('error')  ) {
+                        var_dump(Session::get('error'));
+                    }
+                    echo "<br>-------------------------<br>";                                   
+                    if (Session::has('message')  ) {
+                        var_dump(Session::get('message'));
+                    }
+                    echo "<br>-------------------------<br>";                                   
+                        var_dump(Session::all());                      
+                    echo "<br>-------------------------<br>";                                   
+                        var_dump(Hash::check('qwerty', $user->password));                      
+                    echo "<br>-------------------------<br>";                                   
+                        var_dump(('qwerty'==bcrypt($user->password)));                      
+                ?>
+                 -->
                 <div class="panel-body">
-                    @if(Session::has('error')||Session::has('message'))
+                    @if(Session::has('error'))
                         <div class="alert alert-{{ Session::get('error-type') }} alert-dismissable">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
                             <i class="glyphicon glyphicon-{{ Session::get('error-type') == 'error' ? 'ok' : 'remove'}}"></i> {{ Session::get('error') }}
                         </div>
                     @endif
-                    <form id="formularioModificacion" class="form-horizontal" role="form" method="POST" action="{{ route('Users.update', $user->id ) }}">
+                    @if(Session::has('message'))
+                        <div class="alert alert-{{ Session::get('error-type') }} success-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <i class="glyphicon glyphicon-{{ Session::has('message') == 'success' ? 'ok' : 'remove'}}"></i> {{ Session::has('message') }}
+                        </div>
+                    @endif
+                    <form id="formularioModificacion" class="form-horizontal" role="form" method="POST" action="{{ route('Users.updateByAjax',$user->id) }}">
 
                     <input name="_method" type="hidden" value="PUT">
                         {{ csrf_field() }}
@@ -39,9 +61,6 @@
 
                             </div>
                         </div>
-
-                        <hr>
-
                         <div class="form-group{{ $errors->has('name1') ? ' has-error' : '' }}">
 
                             <label for="name1" class="col-md-4 control-label">Primer nombre</label>
@@ -61,7 +80,7 @@
                             <label for="name2" class="col-md-4 control-label">Segundo Nombre</label>
 
                             <div class="col-md-6">
-                                <input disabled id="name2" type="text" class="form-control" name="name2" value="{{ $user->name2 }}" required autofocus>
+                                <input disabled id="name2" type="text" class="form-control" name="name2" value="{{ $user->name2 }}" required >
 
                                 @if ($errors->has('name2'))
                                     <span class="help-block">
@@ -75,7 +94,7 @@
                             <label for="apellido1" class="col-md-4 control-label">Primer apellido</label>
 
                             <div class="col-md-6">
-                                <input disabled id="apellido1" type="text" class="form-control" name="apellido1" value="{{ $user->apellido1 }}" required autofocus>
+                                <input disabled id="apellido1" type="text" class="form-control" name="apellido1" value="{{ $user->apellido1 }}" required >
 
                                 @if ($errors->has('apellido1'))
                                     <span class="help-block">
@@ -89,7 +108,7 @@
                             <label for="apellido2" class="col-md-4 control-label">Segundo apellido</label>
 
                             <div class="col-md-6">
-                                <input disabled id="apellido2" type="text" class="form-control" name="apellido2" value="{{ $user->apellido2 }}" required autofocus>
+                                <input disabled id="apellido2" type="text" class="form-control" name="apellido2" value="{{ $user->apellido2 }}" required >
 
                                 @if ($errors->has('apellido2'))
                                     <span class="help-block">
@@ -103,7 +122,7 @@
                             <label for="nacimiento" class="col-md-4 control-label">Fecha de Nacimiento</label>
 
                             <div class="col-md-6">
-                                <input disabled onfocusout="validarFecha('nacimiento')" id="nacimiento" type="fecha" class="form-control" name="nacimiento" value="{{ $user->nacimiento }}" required autofocus>
+                                <input disabled onfocusout="validarFecha('nacimiento')" id="nacimiento" type="fecha" class="form-control" name="nacimiento" value="{{ $user->nacimiento }}" required >
 
                                 @if ($errors->has('nacimiento'))
                                     <span class="help-block">
@@ -117,7 +136,7 @@
                             <label for="generacion" class="col-md-4 control-label">Generacion</label>
 
                             <div class="col-md-6">
-                                <select disabled id="generacion" type="text" class="form-control" name="generacion" value="{{ $user->generacion }}" required autofocus></select>
+                                <select disabled id="generacion" type="text" class="form-control" name="generacion" value="{{ $user->generacion }}" required ></select>
 
                                 @if ($errors->has('generacion'))
                                     <span class="help-block">
@@ -131,7 +150,7 @@
                             <label for="ci" class="col-md-4 control-label">Cedula</label>
 
                             <div class="col-md-6">
-                                <input disabled id="ci" type="string" class="form-control" name="ci" value="{{ $user->ci }}" required autofocus>
+                                <input disabled id="ci" type="string" class="form-control" name="ci" value="{{ $user->ci }}" required >
 
                                 @if ($errors->has('ci'))
                                     <span class="help-block">
@@ -141,7 +160,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                        <div id="divaniadir" class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Correo</label>
 
                             <div class="col-md-6">
@@ -161,7 +180,7 @@
                                     Cambiar contraseña
                                 </button>
                                 <button disabled id="modificar" type="button" class="btn btn-primary btn-modificar">
-                                    Modifcar-
+                                    Modifcar
                                 </button>
                             </div>
                         </div>
@@ -185,11 +204,11 @@
                 <div class="modal-body">
                     <p>Para guardar los cambios debe introducir su contrase&ntilde;a</p>
                     <p class="text-warning">Intruduzca su contrase&ntilde;a</p>
-                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                    <div id="divpass" class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                         <label for="password" class="col-md-4 control-label">Contraseña</label>
 
                         <div class="col-md-8">
-                            <input id="confirmarPass" type="password" class="form-control" name="password" required>
+                            <input id="confirmarPass" type="password" class="form-control" name="password" autofocus required>
 
                             @if ($errors->has('password'))
                                 <span class="help-block">

@@ -85,14 +85,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Debugbar::error('Error!');
         if (Auth::user()->id==$id) {
 
             $user = User::findOrFail($id);
-                Log::debug();
 
             // if($user->password == bcrypt($request->get('confirmarPass'))){
             if(Hash::check($request->get('confirmarPass'), $user->password)){
+
                 $nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
 
                 $user->name1=$request->get('name1');
@@ -107,15 +106,11 @@ class UserController extends Controller
                 $user->save();
 
                 //return $this->edit($user->id);
-                $request->session()->flash('message', 'Perfil moificado con exito');
-                $request->session()->flash('message-type', 'success');
-
-                return response()->json(['status'=>'Hooray']);
+                $request->session()->flash('message', 'Perfil modificado con exito');
+                return redirect()->back();
             }
-            // return response()->json(['message' => 'Password fail']);
-            $request->session()->flash('error', 'La contrasenia no coincide');
-            $request->session()->flash('error-type', 'danger');
-            return response()->json(['status'=>'442']);
+                        
+            return redirect()->back()->withErrors('error', 'la contraseña introducida no coincide');
         }
 
         return view('welcome');
@@ -169,4 +164,35 @@ class UserController extends Controller
 
         return view('welcome');
     }
+
+    public function updateByAjax(Request $request, $id){
+        if($request->ajax()){
+            $user = User::findOrFail($id);
+            if(Hash::check($request->get('confirmarPass'),$user->password)){
+                $nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
+                $user->name1=$request->get('name1');
+                $user->name2=$request->get('name2');
+                $user->apellido1=$request->get('apellido1');
+                $user->apellido2=$request->get('apellido2');
+                $user->nacimiento= $nacimiento;
+                $user->generacion=$request->get('generacion');
+                $user->email=$request->get('email');
+                $user->ci=$request->get('ci');
+
+                $user->save();
+                $request->session()->flash('message', 'Perfil modificado con exito');
+                return response(['msg'=>'Actualizado con exito']);
+            }
+            $request->session()->flash('error', 'Contrseña incorrecta');
+            return response(['error'=>'Contraseña incorrecta']);
+        }
+        return response(['error'=>'No es ajax']);
+        /*if($request->ajax()){
+            
+            return response(['msg'=>'Es ajax']);            
+        }
+        return response(['msg'=>'No es ajax']);*/
+    }
+
+    //------------end-----------
 }
