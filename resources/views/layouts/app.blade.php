@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
 
 <head>
@@ -11,95 +11,27 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title')</title>
-        
-    <script>
-        window.Reenev = {!! json_encode([
-            'csrfToken' => csrf_token(),
-        ]) !!};
 
-    </script>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script> window.Reenev = {!!json_encode(['csrfToken' => csrf_token(),])!!}; </script>
 
     <!-- Styles -->
-
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <style>
+    <link href="{{ asset('css/estilos.css') }}" rel="stylesheet">
 
-        html, body {
-            font-family: 'Raleway', sans-serif;
-            margin: 0;
-            height: 100%;
-        }
-
-        .full-height {
-            height: 50vh;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 180px;
-            color: dodgerblue;
-        }
-
-        .links > a {
-            color: rgb(0,0,64);
-            padding: 0 25px;
-            font-size: 18px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-        
-        .btn-modificar {
-            float: right;
-            width: 40%;
-        }
-        .btn-cambiarPass {
-            width: 50%;
-        }
-
-    </style>
 
 </head>
 
 <body>
-    
+
     <div id="app">
-        
+
         <nav class="navbar navbar-default navbar-static-top">
-            
+
             <div class="container">
-                
+
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
@@ -112,84 +44,83 @@
 
                     <!-- Branding Image -->
                     <strong>
-                        <a class="navbar-brand" style="color: dodgerblue;" href="{{ url('/') }}">{{ config('app.name', 'Reenev') }}</a>
+                        <a class="navbar-brand" style="color: darkslategray;" href="{{ url('/') }}">{{ config('app.name', 'Reenev') }}</a>
                     </strong>
-                
+
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    
+
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;
                     </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
-                        
+
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ route('register') }}">Registrarme</a></li>
-                            <li><a href="{{ route('login') }}">Entrar</a></li>
+                        <li><a href="{{ route('register') }}">Registrarme</a></li>
+                        <li><a href="{{ route('login') }}">Entrar</a></li>
                         @else
 
-                            @cannot('accion', App\Modelo::class)
-                            <li><a href="{{ url('/home') }}">Completar encuesta</a></li>
-                            <li><a href="{{ url('/home') }}">Mis encuestas</a></li>
-                            @endcannot
+                        @cannot('accion', App\Modelo::class)
+                        <li><a href="{{ url('/home') }}">Completar encuesta</a></li>
+                        <li><a href="{{ url('/home') }}">Mis encuestas</a></li>
+                        @endcannot
 
-                            @can('accion', App\Modelo::class)
-                                <li><a href="{{ url('/encuestas') }}">Encuestas</a></li>
-                                <li><a href="{{ url('/docentes') }}">Docentes</a></li>
-                                <li><a href="{{ url('/cursos') }}">Cursos</a></li>
-                            @endcan
+                        @can('accion', App\Modelo::class)
+                        <li><a href="{{ url('/encuestas') }}">Encuestas</a></li>
+                        <li><a href="{{ url('/docentes') }}">Docentes</a></li>
+                        <li><a href="{{ url('/cursos') }}">Cursos</a></li>
+                        @endcan
 
-                            <li><a href="{{ route('Users.edit', Auth::user() )}}">Mis datos</a></li>
+                        <li><a href="{{ route('Users.edit', Auth::user() )}}">Mis datos</a></li>
 
-                            <li class="dropdown">
-                                
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name1 }} <span class="caret"></span>
+                        <li class="dropdown">
+
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                {{ Auth::user()->name1 }} <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+
+                                <li>
+                                    <a href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                                    Salir
                                 </a>
 
-                                <ul class="dropdown-menu" role="menu">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
 
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Salir
-                                        </a>
+                                </form>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-        
-                                        </form>
-        
-                                    </li>
-        
-                                </ul>
-        
                             </li>
 
-                        @endif
-        
-                    </ul>
-        
-                </div>
-        
+                        </ul>
+
+                    </li>
+
+                    @endif
+
+                </ul>
+
             </div>
-        
-        </nav>
 
-        @yield('content')
+        </div>
 
-    </div>
+    </nav>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/funciones.js') }}"></script>
+    @yield('content')
 
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</div>
+
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/funciones.js') }}"></script>
+
 </body>
 
 </html>

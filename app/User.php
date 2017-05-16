@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Traits\Utilidades;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,6 +12,7 @@ class User extends Authenticatable
 {
 
     use Notifiable;
+    use Utilidades;
 
     public function sendPasswordResetNotification($token)
     {
@@ -53,6 +55,11 @@ class User extends Authenticatable
     public function realizadas()
     {
         return $this->hasMany('App\Realizada');
+    }
+
+    public function uyNacimiento($nacimiento)
+    {
+        return $this->uyDateFormat($nacimiento);
     }
 
 }
