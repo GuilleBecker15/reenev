@@ -11,15 +11,24 @@
 |
 */
 
+Auth::routes();
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::get('/home', 'HomeController@index'); //Por si Laravel lo sigue usando internamente
 
-Route::post('hacerAdmin/{id}', 'UserController@hacerAdmin');
+Route::post('/Cursos/buscar', 'CursoController@buscar');
+Route::post('/Docentes/buscar', 'DocenteController@buscar');
+Route::post('/Encuestas/buscar', 'EncuestaController@buscar');
+Route::post('/Users/buscar', 'UserController@buscar');
+
+Route::post('/hacerAdmin/{id}', 'UserController@hacerAdmin');
+Route::post('/recuperar/{id}', 'UserController@recuperar');
 
 Route::resource('Cursos', 'CursoController');
 Route::resource('Docentes', 'DocenteController');
 Route::resource('Encuestas', 'EncuestaController');
+Route::resource('Realizadas', 'RealizadaController');
 Route::resource('Users', 'UserController');

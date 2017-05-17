@@ -1,32 +1,25 @@
 @extends('layouts.app')
-@section('title', 'Cursos')
+@section('title', 'Encuestas completadas')
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h1>Cursos</h1>
-                </div>
+                <div class="panel-heading"><h1>Encuestas completadas</h1></div>
                 <div class="panel-body">
-                @include('admin.toolbar', ['route' => $route])
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Semestre</th>
-                                    <th>Abreviatura</th>
+                                    <th>Fecha de cuando la completaste</th>
                                 </tr>
                             </thead>
-                            @foreach ($cursos as $key => $curso)
+                            @foreach ($realizadas as $key => $realizada)
                             <tbody>
                                 <tr>
-                                    <td>{{ $curso->id }}</td>
-                                    <td>{{ $curso->nombre }}</td>
-                                    <td>{{ $curso->semestre }}</td>
-                                    <td>{{ $curso->abreviatura }}</td>
+                                    <td>{{ $realizada->id }}</td>
+                                    <td>{{ $realizada->cuando }}</td>
                                 </tr>
                             </tbody>
                             @endforeach

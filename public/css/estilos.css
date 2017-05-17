@@ -1,7 +1,3 @@
-/*html, body {
-    margin: 0;
-    height: 100%;
-}*/
 
 h1 {
     color: dodgerblue;
@@ -10,9 +6,31 @@ h1 {
     border: none;
 }
 
-/*nav {
+.error_icono {
+    font-size: 135px;
+    color: dodgerblue;
+}
+
+.error_titulo {
+    font-size: 45px;
+    color: darkslategray;
+}
+
+.error_numero {
+    color: tomato;
+}
+
+.error_explicacion {
+    color: darkslategray;
+}
+
+.app {
+    padding-top: 96px;
+}
+
+nav {
     box-shadow: 0 0 10px gray;
-}*/
+}
 
 .full-height {
     height: 50vh;
@@ -57,7 +75,7 @@ h1 {
     margin-bottom: 30px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
 
     .title {
         font-size: 80px;
@@ -66,6 +84,14 @@ h1 {
     .links > a {
         font-size: 14px;
         padding: 0 7px;
+    }
+
+    .error-content__illust {
+        display: none;
+    }
+
+    .error-content__messages {
+        padding-top: 25px;
     }
 
 }

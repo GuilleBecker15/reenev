@@ -1,42 +1,13 @@
 @extends('layouts.app')
-@section('title', 'Administrar Usuarios')
+@section('title', 'Usuarios')
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Administrar Usuarios</h1></div>
+                <div class="panel-heading"><h1>Usuarios</h1></div>
                 <div class="panel-body">
-                <div class="row">
-                  
-                  <div class="col-md-12">
-
-                      <form class="navbar-form navbar-left">
-                        <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Apellido o C.I.">
-                          <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Buscar</button>
-                          </span>
-                        </div>
-                      </form>
-                      
-                      <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Tareas administrativas <span class="caret"></span></a>
-                          <ul class="dropdown-menu">
-                            <li><a href="#">Crear un curso</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Ayuda</a></li>
-                          </ul>
-                        </li>
-                      </ul>
-
-                  </div>
-
-                </div>
-
-                <hr>
-
+                @include('admin.toolbar')
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -51,6 +22,7 @@
                                     <th>C.I.</th>
                                     <th>eMail</th>
                                     <th>Tipo</th>
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                 </tr>

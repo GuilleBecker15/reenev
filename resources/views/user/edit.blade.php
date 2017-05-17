@@ -19,13 +19,13 @@
                         <input name="_method" type="hidden" value="PUT">
                         {{ csrf_field() }}
 
-                    <div class="form-group">
+                        <div class="form-group">
 
-                        <label for="name1" class="col-md-4 control-label">Opciones</label>
+                            <label for="name1" class="col-md-4 control-label">Opciones</label>
 
-                        <div class="col-md-6">
+                            <div class="col-md-6">
 
-                            <select
+                                <select
                                 onchange="habilitar_o_no()"
                                 id="verModificar" type="text" class="form-control" name="modificar" required autofocus>
 
@@ -35,7 +35,7 @@
                             </select>
 
                         </div>
-                    
+
                     </div>
 
                     <div class="form-group{{ $errors->has('name1') ? ' has-error' : '' }}">
@@ -43,7 +43,7 @@
                         <label for="name1" class="col-md-4 control-label">Primer nombre</label>
 
                         <div class="col-md-6">
-                            <input disabled id="name1" type="text" class="form-control" name="name1" value="{{ $user->name1 }}" required autofocus>
+                            <input disabled id="name1" type="text" class="form-control" name="name1" value="{{ $user->name1 }}" required>
 
                             @if ($errors->has('name1'))
                             <span class="help-block">
@@ -57,7 +57,7 @@
                         <label for="name2" class="col-md-4 control-label">Segundo Nombre</label>
 
                         <div class="col-md-6">
-                            <input disabled id="name2" type="text" class="form-control" name="name2" value="{{ $user->name2 }}" required autofocus>
+                            <input disabled id="name2" type="text" class="form-control" name="name2" value="{{ $user->name2 }}" required>
 
                             @if ($errors->has('name2'))
                             <span class="help-block">
@@ -71,7 +71,7 @@
                         <label for="apellido1" class="col-md-4 control-label">Primer apellido</label>
 
                         <div class="col-md-6">
-                            <input disabled id="apellido1" type="text" class="form-control" name="apellido1" value="{{ $user->apellido1 }}" required autofocus>
+                            <input disabled id="apellido1" type="text" class="form-control" name="apellido1" value="{{ $user->apellido1 }}" required>
 
                             @if ($errors->has('apellido1'))
                             <span class="help-block">
@@ -85,7 +85,7 @@
                         <label for="apellido2" class="col-md-4 control-label">Segundo apellido</label>
 
                         <div class="col-md-6">
-                            <input disabled id="apellido2" type="text" class="form-control" name="apellido2" value="{{ $user->apellido2 }}" required autofocus>
+                            <input disabled id="apellido2" type="text" class="form-control" name="apellido2" value="{{ $user->apellido2 }}" required>
 
                             @if ($errors->has('apellido2'))
                             <span class="help-block">
@@ -99,7 +99,7 @@
                         <label for="nacimiento" class="col-md-4 control-label">Fecha de Nacimiento</label>
 
                         <div class="col-md-6">
-                            <input disabled id="nacimiento" type="fecha" class="form-control" name="nacimiento" value="{{ $user->uyNacimiento($user->nacimiento) }}" required autofocus>
+                            <input disabled id="nacimiento" type="fecha" class="form-control" name="nacimiento" value="{{ $user->uyNacimiento($user->nacimiento) }}" required>
 
                             @if ($errors->has('nacimiento'))
                             <span class="help-block">
@@ -113,7 +113,7 @@
                         <label for="generacion" class="col-md-4 control-label">Generacion</label>
 
                         <div class="col-md-6">
-                            <select disabled id="generacion" type="text" class="form-control" name="generacion" value="{{ $user->generacion }}" required autofocus></select>
+                            <select disabled id="generacion" type="text" class="form-control" name="generacion" value="{{ $user->generacion }}" required></select>
 
                             @if ($errors->has('generacion'))
                             <span class="help-block">
@@ -127,7 +127,7 @@
                         <label for="ci" class="col-md-4 control-label">Cedula</label>
 
                         <div class="col-md-6">
-                            <input disabled id="ci" type="cedula" class="form-control" name="ci" value="{{ $user->ci }}" required autofocus>
+                            <input disabled id="ci" type="cedula" class="form-control" name="ci" value="{{ $user->ci }}" required>
 
                             @if ($errors->has('ci'))
                             <span class="help-block">

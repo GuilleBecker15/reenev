@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Curso;
+use App\Http\Traits\Utilidades;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class CursoController extends Controller
 {
+
+    use Utilidades;
+
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +20,39 @@ class CursoController extends Controller
      */
     public function index()
     {
+        $this->authorize('es_admin', User::class);
+        $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
         $cursos = Curso::all();
-        return view('admin.cursos', compact('cursos'));
+        $title = "ID, Nombre, Semestre o Abreviatura"; //Para el tooltrip
+        return view(
+            'admin.cursos',
+            ['cursos' => $cursos, 'route' => $route, 'title' => $title]);
+    }
+
+    public function buscar(Request $request)
+    {
+
+        $this->authorize('es_admin', User::class);
+
+        $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
+
+        $cursos1 = Curso::where('id', 'like','%'.$request->get('q').'%')->get();
+        $cursos2 = Curso::where('nombre', 'like','%'.$request->get('q').'%')->get();
+        $cursos3 = Curso::where('semestre', 'like','%'.$request->get('q').'%')->get();
+        $cursos4 = Curso::where('abreviatura', 'like','%'.$request->get('q').'%')->get();
+
+        $cursos =
+        $cursos4->merge(
+            $cursos3->merge(
+                $cursos2->merge(
+                    $cursos1)));
+
+        $title = "ID, Nombre, Semestre o Abreviatura"; //Para el tooltrip
+
+        return view(
+            'admin.cursos',
+            ['cursos' => $cursos, 'route' => $route, 'title' => $title]);
+
     }
 
     /**
@@ -83,4 +120,5 @@ class CursoController extends Controller
     {
         //
     }
+
 }

@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Encuesta;
+use App\Http\Traits\Utilidades;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class EncuestaController extends Controller
 {
+
+    use Utilidades;
+
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +20,41 @@ class EncuestaController extends Controller
      */
     public function index()
     {
+        $this->authorize('es_admin', User::class);
+        $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
         $encuestas = Encuesta::all();
-        return view('admin.encuestas', compact('encuestas'));
+        $title = "ID, Inicia, Vence, Asunto o Descripcion"; //Para el tooltrip
+        return view(
+            'admin.encuestas',
+            ['encuestas' => $encuestas, 'route' => $route, 'title' => $title]);
+    }
+
+    public function buscar(Request $request)
+    {
+
+        $this->authorize('es_admin', User::class);
+        
+        $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
+        
+        $encuestas1 = Docente::where('id', 'like','%'.$request->get('q').'%')->get();
+        $encuestas2 = Docente::where('inicio', 'like','%'.$request->get('q').'%')->get();
+        $encuestas3 = Docente::where('vence', 'like','%'.$request->get('q').'%')->get();
+        $encuestas4 = Docente::where('asunto', 'like','%'.$request->get('q').'%')->get();
+        $encuestas5 = Docente::where('descripcion', 'like','%'.$request->get('q').'%')->get();
+
+        $encuestas =
+        $encuestas5->merge(
+            $encuestas4->merge(
+                $encuestas3->merge(
+                    $encuestas2->merge(
+                        $encuestas1))));
+
+        $title = $request->get('title'); //No se altera
+
+        return view(
+            'admin.encuestas',
+            ['encuestas' => $encuestas, 'route' => $route, 'title' => $title]);
+    
     }
 
     /**
