@@ -55,7 +55,7 @@
                         </tr>
                         <tr class="col-md-12 visible-xs">
                             <td><span class="glyphicon glyphicon-asterisk"></span></td>
-                            <td>@include('user.haceradmin')</td>
+                            <td>@include('user.hacerAdmin')</td>
                         </tr>
                         <tr class="col-md-12 visible-xs">
                             <td><span class="glyphicon glyphicon-asterisk"></span></td>
@@ -71,7 +71,7 @@
                     <table class="table">
                         <tbody>
                             <tr>
-                                <td>@include('user.haceradmin')</td>
+                                <td>@include('user.hacerAdmin')</td>
                                 <td>@include('user.recuperar')</td>
                                 <td>@include('user.borrar')</td>
                             </tr>
