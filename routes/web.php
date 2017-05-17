@@ -32,3 +32,15 @@ Route::resource('Docentes', 'DocenteController');
 Route::resource('Encuestas', 'EncuestaController');
 Route::resource('Realizadas', 'RealizadaController');
 Route::resource('Users', 'UserController');
+
+// Route::get('cambiar' ,['as'=> 'cambiar', 'uses' => 'HomeController@cambiar'] );
+/*Route::get('cambiar/{user}' ,['as' => 'cambiar', function(){
+	return view('user.cambiarPass'*/
+Route::get('cambiarPass/{user}' ,[ 'uses' => 'UserController@redirectCambiarPass' , 'as' => 'cambiarPass'] );
+Route::put('updatePass/{user}', [ 'uses' => 'UserController@updatePass', 'as' => 'updatePass']);
+
+// Route::get('/{any}', function($any){ return view('404'); })->where('any', '.*');
+
+Route::post('/updateByAjax/{id}', [ 'uses' => 'UserController@updateByAjax', 'as' => 'Users.updateByAjax']);
+
+// ['as' => 'my-profile', 'uses' => 'ProfileController@myProfile']
