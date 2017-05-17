@@ -62,4 +62,11 @@ class User extends Authenticatable
         return $this->uyDateFormat($nacimiento);
     }
 
+    public function tipo($esAdmin)
+    {
+        if ($esAdmin) return "Admin";
+        if (!$esAdmin) return "Estudiante";
+        return "Indefinido";
+    }
+
 }

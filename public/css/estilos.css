@@ -1,14 +1,31 @@
-html, body {
-    font-family: 'Raleway', sans-serif;
-    margin: 0;
-    height: 100%;
-}
 
 h1 {
     color: dodgerblue;
     text-align: center;
     font-weight: bold;
     border: none;
+}
+
+.error_icono {
+    font-size: 135px;
+    color: dodgerblue;
+}
+
+.error_titulo {
+    font-size: 45px;
+    color: darkslategray;
+}
+
+.error_numero {
+    color: tomato;
+}
+
+.error_explicacion {
+    color: darkslategray;
+}
+
+.app {
+    padding-top: 96px;
 }
 
 nav {
@@ -40,14 +57,14 @@ nav {
 }
 
 .title {
-    font-size: 180px;
+    font-size: 160px;
     color: dodgerblue;
 }
 
 .links > a {
     color: darkslategray;
-    padding: 0 25px;
-    font-size: 18px;
+    padding: 0 28px;
+    font-size: 14px;
     font-weight: 600;
     letter-spacing: .1rem;
     text-decoration: none;
@@ -56,4 +73,25 @@ nav {
 
 .m-b-md {
     margin-bottom: 30px;
+}
+
+@media (max-width: 800px) {
+
+    .title {
+        font-size: 80px;
+    }
+
+    .links > a {
+        font-size: 14px;
+        padding: 0 7px;
+    }
+
+    .error-content__illust {
+        display: none;
+    }
+
+    .error-content__messages {
+        padding-top: 25px;
+    }
+
 }

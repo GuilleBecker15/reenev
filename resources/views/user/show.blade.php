@@ -1,29 +1,25 @@
 @extends('layouts.app')
-
 @section('title', 'Perfil del usuario')
-
 @section('content')
-
 <div class="container">
-
     <div class="row">
-
-        <div class="col-md-8 col-md-offset-2">
-
+        <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default">
-
                 <div class="panel-heading"><h1>Informacion del usuario</h1></div>
-
                 <div class="panel-body">
-
+                    @if($user->estaBorrado)
                     @if($user->esAdmin)
-                    <h2> * Administrador del sistema</h2>
+                    <h2>*Administrador (eliminado)</h2>
+                    @else
+                    <h2>*Estudiante (eliminado)</h2>
                     @endif
-
-                    @if(!$user->esAdmin)
-                    <h2> * Estudiante de la carrera</h2>
+                    @else
+                    @if($user->esAdmin)
+                    <h2>*Administrador del sistema</h2>
+                    @else
+                    <h2>*Estudiante de la carrera</h2>
                     @endif
-
+                    @endif
                     <table class="table table-user-information">
                         <tbody>
                             <tr>
@@ -54,20 +50,37 @@
                             <td>{{ $user->ci }}</td>
                         </tr>
                         <tr>
-                            <td>Correo electronico</td>
+                            <td>Correo electronico:</td>
                             <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
+                        </tr>
+                        <tr class="col-md-12 visible-xs">
+                            <td><span class="glyphicon glyphicon-asterisk"></span></td>
+                            <td>@include('user.haceradmin')</td>
+                        </tr>
+                        <tr class="col-md-12 visible-xs">
+                            <td><span class="glyphicon glyphicon-asterisk"></span></td>
+                            <td>@include('user.recuperar')</td>
+                        </tr>
+                        <tr class="col-md-12 visible-xs">
+                            <td><span class="glyphicon glyphicon-asterisk"></span></td>
+                            <td>@include('user.borrar')</td>
                         </tr>
                     </tbody>
                 </table>
-
+                <div class="col-md-12 hidden-xs">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>@include('user.haceradmin')</td>
+                                <td>@include('user.recuperar')</td>
+                                <td>@include('user.borrar')</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
         </div>
-
     </div>
-
 </div>
-
 </div>
-
 @endsection
