@@ -9,9 +9,9 @@
     <title>@yield('title')</title>
     <script> window.Reenev = {!!json_encode(['csrfToken' => csrf_token(),])!!}; </script>
     <!-- Styles -->
-    <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
+    <link href="{{ asset('font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('bootstrap-3.3.7-dist/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/estilos.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/estilos.css') }}" rel="stylesheet">    
 </head>
 <body>
     <div id="app" class="app">

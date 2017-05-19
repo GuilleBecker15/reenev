@@ -20,13 +20,21 @@ class CursoController extends Controller
      */
     public function index()
     {
+        
         $this->authorize('es_admin', User::class);
+        
         $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
+        
         $cursos = Curso::all();
+        
         $title = "ID, Nombre, Semestre o Abreviatura"; //Para el tooltrip
+
+        $c = "";
+
         return view(
             'admin.cursos',
-            ['cursos' => $cursos, 'route' => $route, 'title' => $title]);
+            ['cursos' => $cursos, 'route' => $route, 'title' => $title, 'c' => $c]);
+    
     }
 
     public function buscar(Request $request)
@@ -49,9 +57,11 @@ class CursoController extends Controller
 
         $title = "ID, Nombre, Semestre o Abreviatura"; //Para el tooltrip
 
+        $c = $request->consulta;
+
         return view(
             'admin.cursos',
-            ['cursos' => $cursos, 'route' => $route, 'title' => $title]);
+            ['cursos' => $cursos, 'route' => $route, 'title' => $title, 'c' => $c]);
 
     }
 
@@ -62,7 +72,7 @@ class CursoController extends Controller
      */
     public function create()
     {
-        //
+        return view('curso.create');
     }
 
     /**

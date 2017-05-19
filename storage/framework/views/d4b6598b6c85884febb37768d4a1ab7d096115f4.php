@@ -9,9 +9,9 @@
     <title><?php echo $__env->yieldContent('title'); ?></title>
     <script> window.Reenev = <?php echo json_encode(['csrfToken' => csrf_token(),]); ?>; </script>
     <!-- Styles -->
-    <!-- <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet"> -->
+    <link href="<?php echo e(asset('font-awesome-4.7.0/css/font-awesome.min.css')); ?>" rel="stylesheet">
     <link href="<?php echo e(asset('bootstrap-3.3.7-dist/css/bootstrap.min.css')); ?>" rel="stylesheet">
-    <link href="<?php echo e(asset('css/estilos.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(asset('css/estilos.css')); ?>" rel="stylesheet">    
 </head>
 <body>
     <div id="app" class="app">

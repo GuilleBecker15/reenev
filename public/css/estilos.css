@@ -1,9 +1,24 @@
+body {
+    min-height: 960px;
+}
 
 h1 {
-    color: dodgerblue;
     text-align: center;
-    font-weight: bold;
-    border: none;
+    text-decoration: none;
+    border: black;
+    color: darkslategray;
+}
+
+nav {
+    box-shadow: 0 0 10px black;
+}
+
+.nav > li {
+    padding: 0 28px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    color: red !important;
 }
 
 .error_icono {
@@ -21,15 +36,11 @@ h1 {
 }
 
 .error_explicacion {
-    color: darkslategray;
+    color: orange;
 }
 
 .app {
     padding-top: 96px;
-}
-
-nav {
-    box-shadow: 0 0 10px gray;
 }
 
 .full-height {
@@ -59,6 +70,10 @@ nav {
 .title {
     font-size: 160px;
     color: dodgerblue;
+    text-shadow: 0 0 10px black;
+    border: solid 1px dodgerblue;
+    background-color: gray;
+    border-radius: 999px;
 }
 
 .links > a {
@@ -68,7 +83,6 @@ nav {
     font-weight: 600;
     letter-spacing: .1rem;
     text-decoration: none;
-    text-transform: uppercase;
 }
 
 .m-b-md {

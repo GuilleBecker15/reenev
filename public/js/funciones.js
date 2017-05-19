@@ -9,7 +9,7 @@ var arreglo_ids = cadena_ids.split(',');
 
 /*FORMATEO DE CAMPOS DEL DOCUMENTO*/
 
-$('document').ready(function(){
+$('document').ready( function() {
 	
 	var combo = document.getElementById('generacion');
 	
@@ -91,7 +91,6 @@ $('document').ready(function(){
 			// return false;
 	});
 
-
 	/*$('#modificarDatos')
 	var ultimo = document.getElementById('divpass')
 	var string = ultimo.outerHTML
@@ -111,8 +110,14 @@ $('document').ready(function(){
 			});
 	});*/
 
-});
+	$("#btn-buscar").click(function (e) {
+		// e.preventDefault();
+		var consulta = $("#consulta").val();
+		var nueva_consulta = procesarCampo(consulta);
+		$("#q").val(nueva_consulta);
+	});
 
+});
 
 /*$(document).on("submit", "formularioModificacion", function(e){
 	e.preventDefault();
@@ -120,11 +125,7 @@ $('document').ready(function(){
 	return false;
 });*/
 
-
-
-
 var inputs = document.querySelectorAll('input[type=fecha],input[type=cedula]');
-
 
 for (var i=0, l=inputs.length; i<l; i++) {
 
@@ -155,6 +156,37 @@ for (var i=0, l=inputs.length; i<l; i++) {
 		break;
 	
 	}
+
+}
+
+function procesarCampo(campo) {
+	
+	var nuevo_patron_fecha = new RegExp(patron_fecha);
+    var es_fecha = nuevo_patron_fecha.test(campo);
+        
+    if (es_fecha) {
+    
+    	console.log("es_fecha");
+    
+    	return sqlDateFormat(campo);
+    
+    }
+
+    return campo;
+
+}
+
+function sqlDateFormat(uyDateFormat) {
+
+	//Recibe "dd/mm/aaaa" y retorna "aaaa-mm-dd"
+
+    var arreglo = uyDateFormat.split('/')
+        
+    var dd = arreglo[0];
+    var mm = arreglo[1];
+    var aaaa = arreglo[2];
+
+    return aaaa+"-"+mm+"-"+dd;
 
 }
 
@@ -316,18 +348,6 @@ function habilitar_o_no() {
 		$("#myModal").modal('show');
 	});*/
 	
-
-
-
-
-
-
-
-
-
-
-
-
 //---------------------------------------------------//
 
 /*var inputemail = document.getElementById('email');
@@ -345,4 +365,5 @@ function vaildarEmail(evt){
 	xhr.send({email:texto});
 
 }*/
+
 //---------------------------------------------------//

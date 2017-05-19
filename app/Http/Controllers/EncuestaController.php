@@ -20,13 +20,21 @@ class EncuestaController extends Controller
      */
     public function index()
     {
+        
         $this->authorize('es_admin', User::class);
+        
         $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
+        
         $encuestas = Encuesta::all();
-        $title = "ID, Inicia, Vence, Asunto o Descripcion"; //Para el tooltrip
+        
+        $title = "ID, Fecha inicial, Fecha limite, Asunto o Descripcion"; //Para el tooltrip
+
+        $c = "";
+
         return view(
             'admin.encuestas',
-            ['encuestas' => $encuestas, 'route' => $route, 'title' => $title]);
+            ['encuestas' => $encuestas, 'route' => $route, 'title' => $title, 'c' => $c]);
+    
     }
 
     public function buscar(Request $request)
@@ -36,11 +44,11 @@ class EncuestaController extends Controller
         
         $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
         
-        $encuestas1 = Docente::where('id', 'like','%'.$request->get('q').'%')->get();
-        $encuestas2 = Docente::where('inicio', 'like','%'.$request->get('q').'%')->get();
-        $encuestas3 = Docente::where('vence', 'like','%'.$request->get('q').'%')->get();
-        $encuestas4 = Docente::where('asunto', 'like','%'.$request->get('q').'%')->get();
-        $encuestas5 = Docente::where('descripcion', 'like','%'.$request->get('q').'%')->get();
+        $encuestas1 = Encuesta::where('id', 'like','%'.$request->get('q').'%')->get();
+        $encuestas2 = Encuesta::where('inicio', 'like','%'.$request->get('q').'%')->get();
+        $encuestas3 = Encuesta::where('vence', 'like','%'.$request->get('q').'%')->get();
+        $encuestas4 = Encuesta::where('asunto', 'like','%'.$request->get('q').'%')->get();
+        $encuestas5 = Encuesta::where('descripcion', 'like','%'.$request->get('q').'%')->get();
 
         $encuestas =
         $encuestas5->merge(
@@ -49,11 +57,13 @@ class EncuestaController extends Controller
                     $encuestas2->merge(
                         $encuestas1))));
 
-        $title = $request->get('title'); //No se altera
+        $title = "ID, Fecha inicial, Fecha limite, Asunto o Descripcion"; //Para el tooltrip
+
+        $c = $request->consulta;
 
         return view(
             'admin.encuestas',
-            ['encuestas' => $encuestas, 'route' => $route, 'title' => $title]);
+            ['encuestas' => $encuestas, 'route' => $route, 'title' => $title, 'c' => $c]);
     
     }
 
@@ -64,7 +74,7 @@ class EncuestaController extends Controller
      */
     public function create()
     {
-        //
+        return view('encuesta.create');
     }
 
     /**

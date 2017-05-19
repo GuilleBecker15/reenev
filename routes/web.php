@@ -25,7 +25,7 @@ Route::post('/Encuestas/buscar', 'EncuestaController@buscar');
 Route::post('/Users/buscar', 'UserController@buscar');
 
 Route::post('/hacerAdmin/{id}', 'UserController@hacerAdmin');
-Route::post('/recuperar/{id}', 'UserController@recuperar');
+Route::get('/Users/borrados/{si_o_no}', 'UserController@borrados');
 
 Route::resource('Cursos', 'CursoController');
 Route::resource('Docentes', 'DocenteController');
