@@ -4,7 +4,7 @@ var border_error = 'border-color:Tomato;';
 var border_ok = 'border-color:Lime;';
 var patron_fecha = /\d{2}\/\d{2}\/\d{4}/g;
 var patron_cedula = /\d{1}[.]\d{3}[.]\d{3}[-]\d{1}/g;
-var cadena_ids = "name1,name2,apellido1,apellido2,nacimiento,generacion,ci,email,modificar";
+var cadena_ids = "name1,name2,apellido1,apellido2,nacimiento,generacion,ci,email,modificar,cambiarPass";
 var arreglo_ids = cadena_ids.split(',');
 
 /*FORMATEO DE CAMPOS DEL DOCUMENTO*/
