@@ -292,11 +292,11 @@ function digito_verificador(ci) {
 function habilitar_o_no() {
 	
 
-	var verModificar = document.getElementById("verModificar");
+	// var verModificar = document.getElementById("verModificar");
 
-	if (!verModificar) return;
+	// if (!verModificar) return;
 
-    var opcion = verModificar.options[verModificar.selectedIndex].value;
+    // var opcion = verModificar.options[verModificar.selectedIndex].value;
 
     for (var i=0, l=arreglo_ids.length; i<l; i++) {
 
@@ -305,8 +305,8 @@ function habilitar_o_no() {
 
     	if (!input) return;
 
-    	if (opcion=='si') input.removeAttribute('disabled');
-    	else input.setAttribute('disabled','disabled');
+    	if (input.getAttribute("disabled")=="") input.removeAttribute('disabled');
+    	else input.setAttribute("disabled","");
     	
     }
 

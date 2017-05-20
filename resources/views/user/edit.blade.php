@@ -23,6 +23,8 @@
                         var_dump(('qwerty'==bcrypt($user->password)));                      
                 ?>
                  -->
+                
+                 <input id="verModificar" onChange="habilitar_o_no()" class="col-md-offset-4" type="checkbox" checked data-toggle="toggle" data-on="Editar Datos" data-off="Editando" data-onstyle="info" data-offstyle="success" data-style="slow">
                 <div class="panel-body">
                     <!-- @if(Session::has('error'))
                         <div class="alert alert-danger alert-dismissable">
@@ -39,17 +41,17 @@
                     <form onsubmit="return validarCampos();" id="formularioModificacion" class="form-horizontal" role="form" method="POST" action="{{ route('Users.update',$user->id) }}">
                         <input name="_method" type="hidden" value="PUT">
                         {{ csrf_field() }}
-                        <div class="form-group">
-                            <label for="name1" class="col-md-4 control-label">Opciones</label>
-                            <div class="col-md-6">
-                                <select
-                                onchange="habilitar_o_no()"
-                                id="verModificar" type="text" class="form-control" name="modificar" required autofocus>
-                                <option value="no">Quiero VER mis datos</option>
-                                <option value="si">Quiero MODIFICAR mis datos</option>
-                                </select>
-                            </div>
-                    </div>
+                    <!-- <div class="form-group">
+                        <label for="name1" class="col-md-4 control-label">Opciones</label>
+                        <div class="col-md-6">
+                            <select
+                            onchange="habilitar_o_no()"
+                            id="verModificar" type="text" class="form-control" name="modificar" required autofocus>
+                            <option value="no">Quiero VER mis datos</option>
+                            <option value="si">Quiero MODIFICAR mis datos</option>
+                            </select>
+                        </div>
+                    </div> -->
                     <div class="form-group{{ $errors->has('name1') ? ' has-error' : '' }}">
                         <label for="name1" class="col-md-4 control-label">Primer nombre</label>
                         <div class="col-md-6">
