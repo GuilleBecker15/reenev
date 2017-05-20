@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Log;
 use Illuminate\Support\Facades\Hash;
 use Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -104,18 +105,47 @@ class UserController extends Controller
             
         $this->authorize('es_admin_o_es_el', $user);
 
-        $nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
+        $message = [
+                'same' => 'Las contraseñas deben coincidir.'
+            ];
+            $validator=Validator::make($request->all(),[
+                'name1' => 'required|string|max:255',
+                'name2' => 'required|string|max:255',
+                'apellido1' => 'required|string|max:255',
+                'apellido2' => 'required|string|max:255',
+                'nacimiento' => 'required|string', 
+                'generacion' => 'required|integer',
+                'ci' => Rule::unique('users')->ignore($user->id ),
+                'email' => Rule::unique('users')->ignore($user->id),
+                ], $message);
 
-        $user->name1=$request->get('name1');
-        $user->name2=$request->get('name2');
-        $user->apellido1=$request->get('apellido1');
-        $user->apellido2=$request->get('apellido2');
-        $user->nacimiento= $nacimiento;
-        $user->generacion=$request->get('generacion');
-        $user->ci=$request->get('ci');
-        $user->email=$request->get('email');
+            if($validator->fails())
+               return view('User.edit', ['user'=>$user])->withErrors($validator, 'name1');
 
-        $user->save();
+            if(Hash::check($request->get('pass'), $user->password)){
+                $nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
+
+                $user->name1=$request->get('name1');
+                $user->name2=$request->get('name2');
+                $user->apellido1=$request->get('apellido1');
+                $user->apellido2=$request->get('apellido2');
+                $user->nacimiento= $nacimiento;
+                $user->generacion=$request->get('generacion');
+                $user->ci=$request->get('ci');
+                $user->email=$request->get('email');
+
+                $user->save();
+                
+                $request->session()->flash('message', 'Usuario actualizado con exito!');
+                return view('User.edit', ['user'=>$user ]);
+
+            }
+            else{
+                $validator->errors()->add('pass', 'La contraseña actual es incorrecta');
+                return view('User.edit', ['user'=>$user])->withErrors($validator,'pass');
+            }
+
+        
 
         return $this->edit($user->id);
 // =======
@@ -191,7 +221,7 @@ class UserController extends Controller
 
     public function updatePass(Request $request, $id){
         $usuario = User::findOrFail($id);
-
+        $password = $request->get('pass');
         if(Auth::user()->id == $id){
             $message = [
                 'same' => 'Las contraseñas deben coincidir.'
@@ -201,15 +231,27 @@ class UserController extends Controller
                 'pass1' => 'required|min:6',
                 'pass2' => 'required|min:6|same:pass1'
             ], $message);
+
+            /*$validator->after(function ($validator) {
+                if (  ) {
+                    $validator->errors()->add('incorrecta', 'Algo esta mal con el campo');
+                }
+            });*/
             if($validator->fails())
                return view('user.cambiarPass', ['user'=>$usuario])->withErrors($validator, 'pass1');
+
+
+
             if(Hash::check($request->get('pass'), $usuario->password)){
                 $usuario->password=bcrypt($request->pass1);
                 $usuario->save();
-                $request->session()->flash('message', 'Todo muy bien!');
+                $request->session()->flash('message', 'Contraseña actualizada con exito!');
                 return view('user.cambiarPass', ['user'=>$usuario ]);
             }
-            return view('user.cambiarPass', ['user'=>$usuario])->withErrors('La contraseña actual es incorrecta', 'pass');
+            else{
+                $validator->errors()->add('incorrecta', 'La contraseña actual es incorrecta');
+                return view('user.cambiarPass', ['user'=>$usuario])->withErrors($validator,'pass');
+            }
             
         }
 

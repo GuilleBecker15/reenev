@@ -24,19 +24,19 @@
                 ?>
                  -->
                 <div class="panel-body">
-                    @if(Session::has('error'))
-                        <div class="alert alert-{{ Session::get('error-type') }} alert-dismissable">
+                    <!-- @if(Session::has('error'))
+                        <div class="alert alert-danger alert-dismissable">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            <i class="glyphicon glyphicon-{{ Session::get('error-type') == 'error' ? 'ok' : 'remove'}}"></i> {{ Session::get('error') }}
+                            <i class="glyphicon glyphicon-danger"></i> {{ Session::get('error') }}
                         </div>
-                    @endif
+                    @endif -->
                     @if(Session::has('message'))
-                        <div class="alert alert-{{ Session::get('error-type') }} success-dismissable">
+                        <div class="alert alert-success success-dismissable">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            <i class="glyphicon glyphicon-{{ Session::has('message') == 'success' ? 'ok' : 'remove'}}"></i> {{ Session::has('message') }}
+                            <i class="glyphicon glyphicon-success"></i> {{ Session::get('message') }}
                         </div>
                     @endif
-                    <form onsubmit="return validarCampos();" id="formularioModificacion" class="form-horizontal" role="form" method="POST" action="{{ route('Users.updateByAjax',$user->id) }}">
+                    <form onsubmit="return validarCampos();" id="formularioModificacion" class="form-horizontal" role="form" method="POST" action="{{ route('Users.update',$user->id) }}">
                         <input name="_method" type="hidden" value="PUT">
                         {{ csrf_field() }}
                         <div class="form-group">
@@ -129,7 +129,7 @@
                             @endif
                         </div>
                     </div>
-                        <div id="divaniadir" class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                    <div id="divaniadir" class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Correo</label>
                         <div class="col-md-6">
                             <input disabled id="email" type="email" class="form-control" name="email" value="{{ $user->email }}" required>
@@ -140,12 +140,25 @@
                             @endif
                         </div>
                     </div>
+                    <hr>
+                    <div class="form-group{{ $errors->has('pass') ? ' has-error' : '' }}">
+                            <label for="pass" class="col-md-4 control-label">Ingrese su contraseña</label>
+                        <div class="col-md-6">
+                            <input disabled id="pass" type="password" class="form-control" name="pass" value="" placeholder="*******" required>
+                            @if ($errors->has('pass'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('pass') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+                    
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 ">
                                 <button disabled id="cambiarPass" type="button" class="btn btn-primary btn-cambiarPass" onClick="location.href='{{ route('cambiarPass', $user->id) }}'">
                                     Cambiar contraseña
                                 </button>
-                                <button disabled id="modificar" type="button" class="btn btn-primary btn-modificar">
+                                <button disabled id="modificar" type="submit" class="btn btn-primary btn-modificar">
                                     Modifcar
                                 </button>
                             </div>
