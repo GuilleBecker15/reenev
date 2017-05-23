@@ -13,8 +13,8 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Inicia</th>
-                                    <th>Vence</th>
+                                    <th>Fecha inicial</th>
+                                    <th>Fecha limite</th>
                                     <th>Asunto</th>
                                     <th>Descripcion</th>
                                 </tr>

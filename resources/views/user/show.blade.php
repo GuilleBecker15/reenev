@@ -7,19 +7,15 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Informacion del usuario</h1></div>
                 <div class="panel-body">
+                <h3>
                     @if($user->estaBorrado)
-                    @if($user->esAdmin)
-                    <h2>*Administrador (eliminado)</h2>
+                        <span class="glyphicon glyphicon-remove"></span>
+                        {{$user->tipo($user->esAdmin)}} eliminado
                     @else
-                    <h2>*Estudiante (eliminado)</h2>
+                        <span class="glyphicon glyphicon-ok"></span>
+                        {{$user->tipo($user->esAdmin)}}
                     @endif
-                    @else
-                    @if($user->esAdmin)
-                    <h2>*Administrador del sistema</h2>
-                    @else
-                    <h2>*Estudiante de la carrera</h2>
-                    @endif
-                    @endif
+                </h3>
                     <table class="table table-user-information">
                         <tbody>
                             <tr>
@@ -55,15 +51,11 @@
                         </tr>
                         <tr class="col-md-12 visible-xs">
                             <td><span class="glyphicon glyphicon-asterisk"></span></td>
-                            <td>@include('user.hacerAdmin')</td>
+                            <td>@include('user.btn_hacerAdmin')</td>
                         </tr>
                         <tr class="col-md-12 visible-xs">
                             <td><span class="glyphicon glyphicon-asterisk"></span></td>
-                            <td>@include('user.recuperar')</td>
-                        </tr>
-                        <tr class="col-md-12 visible-xs">
-                            <td><span class="glyphicon glyphicon-asterisk"></span></td>
-                            <td>@include('user.borrar')</td>
+                            <td>@include('user.btn_borrar')</td>
                         </tr>
                     </tbody>
                 </table>
@@ -71,9 +63,8 @@
                     <table class="table">
                         <tbody>
                             <tr>
-                                <td>@include('user.hacerAdmin')</td>
-                                <td>@include('user.recuperar')</td>
-                                <td>@include('user.borrar')</td>
+                                <td>@include('user.btn_hacerAdmin')</td>
+                                <td>@include('user.btn_borrar')</td>
                             </tr>
                         </tbody>
                     </table>

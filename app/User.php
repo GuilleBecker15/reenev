@@ -68,5 +68,5 @@ class User extends Authenticatable
         if (!$esAdmin) return "Estudiante";
         return "Indefinido";
     }
-
+    
 }
