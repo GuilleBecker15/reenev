@@ -17,8 +17,8 @@
                                 	echo "<br>-------------------------<br>";
                                 	echo "<br>-------------------------<br>";
                                 	var_dump(bcrypt('qwerty'));
-                                	echo "<br>-------------------------<br>";
-                                	var_dump($user->password);*/
+                                	echo "<br>-------------------------<br>";*/
+                                	
                                 	/*if (Session::has('error')  ) {
                                 		var_dump(Session::get('error'));
                                 	}
@@ -27,15 +27,16 @@
                                 		var_dump(Session::get('message'));
                                 	}*/
                                 ?>
+                                <!-- {{ $errors->first('incorrecta') }} -->
 
 						<br>
 						
 					</div>
 					<div class="panel-body">
 						@if(Session::has('error')||Session::has('message'))
-                        <div class="alert alert-{{ Session::get('error-type') }} alert-dismissable">
+                        <div class="alert alert-success alert-dismissable">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            <i class="glyphicon glyphicon-{{ Session::get('error-type') == 'error' ? 'ok' : 'remove'}}"></i> {{ Session::get('message') }}
+                            <i class="glyphicon glyphicon-success"></i> {{ Session::get('message') }}
                         </div>
                     	@endif
 
@@ -56,6 +57,7 @@
 	                                    </span>
 	                                	@endif                                		
                                 	</div>
+                                	
 								</div>				
 
 								<div class="form-group{{ $errors->has('pass2') ? ' has-error' : '' }}">
@@ -84,6 +86,13 @@
 	                                    </span>
 	                                	@endif
 	                                </div>
+	                                <div class="col-md-6 col-md-offset-4">
+										@if ($errors->has('incorrecta'))
+	                                    <span class="help-block">
+	                                        <strong>{{ $errors->first('incorrecta') }}</strong>
+	                                    </span>
+	                                	@endif                                		
+                                	</div>
 								</div>
 
 							    <div class="form-group">

@@ -23,33 +23,35 @@
                         var_dump(('qwerty'==bcrypt($user->password)));                      
                 ?>
                  -->
+                
+                 <input id="verModificar" onChange="habilitar_o_no()" class="col-md-offset-4" type="checkbox" checked data-toggle="toggle" data-on="Editar Datos" data-off="Editando" data-onstyle="info" data-offstyle="success" data-style="slow">
                 <div class="panel-body">
-                    @if(Session::has('error'))
-                        <div class="alert alert-{{ Session::get('error-type') }} alert-dismissable">
+                    <!-- @if(Session::has('error'))
+                        <div class="alert alert-danger alert-dismissable">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            <i class="glyphicon glyphicon-{{ Session::get('error-type') == 'error' ? 'ok' : 'remove'}}"></i> {{ Session::get('error') }}
+                            <i class="glyphicon glyphicon-danger"></i> {{ Session::get('error') }}
                         </div>
-                    @endif
+                    @endif -->
                     @if(Session::has('message'))
-                        <div class="alert alert-{{ Session::get('error-type') }} success-dismissable">
+                        <div class="alert alert-success success-dismissable">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            <i class="glyphicon glyphicon-{{ Session::has('message') == 'success' ? 'ok' : 'remove'}}"></i> {{ Session::has('message') }}
+                            <i class="glyphicon glyphicon-success"></i> {{ Session::get('message') }}
                         </div>
                     @endif
-                    <form onsubmit="return validarCampos();" id="formularioModificacion" class="form-horizontal" role="form" method="POST" action="{{ route('Users.updateByAjax',$user->id) }}">
+                    <form onsubmit="return validarCampos();" id="formularioModificacion" class="form-horizontal" role="form" method="POST" action="{{ route('Users.update',$user->id) }}">
                         <input name="_method" type="hidden" value="PUT">
                         {{ csrf_field() }}
-                        <div class="form-group">
-                            <label for="name1" class="col-md-4 control-label">Opciones</label>
-                            <div class="col-md-6">
-                                <select
-                                onchange="habilitar_o_no()"
-                                id="verModificar" type="text" class="form-control" name="modificar" required autofocus>
-                                <option value="no">Quiero VER mis datos</option>
-                                <option value="si">Quiero MODIFICAR mis datos</option>
-                                </select>
-                            </div>
-                    </div>
+                    <!-- <div class="form-group">
+                        <label for="name1" class="col-md-4 control-label">Opciones</label>
+                        <div class="col-md-6">
+                            <select
+                            onchange="habilitar_o_no()"
+                            id="verModificar" type="text" class="form-control" name="modificar" required autofocus>
+                            <option value="no">Quiero VER mis datos</option>
+                            <option value="si">Quiero MODIFICAR mis datos</option>
+                            </select>
+                        </div>
+                    </div> -->
                     <div class="form-group{{ $errors->has('name1') ? ' has-error' : '' }}">
                         <label for="name1" class="col-md-4 control-label">Primer nombre</label>
                         <div class="col-md-6">
@@ -129,7 +131,7 @@
                             @endif
                         </div>
                     </div>
-                        <div id="divaniadir" class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                    <div id="divaniadir" class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Correo</label>
                         <div class="col-md-6">
                             <input disabled id="email" type="email" class="form-control" name="email" value="{{ $user->email }}" required>
@@ -140,12 +142,25 @@
                             @endif
                         </div>
                     </div>
+                    <hr>
+                    <div class="form-group{{ $errors->has('pass') ? ' has-error' : '' }}">
+                            <label for="pass" class="col-md-4 control-label">Ingrese su contraseña</label>
+                        <div class="col-md-6">
+                            <input disabled id="pass" type="password" class="form-control" name="pass" value="" placeholder="*******" required>
+                            @if ($errors->has('pass'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('pass') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+                    
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 ">
                                 <button disabled id="cambiarPass" type="button" class="btn btn-primary btn-cambiarPass" onClick="location.href='{{ route('cambiarPass', $user->id) }}'">
                                     Cambiar contraseña
                                 </button>
-                                <button disabled id="modificar" type="button" class="btn btn-primary btn-modificar">
+                                <button disabled id="modificar" type="submit" class="btn btn-primary btn-modificar">
                                     Modifcar
                                 </button>
                             </div>
