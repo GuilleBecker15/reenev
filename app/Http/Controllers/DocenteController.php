@@ -20,13 +20,21 @@ class DocenteController extends Controller
      */
     public function index()
     {
+        
         $this->authorize('es_admin', User::class);
+        
         $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
+        
         $docentes = Docente::all();
+        
         $title = "ID, eMail, C.I., Nombre o Apellido"; //Para el tooltrip
+
+        $c = "";
+
         return view(
             'admin.docentes',
-            ['docentes' => $docentes, 'route' => $route, 'title' => $title]);
+            ['docentes' => $docentes, 'route' => $route, 'title' => $title, 'c' => $c]);
+    
     }
 
     public function buscar(Request $request)
@@ -49,11 +57,13 @@ class DocenteController extends Controller
                     $docentes2->merge(
                         $docentes1))));
 
-        $title = $request->get('title'); //No se altera
+        $title = "ID, eMail, C.I., Nombre o Apellido"; //Para el tooltrip
+
+        $c = $request->consulta;
 
         return view(
             'admin.docentes',
-            ['docentes' => $docentes, 'route' => $route, 'title' => $title]);
+            ['docentes' => $docentes, 'route' => $route, 'title' => $title, 'c' => $c]);
     
     }
 
@@ -64,7 +74,7 @@ class DocenteController extends Controller
      */
     public function create()
     {
-        //
+        return view('docente.create');
     }
 
     /**

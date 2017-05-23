@@ -4,26 +4,23 @@
             <!-- Collapsed Hamburger -->
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
                 <span class="sr-only">Toggle Navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+                <span class="glyphicon glyphicon-menu-hamburger"></span>
             </button>
             <!-- Branding Image -->
-            <strong>
-                <a class="navbar-brand" style="color: darkslategray;" href="{{ url('/') }}">{{ config('app.name', 'Reenev') }}</a>
-            </strong>
+            <a class="navbar-brand" href="{{ url('/') }}">
+            <span class="glyphicon glyphicon-home"></span></a>
         </div>
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
-            <ul class="nav navbar-nav">
-                &nbsp;
-            </ul>
+            <ul class="nav navbar-nav">&nbsp;</ul>
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
                 <!-- Authentication Links -->
                 @if (Auth::guest())
-                <li><a href="{{ route('register') }}">Registrarme</a></li>
-                <li><a href="{{ route('login') }}">Entrar</a></li>
+                <li><a href="{{ route('register') }}">
+                <span class="glyphicon glyphicon-new-window"></span>    Registrarme</a></li>
+                <li><a href="{{ route('login') }}">
+                <span class="glyphicon glyphicon-log-in"></span>    Entrar</a></li>
                 @else
                 @cannot('es_admin', App\User::class)
                 <li><a href="{{ route('Realizadas.create')}}">Completar encuesta</a></li>
@@ -35,26 +32,25 @@
                 <li><a href="{{ route('Encuestas.index')}}">Encuestas</a></li>
                 <li><a href="{{ route('Users.index')}}">Usuarios</a></li>
                 @endcan
-                <li><a href="{{ route('Users.edit', Auth::user() )}}">Mis datos</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        {{ Auth::user()->name1 }} <span class="caret"></span>
+                    <span class="hidden-xs glyphicon glyphicon-off"></span>
+                    <span class="visible-xs" style="font-weight: bold;"> {{Auth::user()->name1}} </span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{ route('Users.edit', Auth::user() )}}"><span class="glyphicon glyphicon-edit"></span> Mis datos</a></li>
+                        <li role="separator" class="divider"></li>
                         <li>
                             <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
-                            Salir
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            {{ csrf_field() }}
-                        </form>
-                    </li>
-                </ul>
-            </li>
-            @endif
-        </ul>
+                            <span class="glyphicon glyphicon-log-out"></span> Cerrar sesion</a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+            </ul>
+        </div>
     </div>
-</div>
 </nav>

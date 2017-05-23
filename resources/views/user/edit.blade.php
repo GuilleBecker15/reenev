@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default">
-                <div class="panel-heading">Ver o modificar datos del usuario</div>
+                <div class="panel-heading"><h1>Datos del usuario</h1></div>
                 <br>
                 <!-- <?php 
                     if (Session::has('error')  ) {

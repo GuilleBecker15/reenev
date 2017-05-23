@@ -24,20 +24,26 @@ class UserController extends Controller
      */
     public function index()
     {
-    
+        return $this->borrados(false);
+    }
+
+    public function borrados($si_o_no) 
+    {
+
         $this->authorize('es_admin', User::class);
     
         $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
         
-        $users = User::where('estaBorrado',false)->get();
+        $users = User::where('estaBorrado',$si_o_no)->get();
         
-        $title = "ID, Nombres, Apellidos, Fecha de nacimiento,
-        Generacion, C.I. o eMail"; //Para el tooltrip
-        
+        $title = "ID, Nombres, Apellidos, Fecha de nacimiento, Generacion, C.I. o eMail"; //Para el tooltrip
+
+        $c = "";
+
         return view(
             'admin.users',
-            ['users' => $users, 'route' => $route, 'title' => $title]);
-    
+            ['users' => $users, 'route' => $route, 'title' => $title, 'c' => $c]);
+
     }
 
     public function buscar(Request $request)
@@ -68,12 +74,13 @@ class UserController extends Controller
                                     $users2->merge(
                                         $users1))))))));
 
-        $title = "ID, Nombres, Apellidos, Fecha de nacimiento,
-        Generacion, C.I. o eMail"; //Para el tooltrip
+        $title = "ID, Nombres, Apellidos, Fecha de nacimiento, Generacion, C.I. o eMail"; //Para el tooltrip
+
+        $c = $request->consulta;
 
         return view(
             'admin.users',
-            ['users' => $users, 'route' => $route, 'title' => $title]);
+            ['users' => $users, 'route' => $route, 'title' => $title, 'c' => $c]);
     
     }
 
@@ -182,9 +189,11 @@ class UserController extends Controller
 
     public function hacerAdmin($id)
     {
-        $this->authorize('es_admin', User::class);
         $user = User::findOrFail($id);
-        $user->esAdmin=true;
+        $this->authorize('es_admin_y_no_es_el', $user);
+        $this->authorize('es_supervisor', $user);
+        $user->supervisor=Auth::user()->id;
+        $user->esAdmin=!$user->esAdmin;
         $user->save();
         return $this->show($user->id);
     }
@@ -197,19 +206,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('es_admin', User::class);
+        // $this->authorize('es_admin', User::class);
         $user = User::findOrFail($id);
-        // $user->delete();
-        $user->estaBorrado=true;
-        $user->save();
-        return $this->show($user->id);
-    }
-
-    public function recuperar($id)
-    {
-        $this->authorize('es_admin', User::class);
-        $user = User::findOrFail($id);
-        $user->estaBorrado=false;
+        $this->authorize('es_admin_y_no_es_el', $user);
+        $this->authorize('es_supervisor', $user);
+        $user->supervisor=Auth::user()->id;
+        $user->estaBorrado=!$user->estaBorrado;
         $user->save();
         return $this->show($user->id);
     }
