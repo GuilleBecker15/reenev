@@ -221,7 +221,7 @@ function validarFecha(id) {
 
 	var input = document.getElementById(id);
 
-	if (!input) return false;
+	if (!input) return true;
 
 	var fecha = input.value;
 	var atributos = fecha.split('/');
@@ -264,7 +264,7 @@ function validarCedula(id) {
 
 	var input = document.getElementById(id);
 
-	if (!input) return false;
+	if (!input) return true;
 
 	var cedula = input.value;
 	var patron = new RegExp(patron_cedula);

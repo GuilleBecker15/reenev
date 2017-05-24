@@ -9,7 +9,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Inicia sesion en Reenev</h1></div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
+                    <form onsubmit="return validarCampos();" class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 
                         <!-- <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -29,7 +29,7 @@
                             <label for="ci" class="col-md-4 control-label">Cedula</label>
 
                             <div class="col-md-6">
-                                <input id="ci" type="string" class="form-control" name="ci" value="{{ old('ci') }}" placeholder="1.234.567-8" required autofocus>
+                                <input id="ci" type="cedula" class="form-control" name="ci" value="{{ old('ci') }}" placeholder="1.234.567-8" required autofocus>
 
                                 @if ($errors->has('ci'))
                                     <span class="help-block">
