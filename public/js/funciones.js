@@ -4,7 +4,9 @@ var border_error = 'border-color:Tomato;';
 var border_ok = 'border-color:Lime;';
 var patron_fecha = /\d{2}\/\d{2}\/\d{4}/g;
 var patron_cedula = /\d{1}[.]\d{3}[.]\d{3}[-]\d{1}/g;
-var cadena_ids = "name1,name2,apellido1,apellido2,nacimiento,generacion,ci,email,modificar,cambiarPass";
+
+var cadena_ids = "name1,name2,apellido1,apellido2,nacimiento,generacion,ci,email,modificar,cambiarPass,pass";
+
 var arreglo_ids = cadena_ids.split(',');
 
 /*FORMATEO DE CAMPOS DEL DOCUMENTO*/
@@ -42,7 +44,7 @@ $('document').ready( function() {
 
 	}
 
-	$(document).on('click','.btn-modificar',function(e){
+	/*$(document).on('click','.btn-modificar',function(e){
 		$('#myModal').modal('show');
 	});
 
@@ -89,7 +91,7 @@ $('document').ready( function() {
 			});
 
 			// return false;
-	});
+	});*/
 
 	/*$('#modificarDatos')
 	var ultimo = document.getElementById('divpass')
@@ -324,11 +326,11 @@ function digito_verificador(ci) {
 function habilitar_o_no() {
 	
 
-	var verModificar = document.getElementById("verModificar");
+	// var verModificar = document.getElementById("verModificar");
 
-	if (!verModificar) return;
+	// if (!verModificar) return;
 
-    var opcion = verModificar.options[verModificar.selectedIndex].value;
+    // var opcion = verModificar.options[verModificar.selectedIndex].value;
 
     for (var i=0, l=arreglo_ids.length; i<l; i++) {
 
@@ -337,8 +339,8 @@ function habilitar_o_no() {
 
     	if (!input) return;
 
-    	if (opcion=='si') input.removeAttribute('disabled');
-    	else input.setAttribute('disabled','disabled');
+    	if (input.getAttribute("disabled")=="") input.removeAttribute('disabled');
+    	else input.setAttribute("disabled","");
     	
     }
 
