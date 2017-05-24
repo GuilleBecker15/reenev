@@ -127,7 +127,7 @@ class UserController extends Controller
                 ], $message);
 
             if($validator->fails())
-               return view('User.edit', ['user'=>$user])->withErrors($validator, 'name1');
+               return view('user.edit', ['user'=>$user])->withErrors($validator, 'name1');
 
             if(Hash::check($request->get('pass'), $user->password)){
                 $nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
@@ -144,12 +144,13 @@ class UserController extends Controller
                 $user->save();
                 
                 $request->session()->flash('message', 'Usuario actualizado con exito!');
-                return view('User.edit', ['user'=>$user ]);
+                return view('user.edit', ['user'=>$user ]);
 
             }
             else{
+                // $request->session()->flash('message', 'La contraseña actual es incorrecta');
                 $validator->errors()->add('pass', 'La contraseña actual es incorrecta');
-                return view('User.edit', ['user'=>$user])->withErrors($validator,'pass');
+                return view('user.edit', ['user'=>$user])->withErrors($validator,'pass');
             }
 
         
@@ -248,10 +249,12 @@ class UserController extends Controller
                 $usuario->password=bcrypt($request->pass1);
                 $usuario->save();
                 $request->session()->flash('message', 'Contraseña actualizada con exito!');
-                return view('user.cambiarPass', ['user'=>$usuario ]);
+                // return view('user.cambiarPass', ['user'=>$usuario ]);
+                return $this->edit($usuario->id);
             }
             else{
-                $validator->errors()->add('incorrecta', 'La contraseña actual es incorrecta');
+                $validator->errors()->add('pass', 'La contraseña actual es incorrecta');
+                // return view('user.cambiarPass', ['user'=>$usuario])->withErrors($validator,'pass');
                 return view('user.cambiarPass', ['user'=>$usuario])->withErrors($validator,'pass');
             }
             

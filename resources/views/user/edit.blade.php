@@ -23,8 +23,6 @@
                         var_dump(('qwerty'==bcrypt($user->password)));                      
                 ?>
                  -->
-                
-                 <input id="verModificar" onChange="habilitar_o_no()" class="col-md-offset-4" type="checkbox" checked data-toggle="toggle" data-on="Editar Datos" data-off="Editando" data-onstyle="info" data-offstyle="success" data-style="slow">
                 <div class="panel-body">
                     <!-- @if(Session::has('error'))
                         <div class="alert alert-danger alert-dismissable">
@@ -35,7 +33,9 @@
                     @if(Session::has('message'))
                         <div class="alert alert-success success-dismissable">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            <i class="glyphicon glyphicon-success"></i> {{ Session::get('message') }}
+                            <!-- <i class="glyphicon glyphicon-success"></i> -->
+                            {{ Session::get('message') }}
+                            <!-- {{ Session::forget('message') }} -->
                         </div>
                     @endif
                     <form onsubmit="return validarCampos();" id="formularioModificacion" class="form-horizontal" role="form" method="POST" action="{{ route('Users.update',$user->id) }}">
@@ -52,6 +52,12 @@
                             </select>
                         </div>
                     </div> -->
+                    <div class="form-group">
+                        <label for="name1" class="col-md-4 control-label">Opciones</label>
+                        <div class="col-md-6">
+                            <input id="verModificar" onChange="habilitar_o_no()" class="col-md-offset-4" type="checkbox" checked data-toggle="toggle" data-on="Ver campos" data-off="Editar campos" data-onstyle="info" data-offstyle="primary" data-style="slow">
+                        </div>
+                    </div>
                     <div class="form-group{{ $errors->has('name1') ? ' has-error' : '' }}">
                         <label for="name1" class="col-md-4 control-label">Primer nombre</label>
                         <div class="col-md-6">

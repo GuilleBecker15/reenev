@@ -8,7 +8,8 @@
 			<div class="col-md-8 col-md-offset-2">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						Modificar contraseña
+
+					<h1>Modificar contraseña</h1>
 							
                                 <?php 
                                 	/*var_dump($user);
@@ -86,13 +87,13 @@
 	                                    </span>
 	                                	@endif
 	                                </div>
-	                                <div class="col-md-6 col-md-offset-4">
+<!-- 									<div class="col-md-offset-4 col-md-6">
 										@if ($errors->has('incorrecta'))
 	                                    <span class="help-block">
 	                                        <strong>{{ $errors->first('incorrecta') }}</strong>
 	                                    </span>
 	                                	@endif                                		
-                                	</div>
+                                	</div> -->
 								</div>
 
 							    <div class="form-group">
