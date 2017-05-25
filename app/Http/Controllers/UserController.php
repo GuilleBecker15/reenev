@@ -105,7 +105,8 @@ class UserController extends Controller
             $datos->name2 = $user->name1;
             $datos->apellido1 = $user->apellido1;
             $datos->apellido2 = $user->apellido2;
-            $datos->nacimiento = $user->nacimiento;
+            $nacimiento = $this->uyDateFormat($user->nacimiento);
+            $datos->nacimiento = $nacimiento;
             $datos->generacion = $user->generacion;
             $datos->ci = $user->ci;
             $datos->email = $user->email;

@@ -34,11 +34,7 @@
                         var_dump(('qwerty'==bcrypt($user->password)));  */                    
                 ?>
               @if(Session::get('habilitar') == 'si')
-                  <p>Se puede habilitar</p>
                   <input id=habilitar name="habilitar" type="hidden" value="">
-              
-              @else
-                  <p>No se puede habiliar</p>
               @endif
 
                 <div class="panel-body">
