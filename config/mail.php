@@ -1,8 +1,5 @@
 <?php
 
-var_dump(getenv("MAIL_USERNAME"));
-var_dump(getenv("MAIL_PASSWORD"));
-
 return [
 
     /*
