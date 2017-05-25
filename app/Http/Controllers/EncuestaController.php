@@ -7,6 +7,9 @@ use App\Http\Traits\Utilidades;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
+use Carbon\Carbon;
+
 
 class EncuestaController extends Controller
 {
@@ -85,7 +88,26 @@ class EncuestaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $inicio = Carbon::now()->toDateString();  // 1975-12-25
+        $vence = $this->sqlDateFormat($request->get('vence'));
+
+        /*$encuesta = Encuesta::newModelInstance();
+        $encuesta->asunto = $request->get('asunto');
+        $encuesta->descripcion = $request->get('descripcion');
+        $encuesta->vence = $vence;
+        $encuesta->inicio = $inicio;
+        $encuesta->save();*/
+
+        $data = [
+            'asunto'=>$request->get('asunto'),
+            'descripcion'=>$request->get('descripcion'),
+            'inicio'=>$inicio,
+            'vence'=>$vence,
+        ];
+
+        $encuesta = Encuesta::create($data)->id;
+
+        return $this->edit($encuesta);
     }
 
     /**
@@ -94,9 +116,8 @@ class EncuestaController extends Controller
      * @param  \App\Encuesta  $encuesta
      * @return \Illuminate\Http\Response
      */
-    public function show(Encuesta $encuesta)
+    public function show($encuesta)
     {
-        //
     }
 
     /**
@@ -105,9 +126,12 @@ class EncuestaController extends Controller
      * @param  \App\Encuesta  $encuesta
      * @return \Illuminate\Http\Response
      */
-    public function edit(Encuesta $encuesta)
+    public function edit(
+        $id)
     {
-        //
+        //return view('encuesta.edit', compact($encuesta));
+        $encuesta = Encuesta::findOrFail($id);
+        return View::make('encuesta.edit', ['id'=>$encuesta->id])->with('encuesta', $encuesta);        
     }
 
     /**
