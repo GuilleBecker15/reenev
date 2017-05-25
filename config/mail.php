@@ -1,5 +1,11 @@
 <?php
 
+// $mail_username = 'MAIL_USERNAME';
+// $mail_password = 'MAIL_PASSWORD';
+
+// if (getenv("MAIL_USERNAME")) $mail_username = getenv("MAIL_USERNAME");
+// if (getenv("MAIL_PASSWORD")) $mail_password = getenv("MAIL_PASSWORD");
+
 return [
 
     /*
@@ -84,9 +90,13 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME'),
+    'username' => env('MAIL_USERNAME', getenv("MAIL_USERNAME")),
 
-    'password' => env('MAIL_PASSWORD'),
+    'password' => env('MAIL_PASSWORD', getenv("MAIL_PASSWORD")),
+
+    // 'username' => env('tipwebphp@gmail.com'),
+
+    // 'password' => env('phpwebtip'),
 
     /*
     |--------------------------------------------------------------------------
