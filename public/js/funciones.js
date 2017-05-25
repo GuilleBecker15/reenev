@@ -119,6 +119,16 @@ $('document').ready( function() {
 		$("#q").val(nueva_consulta);
 	});
 
+	// ---------------------------//
+	var id = document.getElementById('habilitar');
+	if(id!=null){
+		console.log("se puede habilitar");
+		$( ":checkbox" ).trigger( "click" );
+		console.log("paso");
+	}
+	// ---------------------------//
+
+
 });
 
 /*$(document).on("submit", "formularioModificacion", function(e){

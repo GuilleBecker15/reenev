@@ -98,6 +98,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $this->authorize('es_admin_o_es_el', $user);
         //Session::set('algo','mi_nombre');
+        session(['habilitar' => 'no']);
         if( session('datos') == null || session('actualizado') == 'ok'){
             $datos = User::newModelInstance();
             $datos->name1 = $user->name1;
