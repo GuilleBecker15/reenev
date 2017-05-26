@@ -33,7 +33,7 @@ trait Utilidades {
     }
 
     public function es_fecha($string) {
-        $date = DateTime::createFromFormat('Y-m-d', $string);
+        $date = \DateTime::createFromFormat('Y-m-d', $string);
         return $date && ($date->format('Y-m-d') === $string);
     }
 
