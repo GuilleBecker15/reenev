@@ -35,7 +35,7 @@ $factory->define(App\Curso::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Docente::class, function (Faker\Generator $faker) {
     	
-    $faker->addProvider(new \Faker\Provider\AllFaker($faker));
+    $faker->addProvider(new \App\Http\Traits\AllFaker($faker));
 
     return [
         'nombre' => $faker->firstName,
@@ -65,15 +65,15 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     
     static $password;
     
-    $faker->addProvider(new \Faker\Provider\AllFaker($faker));
+    $faker->addProvider(new \App\Http\Traits\AllFaker($faker));
 
     return [
         'name1' => $faker->firstName,
         'name2' => $faker->firstName,
         'apellido1' => $faker->lastName,
         'apellido2' => $faker->lastName,
-        'generacion' => rand(2008,(int)date("Y")),
         'nacimiento' => $faker->date($format = 'Y-m-d', $max = 'now'),
+        'generacion' => rand(2008,(int)date("Y")),
         'ci' => $faker->unique()->cedula,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('lalala'),

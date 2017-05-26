@@ -1,6 +1,6 @@
 <?php
 
-namespace Faker\Provider;
+namespace App\Http\Traits;
 
 class AllFaker extends \Faker\Provider\Base
 {
