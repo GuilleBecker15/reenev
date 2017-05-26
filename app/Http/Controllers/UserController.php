@@ -52,16 +52,23 @@ class UserController extends Controller
         $this->authorize('es_admin', User::class);
         
         $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
+
+        $query = $request->get('q');
+
+        $users1 = collect([]);
+
+        if (is_numeric($query)) {
+            $users1 = User::where('id', $query)->get();
+        }
         
-        $users1 = User::where('id', 'like','%'.$request->get('q').'%')->get();
-        $users2 = User::where('name1', 'like','%'.$request->get('q').'%')->get();
-        $users3 = User::where('name2', 'like','%'.$request->get('q').'%')->get();
-        $users4 = User::where('apellido1', 'like','%'.$request->get('q').'%')->get();
-        $users5 = User::where('apellido2', 'like','%'.$request->get('q').'%')->get();
-        $users6 = User::where('nacimiento', 'like','%'.$request->get('q').'%')->get();
-        $users7 = User::where('generacion', 'like','%'.$request->get('q').'%')->get();
-        $users8 = User::where('ci', 'like','%'.$request->get('q').'%')->get();
-        $users9 = User::where('email', 'like','%'.$request->get('q').'%')->get();
+        $users2 = User::where('name1', 'like', '%'.$query.'%')->get();
+        $users3 = User::where('name2', 'like', '%'.$query.'%')->get();
+        $users4 = User::where('apellido1', 'like', '%'.$query.'%')->get();
+        $users5 = User::where('apellido2', 'like', '%'.$query.'%')->get();
+        $users6 = User::where('nacimiento', 'like', '%'.$query.'%')->get();
+        $users7 = User::where('generacion', 'like', '%'.$query.'%')->get();
+        $users8 = User::where('ci', 'like', '%'.$query.'%')->get();
+        $users9 = User::where('email', 'like', '%'.$query.'%')->get();
 
         $users =
         $users9->merge(
