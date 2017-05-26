@@ -7,6 +7,7 @@ use App\Http\Traits\Utilidades;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Validator;
 
 class DocenteController extends Controller
 {
@@ -85,7 +86,33 @@ class DocenteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|max:255|unique:users|unique:docentes',
+            'ci' => 'required|string|max:255|unique:users|unique:docentes',
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+
+            return redirect('Docentes/create')->withErrors($validator)->withInput();
+
+        } else {
+
+            $docente = Docente::create();
+
+            $docente->email=$request->get('email');
+            $docente->ci=$request->get('ci');
+            $docente->nombre=$request->get('nombre');
+            $docente->apellido=$request->get('apellido');
+
+            $docente->save();
+
+        }
+
+        return $this->index();
+
     }
 
     /**

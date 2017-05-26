@@ -7,6 +7,7 @@ use App\Http\Traits\Utilidades;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Validator;
 
 class CursoController extends Controller
 {
@@ -83,7 +84,31 @@ class CursoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|string|max:255|unique:cursos',
+            'abreviatura' => 'required|string|max:25|unique:cursos',
+            'semestre' => 'required|integer|min:1|max:6',
+        ]);
+
+        if ($validator->fails()) {
+
+            return redirect('Cursos/create')->withErrors($validator)->withInput();
+
+        } else {
+
+            $curso = Curso::create();
+
+            $curso->nombre=$request->get('nombre');
+            $curso->semestre=$request->get('semestre');
+            $curso->abreviatura=$request->get('abreviatura');
+
+            $curso->save();
+
+        }
+
+        return $this->index();
+
     }
 
     /**
