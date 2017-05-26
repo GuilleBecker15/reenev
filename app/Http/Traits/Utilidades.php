@@ -32,6 +32,11 @@ trait Utilidades {
 
     }
 
+    public function es_fecha($string) {
+        $date = DateTime::createFromFormat('Y-m-d', $string);
+        return $date && ($date->format('Y-m-d') === $string);
+    }
+
     public function cedula_aleatoria() {
 
         //Ej.: C.I.: 1.234.567-X -> X = [(1x8)+(2x1)+(3x2)+(4x3)+(5x4)+(6x7)+(7x6)] mod 10 -> X = [8+2+6+12+20+42+42] mod 10 = 132 mod 10 = 2

@@ -56,18 +56,17 @@ class UserController extends Controller
         $query = $request->get('q');
 
         $users1 = collect([]);
-        $users1 = collect([]);
+        $users6 = collect([]);
 
-        if (is_numeric($query)) {
-            $users1 = User::where('id', $query)->get();
-        }
+        if (is_numeric($query)) $users1 = User::where('id', $query)->get();
+        
+        if ($this->es_fecha($query)) $users6 = User::where('nacimiento', $query)->get();
         
         $users2 = User::where('name1', 'like', '%'.$query.'%')->get();
         $users3 = User::where('name2', 'like', '%'.$query.'%')->get();
         $users4 = User::where('apellido1', 'like', '%'.$query.'%')->get();
         $users5 = User::where('apellido2', 'like', '%'.$query.'%')->get();
-        $users6 = User::where('nacimiento', '=', '%'.$query.'%')->get();
-        $users7 = User::where('generacion', '=', '%'.$query.'%')->get();
+        $users7 = User::where('generacion', date_create("2013-07-12"))->get();
         $users8 = User::where('ci', 'like', '%'.$query.'%')->get();
         $users9 = User::where('email', 'like', '%'.$query.'%')->get();
 
