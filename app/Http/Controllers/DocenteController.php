@@ -44,12 +44,17 @@ class DocenteController extends Controller
         $this->authorize('es_admin', User::class);
         
         $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
+     
+        $query = $request->get('q');
+
+        $docentes1 = collect([]);
+
+        if (is_numeric($query)) $docentes1 = Docente::where('id', $query)->get();
         
-        $docentes1 = Docente::where('id', 'like','%'.$request->get('q').'%')->get();
-        $docentes2 = Docente::where('email', 'like','%'.$request->get('q').'%')->get();
-        $docentes3 = Docente::where('ci', 'like','%'.$request->get('q').'%')->get();
-        $docentes4 = Docente::where('nombre', 'like','%'.$request->get('q').'%')->get();
-        $docentes5 = Docente::where('apellido', 'like','%'.$request->get('q').'%')->get();
+        $docentes2 = Docente::where('email', 'like','%'.$query.'%')->get();
+        $docentes3 = Docente::where('ci', 'like','%'.$query.'%')->get();
+        $docentes4 = Docente::where('nombre', 'like','%'.$query.'%')->get();
+        $docentes5 = Docente::where('apellido', 'like','%'.$query.'%')->get();
 
         $docentes =
         $docentes5->merge(

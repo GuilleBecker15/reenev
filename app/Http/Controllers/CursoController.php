@@ -44,11 +44,21 @@ class CursoController extends Controller
         $this->authorize('es_admin', User::class);
 
         $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
+        
+        $query = $request->get('q');
 
-        $cursos1 = Curso::where('id', 'like','%'.$request->get('q').'%')->get();
-        $cursos2 = Curso::where('nombre', 'like','%'.$request->get('q').'%')->get();
-        $cursos3 = Curso::where('semestre', 'like','%'.$request->get('q').'%')->get();
-        $cursos4 = Curso::where('abreviatura', 'like','%'.$request->get('q').'%')->get();
+        $cursos1 = collect([]);
+        $cursos3 = collect([]);
+
+        if (is_numeric($query)) {
+
+            $cursos1 = Curso::where('id', $query)->get();
+            $cursos3 = Curso::where('semestre', $query)->get();
+
+        }
+        
+        $cursos2 = Curso::where('nombre', 'like','%'.$query.'%')->get();
+        $cursos4 = Curso::where('abreviatura', 'like','%'.$query.'%')->get();
 
         $cursos =
         $cursos4->merge(

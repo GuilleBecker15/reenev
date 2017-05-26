@@ -55,12 +55,12 @@ trait Utilidades {
 
     }
 
-    public function fecha_aleatoria() {
-        return rand(10,31).'/'.rand(10,12).'/'.rand(1000,9999);
-    }
-
     public function correo_aleatorio() {
         return str_random(5).'@mail.com';
+    }
+
+    public function fecha_aleatoria() {
+        return rand(10,31).'/'.rand(10,12).'/'.rand(1000,9999);
     }
 
     public function nombre_aleatorio() {

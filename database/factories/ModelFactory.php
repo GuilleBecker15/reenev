@@ -23,24 +23,12 @@
 //     ];
 // });
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
-    
-    static $password;
-	
-	$faker->addProvider(new \Faker\Provider\AllFaker($faker));
-
+$factory->define(App\Curso::class, function (Faker\Generator $faker) {
+        
     return [
-        'name1' => $faker->firstName,
-        'name2' => $faker->firstName,
-        'apellido1' => $faker->lastName,
-        'apellido2' => $faker->lastName,
-        'generacion' => $faker->year($max = 'now'),
-        'nacimiento' => $faker->date($format = 'Y-m-d', $max = 'now'),
-        'ci' => $faker->unique()->cedula,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('lalala'),
-        'remember_token' => str_random(10),
-        'esAdmin' => $faker->boolean,
+        'nombre' => $faker->unique()->sentence($nbWords = 2, $variableNbWords = true),
+        'abreviatura' => $faker->unique()->word,
+        'semestre' => rand(1,6),
     ];
 
 });
@@ -58,12 +46,39 @@ $factory->define(App\Docente::class, function (Faker\Generator $faker) {
 
 });
 
-$factory->define(App\Curso::class, function (Faker\Generator $faker) {
-    	
+$factory->define(App\Encuesta::class, function (Faker\Generator $faker) {
+
+    $inicio = $faker->date($format = 'Y-m-d', $max = 'now');
+    $vence = new DateTime($inicio);
+    $vence->add(new DateInterval('P30D'));
+
     return [
-        'nombre' => $faker->unique()->name,
-        'abreviatura' => $faker->unique()->word,
-        'semestre' => $faker->randomDigit,
+        'inicio' => $inicio,
+        'vence' => $vence->format('Y-m-d'),
+        'asunto' => $faker->sentence($nbWords = 5, $variableNbWords = true),
+        'descripcion' => $faker->sentence($nbWords = 10, $variableNbWords = true),
+    ];
+
+});
+
+$factory->define(App\User::class, function (Faker\Generator $faker) {
+    
+    static $password;
+    
+    $faker->addProvider(new \Faker\Provider\AllFaker($faker));
+
+    return [
+        'name1' => $faker->firstName,
+        'name2' => $faker->firstName,
+        'apellido1' => $faker->lastName,
+        'apellido2' => $faker->lastName,
+        'generacion' => rand(2008,(int)date("Y")),
+        'nacimiento' => $faker->date($format = 'Y-m-d', $max = 'now'),
+        'ci' => $faker->unique()->cedula,
+        'email' => $faker->unique()->safeEmail,
+        'password' => $password ?: $password = bcrypt('lalala'),
+        'esAdmin' => $faker->boolean,
+        'remember_token' => str_random(10),
     ];
 
 });
