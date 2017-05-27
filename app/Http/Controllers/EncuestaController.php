@@ -116,8 +116,10 @@ class EncuestaController extends Controller
      * @param  \App\Encuesta  $encuesta
      * @return \Illuminate\Http\Response
      */
-    public function show($encuesta)
-    {
+    public function show($id){
+        $encuesta = Encuesta::findOrFail($id);
+        $encuesta->vence = $this->uyDateFormat($encuesta->vence);
+        return view('encuesta.show', ['encuesta' => $encuesta]);
     }
 
     /**
@@ -126,12 +128,13 @@ class EncuestaController extends Controller
      * @param  \App\Encuesta  $encuesta
      * @return \Illuminate\Http\Response
      */
-    public function edit(
-        $id)
+    public function edit($id)
     {
         //return view('encuesta.edit', compact($encuesta));
         $encuesta = Encuesta::findOrFail($id);
-        return View::make('encuesta.edit', ['id'=>$encuesta->id])->with('encuesta', $encuesta);        
+        $encuesta->vence = $this->uyDateFormat($encuesta->vence);
+        // return View::make('encuesta.edit', ['id'=>$encuesta->id])->with('encuesta', $encuesta);        
+        return view('encuesta.edit', ['id'=>$encuesta->id])->with('encuesta', $encuesta);        
     }
 
     /**
@@ -141,9 +144,9 @@ class EncuestaController extends Controller
      * @param  \App\Encuesta  $encuesta
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Encuesta $encuesta)
+    public function update(Request $request, $id)
     {
-        //
+        return $this->show($id);
     }
 
     /**

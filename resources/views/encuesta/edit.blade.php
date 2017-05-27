@@ -12,18 +12,18 @@
                 <div class="panel-heading"><h1>Editar una encuesta</h1></div>
                 <div class="panel-body">
                 <?php 
-                    echo "//--------------------------------//";
+                    // echo "//--------------------------------//";
                     //var_dump(Session::all()); 
                     // var_dump($encuesta); 
-                    echo "//--------------------------------//";
+                    // echo "//--------------------------------//";Encuestas.edit
                 ?>
-                {{  $encuesta }}
-                        <form action="{{ url('Encuestas.update') }}" method="POST" class="form-horizontal" accept-charset="utf-8">
+                        <form id=formEncuesta action="{{ route('Encuestas.update', $encuesta->id) }}" method="POST" class="form-horizontal" accept-charset="utf-8">
+                        <input name="_method" type="hidden" value="PUT">
                          {{ csrf_field() }}
                             <div class="form-group{{ $errors->has('asunto') ? 'has-error' : '' }}">
                                 <label type="text" name="asunto" class="col-md-4 control-label" for="asunto" value="">Asunto</label>  
-                                <div class="col-md-6">
-                                    <input class="form-control" id="asunto" name="asunto" value="" placeholder="" required autofocus >
+                                <div class="col-md-6"> 
+                                    <input class="form-control" id="asunto" name="asunto" value="{{ $encuesta->asunto }}" placeholder="" required autofocus >
                                     @if ($errors->has('asunto'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('asunto') }}</strong>
@@ -34,7 +34,7 @@
                             <div class="form-group{{ $errors->has('descripcion') ? 'has-error' : '' }}">
                                 <label type="text" name="descripcion" class="col-md-4 control-label" for="descripcion" value="">descripcion</label>  
                                 <div class="col-md-6">
-                                    <input class="form-control" id="descripcion" type="text" name="descripcion" value="" placeholder="Ingrese un descripcion" required>
+                                    <input class="form-control" id="descripcion" type="text" name="descripcion" value="{{ $encuesta->descripcion }}" placeholder="Ingrese un descripcion" required>
                                     @if ($errors->has('descripcion'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('descripcion') }}</strong>
@@ -46,7 +46,7 @@
                             <div class="form-group{{ $errors->has('vence') ? 'has-error' : '' }}">
                                 <label type="text" name="descripcion" class="col-md-6 control-label" for="descripcion" value="">Fecha limite para completar la encuesta</label>  
                                 <div class="col-md-4">
-                                    <input class="form-control" id="vence" type="fecha" name="vence" value="" placeholder="" required>
+                                    <input class="form-control" id="vence" type="fecha" name="vence" value="{{ $encuesta->vence }}" placeholder="" required>
                                     @if ($errors->has('vence'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('vence') }}</strong>
@@ -54,8 +54,29 @@
                                     @endif
                                 </div>               
                             </div>
+
                             <div class="form-group">
-                                <div class="col-md-6 col-md-offset-4">
+                                <div class="col-md-6">
+                                    <button id="agregarPregunta" type="button" class="btn btn-info">Agregar una pregunta</button>
+                                </div>
+                            </div>
+                            <div id="agregarUno" class="form-group">
+                                
+                            </div>
+
+                            <!-- <div class="form-group text-center">
+                                <div class="col-md-12">
+                                    <label type="text" name="pregunta" form="pregunta">Ingrese una pregunta para la encuensta</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" id=descPregunta placeholder="¿Que pregunta desea formular?">
+                                </div>
+                            </div> -->
+
+                            <div class="form-group text-center">
+                                <div class="col-md-12">
                                     <button type="submit" class="btn btn-primary">
                                         Aceptar
                                     </button>
@@ -67,4 +88,7 @@
         </div>
     </div>
 </div>
+<script>
+    
+</script>
 @endsection
