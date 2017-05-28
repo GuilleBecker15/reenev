@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-// use App\Docente;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -21,10 +20,7 @@ class AllTest extends TestCase
 			$user = factory(\App\User::class)->make();
 
 			$docente->save();
-
-			// $curso->docente()->associate(Docente::find(rand(1, $i)));
 			$curso->docente_id = rand(1, $i);
-
 			$curso->save();
 			$encuesta->save();
 			$user->save();
