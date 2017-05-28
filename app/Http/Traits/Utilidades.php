@@ -32,4 +32,13 @@ trait Utilidades {
 
     }
 
+    public function es_fecha($string) {
+        $date = \DateTime::createFromFormat('Y-m-d', $string);
+        return $date && ($date->format('Y-m-d') === $string);
+    }
+
+    public function digito_verificador($ci) {
+        //Por hacer...
+    }
+
 }

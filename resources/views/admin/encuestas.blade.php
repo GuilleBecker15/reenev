@@ -23,8 +23,8 @@
                             <tbody>
                                 <tr>
                                     <td>{{ $encuesta->id }}</td>
-                                    <td>{{ $encuesta->inicio }}</td>
-                                    <td>{{ $encuesta->vence }}</td>
+                                    <td>{{ $encuesta->uyInicioVence($encuesta->inicio) }}</td>
+                                    <td>{{ $encuesta->uyInicioVence($encuesta->vence) }}</td>
                                     <td>{{ $encuesta->asunto }}</td>
                                     <td>{{ $encuesta->descripcion }}</td>
                                 </tr>
