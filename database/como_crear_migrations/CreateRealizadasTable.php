@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRespuestasTable extends Migration
+class CreateRealizadasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateRespuestasTable extends Migration
      */
     public function up()
     {
-        Schema::create('respuestas', function (Blueprint $table) {
+        $this->down();
+        Schema::create('realizadas', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('calificacion');
+            $table->date('cuando');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -28,6 +29,6 @@ class CreateRespuestasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('respuestas');
+        Schema::dropIfExists('realizadas');
     }
 }

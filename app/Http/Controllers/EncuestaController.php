@@ -86,6 +86,7 @@ class EncuestaController extends Controller
      */
     public function create()
     {
+        $this->authorize('es_admin', User::class);
         return view('encuesta.create');
     }
 

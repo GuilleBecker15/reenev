@@ -8,8 +8,8 @@ use App\Http\Traits\Utilidades;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Validator;
 use Illuminate\Validation\Rule;
+use Validator;
 
 class CursoController extends Controller
 {

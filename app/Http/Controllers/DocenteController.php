@@ -80,6 +80,7 @@ class DocenteController extends Controller
      */
     public function create()
     {
+        $this->authorize('es_admin', User::class);
         return view('docente.create');
     }
 
@@ -92,6 +93,8 @@ class DocenteController extends Controller
     public function store(Request $request)
     {
 
+        $this->authorize('es_admin', User::class);
+        
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|max:255|unique:users|unique:docentes',
             'ci' => 'required|string|max:255|unique:users|unique:docentes',

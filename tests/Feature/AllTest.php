@@ -2,24 +2,36 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+// use App\Docente;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Tests\TestCase;
 
 class AllTest extends TestCase
 {
 
 	public function test() {
 
-		for ($i=1;$i<=100;$i++) {
+		for ($i=1; $i<=100; $i++) {
 		
-			$docente = factory(\App\Docente::class)->create();
-			$curso = factory(\App\Curso::class)->create();
-			$encuesta = factory(\App\Encuesta::class)->create();
-			$user = factory(\App\User::class)->create();
+			$docente = factory(\App\Docente::class)->make();
+			$curso = factory(\App\Curso::class)->make();
+			$encuesta = factory(\App\Encuesta::class)->make();
+			$user = factory(\App\User::class)->make();
 
-			echo "\n";
+			$docente->save();
+
+			// $curso->docente()->associate(Docente::find(rand(1, $i)));
+			$curso->docente_id = rand(1, $i);
+
+			$curso->save();
+			$encuesta->save();
+			$user->save();
+
+			echo PHP_EOL;
+			echo "------------------------------------";
+			echo PHP_EOL;
 			echo "user[".$i."]->ci = ".$user->ci;
 
 			if ($user->esAdmin) echo " (esAdmin)";
