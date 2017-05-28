@@ -13,8 +13,8 @@ class CreateCursosTable extends Migration
      */
     public function up()
     {
-        $this->down();
         Schema::disableForeignKeyConstraints();
+        $this->down();
         Schema::create('cursos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre')->unique()->default("");
@@ -35,6 +35,5 @@ class CreateCursosTable extends Migration
     public function down()
     {
         Schema::dropIfExists('cursos');
-        Schema::enableForeignKeyConstraints();
     }
 }
