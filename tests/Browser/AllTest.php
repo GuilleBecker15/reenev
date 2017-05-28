@@ -28,6 +28,9 @@ class AllTest extends DuskTestCase
 
             $path = 'http://localhost:8000/register';
             $password = 'lalala';
+            $cedula = $faker->unique()->cedula;
+            echo PHP_EOL;
+            echo $cedula;
 
             $browser
             ->visit($path)
@@ -37,7 +40,7 @@ class AllTest extends DuskTestCase
             ->type('apellido2', $faker->lastName)
             ->type('nacimiento', $faker->date($format = 'd/m/Y', $max = 'now'))
             ->select('generacion', rand(2008,(int)date("Y")))
-            ->type('ci', $faker->unique()->cedula)
+            ->type('ci', $cedula)
             ->type('email', $faker->unique()->safeEmail)
             ->type('password', $password)
             ->type('password_confirmation', $password)

@@ -14,8 +14,8 @@ class AllTest extends TestCase
 
 		for ($i=1;$i<=100;$i++) {
 		
-			$curso = factory(\App\Curso::class)->create();
 			$docente = factory(\App\Docente::class)->create();
+			$curso = factory(\App\Curso::class)->create();
 			$encuesta = factory(\App\Encuesta::class)->create();
 			$user = factory(\App\User::class)->create();
 

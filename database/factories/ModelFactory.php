@@ -29,6 +29,7 @@ $factory->define(App\Curso::class, function (Faker\Generator $faker) {
         'nombre' => $faker->unique()->sentence($nbWords = 2, $variableNbWords = true),
         'abreviatura' => $faker->unique()->word,
         'semestre' => rand(1,6),
+        'docente_id' => 1, //debe existir un docente con id===1
     ];
 
 });

@@ -93,14 +93,14 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         $this->authorize('es_admin_o_es_el', $user);
         return view('user.show', ['user' => $user]);
     }
 
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         $this->authorize('es_admin_o_es_el', $user);
         return view('user.edit', compact('user'));        
     }
@@ -115,7 +115,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         
-        $user = User::findOrFail($id);
+        $user = User::find($id);
             
         $this->authorize('es_admin_o_es_el', $user);
 
@@ -166,7 +166,7 @@ class UserController extends Controller
 // =======
 //         if (Auth::user()->id==$id) {
 
-//             $user = User::findOrFail($id);
+//             $user = User::find($id);
 
 //             // if($user->password == bcrypt($request->get('confirmarPass'))){
 //             if(Hash::check($request->get('confirmarPass'), $user->password)){
@@ -197,7 +197,7 @@ class UserController extends Controller
 
     public function hacerAdmin($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         $this->authorize('es_admin_y_no_es_el', $user);
         $this->authorize('es_supervisor', $user);
         $user->supervisor=Auth::user()->id;
@@ -215,7 +215,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         // $this->authorize('es_admin', User::class);
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         $this->authorize('es_admin_y_no_es_el', $user);
         $this->authorize('es_supervisor', $user);
         $user->supervisor=Auth::user()->id;
@@ -225,12 +225,12 @@ class UserController extends Controller
     }
 
     public function redirectCambiarPass($user){
-        $users = User::findOrFail($user);
+        $users = User::find($user);
         return view('user.cambiarPass', ['user' => $users]);
     }
 
     public function updatePass(Request $request, $id){
-        $usuario = User::findOrFail($id);
+        $usuario = User::find($id);
         $password = $request->get('pass');
         if(Auth::user()->id == $id){
             $message = [
@@ -272,7 +272,7 @@ class UserController extends Controller
 
     public function updateByAjax(Request $request, $id){
         if($request->ajax()){
-            $user = User::findOrFail($id);
+            $user = User::find($id);
             if(Hash::check($request->get('confirmarPass'),$user->password)){
                 $nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
                 $user->name1=$request->get('name1');
