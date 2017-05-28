@@ -13,7 +13,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('users');
+        $this->down();
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('supervisor')->default(0);
@@ -31,7 +31,6 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
-        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -41,7 +40,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('users');
     }
 }
