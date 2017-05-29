@@ -24,7 +24,7 @@
                 @else
                 @cannot('es_admin', App\User::class)
                 <li><a href="{{ route('Realizadas.create')}}">Completar encuesta</a></li>
-                <li><a href="{{ route('Realizadas.index')}}">Encuestas completadas</a></li>
+                <li><a href="/Users/completadas/{{ Auth::user()->id }}">Encuestas completadas</a></li>
                 @endcannot
                 @can('es_admin', App\User::class)
                 <li><a href="{{ route('Cursos.index')}}">Cursos</a></li>

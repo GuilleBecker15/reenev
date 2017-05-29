@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Encuestas completadas</h1></div>
                 <div class="panel-body">
@@ -12,14 +12,16 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Fecha de cuando la completaste</th>
+                                    <th>Cuando la hiciste</th>
+                                    <th>De que trataba</th>
                                 </tr>
                             </thead>
                             @foreach ($realizadas as $key => $realizada)
                             <tbody>
                                 <tr>
                                     <td>{{ $realizada->id }}</td>
-                                    <td>{{ $realizada->cuando }}</td>
+                                    <td>{{ $realizada->uyCuando($realizada->cuando) }}</td>
+                                    <td>{{ $realizada->encuesta->asunto }}</td>
                                 </tr>
                             </tbody>
                             @endforeach

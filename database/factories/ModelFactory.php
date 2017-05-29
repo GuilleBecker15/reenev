@@ -62,6 +62,35 @@ $factory->define(App\Encuesta::class, function (Faker\Generator $faker) {
 
 });
 
+$factory->define(App\Pregunta::class, function (Faker\Generator $faker) {
+
+    return [
+        'enunciado' => $faker->sentence($nbWords = 5, $variableNbWords = true),
+        'numero' => rand(1,20),
+    ];
+
+});
+
+$factory->define(App\Realizada::class, function (Faker\Generator $faker) {
+
+    return [
+        'cuando' => (new DateTime())->format('Y-m-d'),
+    ];
+
+});
+
+$factory->define(App\Respuesta::class, function (Faker\Generator $faker) {
+
+    $inicio = $faker->date($format = 'Y-m-d', $max = 'now');
+    $vence = new DateTime($inicio);
+    $vence->add(new DateInterval('P30D'));
+
+    return [
+        'calificacion' => rand(0,5),
+    ];
+
+});
+
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     
     static $password;

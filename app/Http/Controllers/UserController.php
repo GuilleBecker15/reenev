@@ -98,6 +98,14 @@ class UserController extends Controller
         return view('user.show', ['user' => $user]);
     }
 
+    public function realizadas($id)
+    {
+        $user = User::find($id);
+        $this->authorize('es_el', $user);
+        $realizadas = $user->realizadas()->get();
+        return view('user.realizadas', compact('realizadas'));
+    }
+
     public function edit($id)
     {
         $user = User::find($id);

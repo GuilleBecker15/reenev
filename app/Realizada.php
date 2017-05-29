@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Traits\Utilidades;
 
 class Realizada extends Model
 {
+
+    use Utilidades;
 
     public function user()
     {
@@ -20,6 +23,11 @@ class Realizada extends Model
     public function encuesta()
     {
     	return $this->belongsTo('App\Encuesta');
+    }
+
+    public function uyCuando($cuando)
+    {
+        return $this->uyDateFormat($cuando);
     }
 
 }

@@ -20,8 +20,7 @@ class RealizadaController extends Controller
      */
     public function index()
     {
-        $realizadas = Realizada::all();
-        return view('user.realizadas', compact('realizadas'));
+        //Hacer?
     }
 
     /**
