@@ -13,7 +13,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-
+        $this->down();
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('supervisor')->default(0);
@@ -31,7 +31,6 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
-    
     }
 
     /**

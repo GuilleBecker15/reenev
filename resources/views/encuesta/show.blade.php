@@ -8,6 +8,12 @@
 			<div class="panel-default">
 				<div class="panel-heading">
 					<h1>Informacion de la encuesta</h1>
+
+					<?php 
+					echo "////////////////////////////";
+					dd($encuesta);
+					echo "////////////////////////////";
+					?>
 				</div>
 				<h3 class="col-md-12 text-center">{{ $encuesta->asunto }}</h3>
 				<!-- <h3 class="col-md-12 text-center">Algo super extra extremadamente largoooooooooooo</h3> -->

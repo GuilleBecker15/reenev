@@ -146,7 +146,20 @@ class EncuestaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $this->show($id);
+        //$algo = $request->all();
+        // return $this->show($id);
+        return view('encuesta.show', ['encuesta' => $request]);
+        /*$encuesta = Encuesta::findOrFail($id);
+
+        $encuesta->asunto = $request->get('asunto');
+        $encuesta->descripcion = $request->get('descripcion');
+        $encuesta->vence = $this->sqlDateFormat($request->vence);
+
+        if(Request::exists('descPregunto0')){
+            //public function toArray()
+        }
+
+        $encuesta->save();*/
     }
 
     /**
