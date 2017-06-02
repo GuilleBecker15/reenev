@@ -10,7 +10,7 @@
 					<h1>Informacion de la encuesta</h1>
 					<?php 
 						// echo "//////////////////////";
-						//  dd($cant);
+						// dd($preguntas);
 						// echo "//////////////////////";
 					 ?>
 					
@@ -34,15 +34,17 @@
 							</tr>
 						</tbody>
 					</table>
-
-					@foreach ($preguntas as $key => $pregunta)
-					<div class="form-group text-center">
-                                <div class="col-md-12">
-                                    <label type="text" name="pregunta" form="pregunta">{{ $pregunta->numero }} : {{ $pregunta->enunciado }}</label>
-                                </div>
-                            </div>
-                            					
-					@endforeach
+					<div class="">
+							@if ($preguntas)
+								@foreach ($preguntas as $key => $pregunta)
+								<div class="form-group">
+			                                <div class="col-md-12 hidden-xs form-group">
+			                                    <label type="text" name="pregunta" form="pregunta">{{ $pregunta->numero }} : {{ $pregunta->enunciado }}</label>
+			                                </div>
+			                            </div>		                            					
+								@endforeach
+							@endif
+					</div>
 					<div class="col-md-12 hidden-xs text-center">
 						<table class="table">
 							<tbody>

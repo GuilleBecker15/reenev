@@ -9,6 +9,17 @@
 						<h2>Agregar un pregunta a la encuesta: {{$encuesta->asunto}}</h2>
 					</div>
 					<div class="panel-body">
+					<h3>Preguntas: </h3>
+					<div class="">
+							@foreach ($preguntas as $key => $pregunta)
+							<div class="form-group">
+		                                <div class="col-md-12 hidden-xs form-group">
+		                                    <label type="text" name="pregunta" form="pregunta">{{ $pregunta->numero }} : {{ $pregunta->enunciado }}</label>
+		                                </div>
+		                            </div>		                            					
+							@endforeach
+					</div>
+
 						<form id="formAltaPregunta" class="form-horizontal" role="form" action="{{ route('Encuestas.Preguntas.store', $encuesta->id) }}" method="POST">
 							{{ csrf_field() }}
 							<div class="form-group text-center">

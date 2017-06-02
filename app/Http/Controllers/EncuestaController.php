@@ -120,7 +120,11 @@ class EncuestaController extends Controller
     public function show($id){
         $encuesta = Encuesta::findOrFail($id);
         // $pregunta = $encuesta->preguntas();
-        $preguntas = Pregunta::with('encuesta')->get();
+        // $preguntas = Pregunta::with(['encuesta' => function($query){
+        //         $query->where('encuesta_id');
+        //     }])->get();
+        // $preguntas = Pregunta::with('encuesta')->find($id);
+        $preguntas = Pregunta::where('encuesta_id',$id)->get();
         $cant = $preguntas->count();
         $encuesta->vence = $this->uyDateFormat($encuesta->vence);
         $encuesta->inicio = $this->uyDateFormat($encuesta->inicio);

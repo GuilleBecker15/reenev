@@ -27,7 +27,11 @@ class PreguntaController extends Controller
     public function create($id)
     {
         $encuesta = Encuesta::findOrFail($id);
-        return view('pregunta.create',['encuesta'=>$encuesta]);
+        // $preguntas = Pregunta::with('encuesta')->get();
+        $preguntas = Pregunta::where('encuesta_id',$id)->get();
+
+        
+        return view('Pregunta.create',['encuesta'=>$encuesta, 'preguntas'=>$preguntas]);
     }
 
     /**
@@ -40,29 +44,19 @@ class PreguntaController extends Controller
     {
         $encuesta = Encuesta::findOrFail($id);
         $pregunta = new Pregunta;
-        // $num = $encuesta->withCount('preguntas')->get();
-        $preguntas = Pregunta::with('encuesta')->get();
+        // $preguntas = Pregunta::with('encuesta')->get();
+        $preguntas = Pregunta::where('encuesta_id',$id)->get();
         $num = $preguntas->count();
-        //$num = 0;
         $data = [
             'enunciado' => $request->get('descPregunta'),
             'numero' => $num,
         ];
-
-        
-
-        // $pregunta->numero = $num;
-        // $pregunta->enunciado = $request->get('descPregunta');
-
-        // $pregunta->save();
-        // $encuesta->pregunta()->associate($pregunta);
-
         $pregunta->encuesta()->associate($encuesta);
         $pregunta->numero = $num + 1;
         $pregunta->enunciado = $request->get('descPregunta');
         $pregunta->save();
 
-        return view('Pregunta.create', ['encuesta'=>$encuesta]);
+        return view('Pregunta.create', ['encuesta'=>$encuesta, 'preguntas'=>$preguntas]);
     }
 
     /**
