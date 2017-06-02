@@ -37,11 +37,12 @@
 					<div class="">
 							@if ($preguntas)
 								@foreach ($preguntas as $key => $pregunta)
-								<div class="form-group">
-			                                <div class="col-md-12 hidden-xs form-group">
-			                                    <label type="text" name="pregunta" form="pregunta">{{ $pregunta->numero }} : {{ $pregunta->enunciado }}</label>
-			                                </div>
-			                            </div>		                            					
+								<div class="form-group col-md-12">
+	                                <div class=" hidden-xs form-group">
+	                                    <label type="text" name="pregunta" form="pregunta">{{ $pregunta->numero }} - {{ $pregunta->enunciado }}</label>
+	                                </div>
+									
+			                    </div>		                            					
 								@endforeach
 							@endif
 					</div>
