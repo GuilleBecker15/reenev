@@ -54,15 +54,18 @@
                                     @endif
                                 </div>               
                             </div>
-
+                            </div>
                             <div class="form-group">
                                 <div class="col-md-6">
-                                    <button id="agregarPregunta" type="button" class="btn btn-info">Agregar una pregunta</button>
+                                    <a href="{{ route('Encuestas.Preguntas.create', $encuesta->id) }} ">
+                                        <button id="agregarPreguntas" type="button" class="btn btn-info">Agregar preguntas</button>                                        
+                                    </a>
                                 </div>
                             </div>
-                            <div id="agregarUno" class="form-group">
-                                
-                            </div>
+                           <!--  <div id="agregarUno" class="form-group">
+                           
+                               
+                           </div> -->
 
                             <!-- <div class="form-group text-center">
                                 <div class="col-md-12">

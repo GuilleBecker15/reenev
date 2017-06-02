@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Carbon\Carbon;
+
 
 class CreateEncuestasTable extends Migration
 {
@@ -16,12 +18,13 @@ class CreateEncuestasTable extends Migration
         $this->down();
         Schema::create('encuestas', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('inicio');
-            $table->date('vence');
-            $table->string('asunto');
-            $table->string('descripcion');
+            $table->date('inicio')->default(Carbon::now()->toDateString());
+            $table->date('vence')->default(Carbon::now()->toDateString());
+            $table->string('asunto')->default("");
+            $table->string('descripcion')->default("");
             $table->rememberToken();
             $table->timestamps();
+            $table->unique(['vence','asunto','descripcion']);
         });    
     }
 

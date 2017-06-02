@@ -32,6 +32,7 @@ Route::resource('Docentes', 'DocenteController');
 Route::resource('Encuestas', 'EncuestaController');
 Route::resource('Realizadas', 'RealizadaController');
 Route::resource('Users', 'UserController');
+Route::resource('Encuestas.Preguntas','PreguntaController');
 
 // Route::get('cambiar' ,['as'=> 'cambiar', 'uses' => 'HomeController@cambiar'] );
 /*Route::get('cambiar/{user}' ,['as' => 'cambiar', function(){

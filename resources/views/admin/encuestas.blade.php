@@ -29,7 +29,7 @@
                                     <td>{{ $encuesta->descripcion }}</td>
                                     <td>
                                         {{ Form::open(['method' => 'GET', 'route' => ['Encuestas.show', $encuesta->id]]) }}
-                                        {{ Form::hidden('id', $encuesta->id) }}
+                                        <!-- {{ Form::hidden('id', $encuesta->id) }} -->
                                         {{ Form::submit('Ver', ['class' => 'btn btn-xs btn-info']) }}
                                         {{Form::close()}}
                                     </td>

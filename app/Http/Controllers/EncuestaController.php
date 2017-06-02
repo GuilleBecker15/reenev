@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Carbon\Carbon;
+use App\Pregunta;
 
 
 class EncuestaController extends Controller
@@ -118,8 +119,12 @@ class EncuestaController extends Controller
      */
     public function show($id){
         $encuesta = Encuesta::findOrFail($id);
+        // $pregunta = $encuesta->preguntas();
+        $preguntas = Pregunta::with('encuesta')->get();
+        $cant = $preguntas->count();
         $encuesta->vence = $this->uyDateFormat($encuesta->vence);
-        return view('encuesta.show', ['encuesta' => $encuesta]);
+        $encuesta->inicio = $this->uyDateFormat($encuesta->inicio);
+        return view('encuesta.show', ['encuesta' => $encuesta,'preguntas'=>$preguntas,'cant'=>$cant]);
     }
 
     /**
@@ -146,20 +151,18 @@ class EncuestaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //$algo = $request->all();
-        // return $this->show($id);
-        return view('encuesta.show', ['encuesta' => $request]);
-        /*$encuesta = Encuesta::findOrFail($id);
-
+        
+        $encuesta = Encuesta::findOrFail($id);
         $encuesta->asunto = $request->get('asunto');
         $encuesta->descripcion = $request->get('descripcion');
-        $encuesta->vence = $this->sqlDateFormat($request->vence);
+        //$encuesta->inicio = $request->get('inicio');
+        $encuesta->vence = $this->sqlDateFormat($request->get('vence'));
 
-        if(Request::exists('descPregunto0')){
-            //public function toArray()
-        }
+        $encuesta->save();
 
-        $encuesta->save();*/
+
+        return view('encuesta.show', ['encuesta' => $encuesta]);
+        
     }
 
     /**

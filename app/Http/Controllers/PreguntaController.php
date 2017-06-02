@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Encuesta;
+use App\Pregunta;
+
 use Illuminate\Http\Request;
 
 class PreguntaController extends Controller
@@ -21,9 +24,10 @@ class PreguntaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $encuesta = Encuesta::findOrFail($id);
+        return view('pregunta.create',['encuesta'=>$encuesta]);
     }
 
     /**
@@ -32,9 +36,33 @@ class PreguntaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $encuesta = Encuesta::findOrFail($id);
+        $pregunta = new Pregunta;
+        // $num = $encuesta->withCount('preguntas')->get();
+        $preguntas = Pregunta::with('encuesta')->get();
+        $num = $preguntas->count();
+        //$num = 0;
+        $data = [
+            'enunciado' => $request->get('descPregunta'),
+            'numero' => $num,
+        ];
+
+        
+
+        // $pregunta->numero = $num;
+        // $pregunta->enunciado = $request->get('descPregunta');
+
+        // $pregunta->save();
+        // $encuesta->pregunta()->associate($pregunta);
+
+        $pregunta->encuesta()->associate($encuesta);
+        $pregunta->numero = $num + 1;
+        $pregunta->enunciado = $request->get('descPregunta');
+        $pregunta->save();
+
+        return view('Pregunta.create', ['encuesta'=>$encuesta]);
     }
 
     /**
