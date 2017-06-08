@@ -7,6 +7,7 @@ use App\Pregunta;
 use Validator;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PreguntaController extends Controller
 {
@@ -49,6 +50,8 @@ class PreguntaController extends Controller
 
         $validator = Validator::make($request->all(),[
             'enunciado' => 'required|string|max:255',
+            // 'enunciado' => Rule::unique('preguntas'),
+ 
           ]);
 
         if($validator->fails()){
