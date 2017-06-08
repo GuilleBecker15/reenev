@@ -10,7 +10,7 @@
 					<h1>Informacion de la encuesta</h1>
 					<?php 
 						// echo "//////////////////////";
-						// dd($preguntas);
+						//var_dump($preguntas);
 						// echo "//////////////////////";
 					 ?>
 					
@@ -18,6 +18,14 @@
 				<h3 class="col-md-12 text-center">{{ $encuesta->asunto }}</h3>
 				<!-- <h3 class="col-md-12 text-center">Algo super extra extremadamente largoooooooooooo</h3> -->
 				<div class="panel-body">
+					@if(Session::has('message'))
+                        <div class="alert alert-success success-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <!-- <i class="glyphicon glyphicon-success"></i> -->
+                            {{ Session::get('message') }}
+                            <!-- {{ Session::forget('message') }} -->
+                        </div>
+                    @endif
 					<table class="table table-user-information">
 						<thead>
 							<tr>
@@ -39,7 +47,8 @@
 								@foreach ($preguntas as $key => $pregunta)
 								<div class="form-group col-md-12">
 	                                <div class=" hidden-xs form-group">
-	                                    <label type="text" name="pregunta" form="pregunta">{{ $pregunta->numero }} - {{ $pregunta->enunciado }}</label>
+	                                    <label type="text" name="pregunta" form="pregunta">{{ $pregunta->numero }} -
+	                                     {{ $pregunta->enunciado }}</label>
 	                                </div>
 									
 			                    </div>		                            					

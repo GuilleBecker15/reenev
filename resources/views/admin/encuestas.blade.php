@@ -7,7 +7,14 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Encuestas</h1></div>
                 <div class="panel-body">
+
                 @include('admin.toolbar')
+                @if(Session::has('message'))
+                    <div class="alert alert-success success-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            {{ Session::get('message') }}
+                    </div>
+                @endif
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -32,6 +39,11 @@
                                         <!-- {{ Form::hidden('id', $encuesta->id) }} -->
                                         {{ Form::submit('Ver', ['class' => 'btn btn-xs btn-info']) }}
                                         {{Form::close()}}
+                                    </td>
+                                    <td>
+                                        {{ Form::open(['method' => 'POST', 'route' => ['Encuestas.destroy', $encuesta->id]]) }}
+                                        {{ method_field('DELETE') }}
+                                        {{ Form::submit('Borrar', ['class' => 'btn btn-xs btn-danger']) }}
                                     </td>
                                 </tr>
                             </tbody>

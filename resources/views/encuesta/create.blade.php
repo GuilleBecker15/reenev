@@ -11,6 +11,14 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Dar de alta una encuesta</h1></div>
                 <div class="panel-body">
+                    @if(Session::has('message'))
+                        <div class="alert alert-success success-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <!-- <i class="glyphicon glyphicon-success"></i> -->
+                            {{ Session::get('message') }}
+                            <!-- {{ Session::forget('message') }} -->
+                        </div>
+                    @endif
                         <form action="{{ route('Encuestas.store') }}" method="POST" class="form-horizontal" accept-charset="utf-8">
                          {{ csrf_field() }}
                             <div class="form-group{{ $errors->has('asunto') ? 'has-error' : '' }}">
@@ -35,19 +43,6 @@
                                     @endif
                                 </div>               
                             </div>
-                            <!-- <div class="form-group{{ $errors->has('inicio') ? 'has-error' : '' }}">
-                                <label>
-                                <input type="text" name="inicio" class="col-md-6 control-label" for="inicio" value="">Fecha inicio de la encuesta</label>  
-                                <div class="col-md-4">
-                                    <input class="form-control" id="inicio" type="fecha" name="inicio" value="" placeholder="" required>
-                                    @if ($errors->has('inicio'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('inicio') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>               
-                            </div> -->
-
                             <div class="form-group{{ $errors->has('vence') ? 'has-error' : '' }}">
                                 <label type="text" name="descripcion" class="col-md-7 control-label" for="descripcion" value="">Fecha limite para completar la encuesta</label>  
                                 <div class="col-md-3">

@@ -110,7 +110,7 @@ class UserController extends Controller
             $datos->generacion = $user->generacion;
             $datos->ci = $user->ci;
             $datos->email = $user->email;
-            session(['algo' => 'Yo_soy_Guille', 'datos' => $datos]);
+            session(['datos' => $datos]);
             return view('user.edit', compact('user'));
          }
         return view('user.edit', compact('user'));        

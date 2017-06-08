@@ -14,6 +14,8 @@ class Encuesta extends Model
 		'vence',
 	];
 
+    protected $dates = ['deleted_at'];
+    
     public function realizadas()
     {
         return $this->hasMany('App\Realizada');
@@ -23,5 +25,17 @@ class Encuesta extends Model
     {
         return $this->hasMany('App\Pregunta');
     }
+
+    // public static function boot ()
+    // {
+    //     parent::boot();
+
+    //     self::deleting(function (Preguntas $preguntas) {
+
+            
+    //             $preguntas->delete();
+            
+    //     });
+    // }
 
 }

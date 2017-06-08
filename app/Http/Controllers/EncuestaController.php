@@ -108,7 +108,7 @@ class EncuestaController extends Controller
 
         $encuesta = Encuesta::create($data)->id;
 
-        return $this->edit($encuesta);
+        return $this->show($encuesta);
     }
 
     /**
@@ -159,13 +159,13 @@ class EncuestaController extends Controller
         $encuesta = Encuesta::findOrFail($id);
         $encuesta->asunto = $request->get('asunto');
         $encuesta->descripcion = $request->get('descripcion');
-        //$encuesta->inicio = $request->get('inicio');
+        //$encuesta->inicio = $request->get('inicio'); 
         $encuesta->vence = $this->sqlDateFormat($request->get('vence'));
 
         $encuesta->save();
 
 
-        return view('encuesta.show', ['encuesta' => $encuesta]);
+        return $this->show($id);
         
     }
 
@@ -175,8 +175,19 @@ class EncuestaController extends Controller
      * @param  \App\Encuesta  $encuesta
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Encuesta $encuesta)
+    public function destroy(Request $request, $id)
     {
-        //
+        //$flight->history()->forceDelete();
+        // $encuesta = Encuesta::findOrFail($id);
+        // $pre = $encuesta->preguntas()->get();
+        // return view('encuesta.help',['pregunta'=>$pre]);
+        
+        $encuesta = Encuesta::findOrFail($id);
+        $encuesta->preguntas()->delete();
+        $encuesta->delete();
+        // parent::delete();
+        $request->session()->flash('message', 'Encuesta borrado exitosamente!');
+        return $this->index();
+
     }
 }

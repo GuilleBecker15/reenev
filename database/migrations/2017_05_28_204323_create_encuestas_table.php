@@ -24,6 +24,7 @@ class CreateEncuestasTable extends Migration
             $table->string('descripcion')->default("");
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
             $table->unique(['vence','asunto','descripcion']);
         });    
     }

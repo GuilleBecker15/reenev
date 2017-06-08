@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Encuesta;
+use App\Observer;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,6 +18,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app['request']->server->set('HTTPS', $this->app->environment() != 'local');
         Schema::defaultStringLength(191);
+
+        // Encuesta::observe(EncuestaObserver::class);
     }
 
     /**
