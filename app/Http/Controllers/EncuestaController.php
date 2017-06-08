@@ -7,6 +7,7 @@ use App\Http\Traits\Utilidades;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 class EncuestaController extends Controller
 {
@@ -46,28 +47,48 @@ class EncuestaController extends Controller
         
         $query = $request->get('q');
 
-        $encuestas1 = collect([]);
-        $encuestas2 = collect([]);
-        $encuestas3 = collect([]);
+        // $encuestas1 = collect([]);
+        // $encuestas2 = collect([]);
+        // $encuestas3 = collect([]);
 
-        if (is_numeric($query)) $encuestas1 = Encuesta::where('id', $query)->get();
+        // if (is_numeric($query)) $encuestas1 = Encuesta::where('id', $query)->get();
         
-        if ($this->es_fecha($query)) {
+        // if ($this->es_fecha($query)) {
 
-            $encuestas2 = Encuesta::where('inicio', $query)->get();
-            $encuestas3 = Encuesta::where('vence', $query)->get();
+        //     $encuestas2 = Encuesta::where('inicio', $query)->get();
+        //     $encuestas3 = Encuesta::where('vence', $query)->get();
+
+        // }
+
+        // $encuestas4 = Encuesta::where('asunto', 'like','%'.$query.'%')->get();
+        // $encuestas5 = Encuesta::where('descripcion', 'like','%'.$query.'%')->get();
+
+        // $encuestas =
+        // $encuestas5->merge(
+        //     $encuestas4->merge(
+        //         $encuestas3->merge(
+        //             $encuestas2->merge(
+        //                 $encuestas1))));
+
+        $encuestas = collect([]);
+
+        if (is_numeric($query)) {
+
+            $encuestas = Encuesta::where('id', $query)->get();
+        
+        } else if ($this->es_fecha($query)) {
+
+            $encuestas = Encuesta::where('inicio', $query)
+            ->orWhere('vence', $query)->get();
+
+        } else {
+
+            $encuestas = Encuesta::where('asunto', 'like', '%'.$query.'%')
+            ->orWhere('descripcion', 'like', '%'.$query.'%')->get();
 
         }
 
-        $encuestas4 = Encuesta::where('asunto', 'like','%'.$query.'%')->get();
-        $encuestas5 = Encuesta::where('descripcion', 'like','%'.$query.'%')->get();
-
-        $encuestas =
-        $encuestas5->merge(
-            $encuestas4->merge(
-                $encuestas3->merge(
-                    $encuestas2->merge(
-                        $encuestas1))));
+        // dd(DB::getQueryLog());
 
         $title = "ID, Fecha inicial, Fecha limite, Asunto o Descripcion"; //Para el tooltrip
 

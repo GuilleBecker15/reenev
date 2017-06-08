@@ -55,31 +55,53 @@ class UserController extends Controller
 
         $query = $request->get('q');
 
-        $users1 = collect([]);
-        $users6 = collect([]);
+        // $users1 = collect([]);
+        // $users6 = collect([]);
 
-        if (is_numeric($query)) $users1 = User::where('id', $query)->get();
+        // if (is_numeric($query)) $users1 = User::where('id', $query)->get();
         
-        if ($this->es_fecha($query)) $users6 = User::where('nacimiento', $query)->get();
+        // if ($this->es_fecha($query)) $users6 = User::where('nacimiento', $query)->get();
         
-        $users2 = User::where('name1', 'like', '%'.$query.'%')->get();
-        $users3 = User::where('name2', 'like', '%'.$query.'%')->get();
-        $users4 = User::where('apellido1', 'like', '%'.$query.'%')->get();
-        $users5 = User::where('apellido2', 'like', '%'.$query.'%')->get();
-        $users7 = User::where('generacion', $query)->get();
-        $users8 = User::where('ci', 'like', '%'.$query.'%')->get();
-        $users9 = User::where('email', 'like', '%'.$query.'%')->get();
+        // $users2 = User::where('name1', 'like', '%'.$query.'%')->get();
+        // $users3 = User::where('name2', 'like', '%'.$query.'%')->get();
+        // $users4 = User::where('apellido1', 'like', '%'.$query.'%')->get();
+        // $users5 = User::where('apellido2', 'like', '%'.$query.'%')->get();
+        // $users7 = User::where('generacion', $query)->get();
+        // $users8 = User::where('ci', 'like', '%'.$query.'%')->get();
+        // $users9 = User::where('email', 'like', '%'.$query.'%')->get();
 
-        $users =
-        $users9->merge(
-            $users8->merge(
-                $users7->merge(
-                    $users6->merge(
-                        $users5->merge(
-                            $users4->merge(
-                                $users3->merge(
-                                    $users2->merge(
-                                        $users1))))))));
+        // $users =
+        // $users9->merge(
+        //     $users8->merge(
+        //         $users7->merge(
+        //             $users6->merge(
+        //                 $users5->merge(
+        //                     $users4->merge(
+        //                         $users3->merge(
+        //                             $users2->merge(
+        //                                 $users1))))))));
+
+        $users = collect([]);
+
+        if (is_numeric($query)) {
+
+            $users = User::where('id', $query)
+            ->orWhere('generacion', $query)->get();
+
+        } else if ($this->es_fecha($query)) {
+
+            $users = User::where('nacimiento', $query)->get();
+
+        } else {
+
+            $users = User::where('name1', 'like', '%'.$query.'%')
+            ->orWhere('name2', 'like', '%'.$query.'%')
+            ->orWhere('apellido1', 'like', '%'.$query.'%')
+            ->orWhere('apellido2', 'like', '%'.$query.'%')
+            ->orWhere('ci', 'like', '%'.$query.'%')
+            ->orWhere('email', 'like', '%'.$query.'%')->get();
+
+        }
 
         $title = "ID, Nombres, Apellidos, Fecha de nacimiento, Generacion, C.I. o eMail"; //Para el tooltrip
 

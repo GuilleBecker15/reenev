@@ -47,21 +47,34 @@ class DocenteController extends Controller
      
         $query = $request->get('q');
 
-        $docentes1 = collect([]);
+        // $docentes1 = collect([]);
 
-        if (is_numeric($query)) $docentes1 = Docente::where('id', $query)->get();
+        // if (is_numeric($query)) $docentes1 = Docente::where('id', $query)->get();
         
-        $docentes2 = Docente::where('email', 'like','%'.$query.'%')->get();
-        $docentes3 = Docente::where('ci', 'like','%'.$query.'%')->get();
-        $docentes4 = Docente::where('nombre', 'like','%'.$query.'%')->get();
-        $docentes5 = Docente::where('apellido', 'like','%'.$query.'%')->get();
+        // $docentes2 = Docente::where('email', 'like','%'.$query.'%')->get();
+        // $docentes3 = Docente::where('ci', 'like','%'.$query.'%')->get();
+        // $docentes4 = Docente::where('nombre', 'like','%'.$query.'%')->get();
+        // $docentes5 = Docente::where('apellido', 'like','%'.$query.'%')->get();
 
-        $docentes =
-        $docentes5->merge(
-            $docentes4->merge(
-                $docentes3->merge(
-                    $docentes2->merge(
-                        $docentes1))));
+        // $docentes =
+        // $docentes5->merge(
+        //     $docentes4->merge(
+        //         $docentes3->merge(
+        //             $docentes2->merge(
+        //                 $docentes1))));
+
+        if (is_numeric($query)) {
+
+            $docentes = Docente::where('id', $query)->get();
+
+        } else {
+
+            $docentes = Docente::where('email', 'like', '%'.$query.'%')
+            ->orWhere('ci', 'like', '%'.$query.'%')
+            ->orWhere('nombre', 'like', '%'.$query.'%')
+            ->orWhere('apellido', 'like', '%'.$query.'%')->get();
+
+        }
 
         $title = "ID, eMail, C.I., Nombre o Apellido"; //Para el tooltrip
 

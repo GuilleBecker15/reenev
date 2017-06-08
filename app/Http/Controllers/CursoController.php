@@ -49,24 +49,38 @@ class CursoController extends Controller
         
         $query = $request->get('q');
 
-        $cursos1 = collect([]);
-        $cursos3 = collect([]);
+        // $cursos1 = collect([]);
+        // $cursos3 = collect([]);
+
+        // if (is_numeric($query)) {
+
+        //     $cursos1 = Curso::where('id', $query)->get();
+        //     $cursos3 = Curso::where('semestre', $query)->get();
+
+        // }
+        
+        // $cursos2 = Curso::where('nombre', 'like','%'.$query.'%')->get();
+        // $cursos4 = Curso::where('abreviatura', 'like','%'.$query.'%')->get();
+
+        // $cursos =
+        // $cursos4->merge(
+        //     $cursos3->merge(
+        //         $cursos2->merge(
+        //             $cursos1)));
+
+        $cursos = collect([]);
 
         if (is_numeric($query)) {
 
-            $cursos1 = Curso::where('id', $query)->get();
-            $cursos3 = Curso::where('semestre', $query)->get();
+            $cursos = Curso::where('id', $query)
+            ->orWhere('semestre', $query)->get();
+
+        } else {
+
+            $cursos = Curso::where('nombre', 'like', '%'.$query.'%')
+            ->orWhere('abreviatura', 'like', '%'.$query.'%')->get();
 
         }
-        
-        $cursos2 = Curso::where('nombre', 'like','%'.$query.'%')->get();
-        $cursos4 = Curso::where('abreviatura', 'like','%'.$query.'%')->get();
-
-        $cursos =
-        $cursos4->merge(
-            $cursos3->merge(
-                $cursos2->merge(
-                    $cursos1)));
 
         $title = "ID, Nombre, Semestre o Abreviatura"; //Para el tooltrip
 
