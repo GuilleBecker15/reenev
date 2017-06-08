@@ -50,7 +50,7 @@ class PreguntaController extends Controller
 
         $validator = Validator::make($request->all(),[
             'enunciado' => 'required|string|max:255',
-            // 'enunciado' => Rule::unique('preguntas'),
+            // 'enunciado' => Rule::unique('preguntas'), //esto me causa error, si la pregunta ya existe me da error status 1 o algo asi
  
           ]);
 
@@ -71,7 +71,7 @@ class PreguntaController extends Controller
         $pregunta->numero = $num + 1;
         $pregunta->enunciado = $request->get('enunciado');
         $pregunta->save();
-        $request->session()->flash('message', 'Pregunta guardada con exito!');
+        $request->session()->flash('message', 'Pregunta guardada exitosamente!');
 
         // return view('Pregunta.create', ['encuesta'=>$encuesta, 'preguntas'=>$preguntas]);
         return $this->create($encuesta->id);
@@ -115,7 +115,7 @@ class PreguntaController extends Controller
         $idEncuesta = $pregunta->encuesta()->get()[0]->id;
         $pregunta->enunciado = $request->get('enunciado');
         $pregunta->save();
-        $request->session()->flash('message', 'Pregunta actualizado con exito!');
+        $request->session()->flash('message', 'Pregunta actualizada exitosmente!');
 
         return $this->create($idEncuesta);
 
@@ -136,7 +136,7 @@ class PreguntaController extends Controller
 
         //$table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 
-        $request->session()->flash('error', 'Pregunta borrada con exito!');
+        $request->session()->flash('error', 'Pregunta borrada exitosamente');
         return $this->create($idEncuesta);
     }
 }

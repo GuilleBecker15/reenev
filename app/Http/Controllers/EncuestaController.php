@@ -142,6 +142,7 @@ class EncuestaController extends Controller
         //return view('encuesta.edit', compact($encuesta));
         $encuesta = Encuesta::findOrFail($id);
         $encuesta->vence = $this->uyDateFormat($encuesta->vence);
+
         // return View::make('encuesta.edit', ['id'=>$encuesta->id])->with('encuesta', $encuesta);        
         return view('encuesta.edit', ['id'=>$encuesta->id])->with('encuesta', $encuesta);        
     }
@@ -164,7 +165,7 @@ class EncuestaController extends Controller
 
         $encuesta->save();
 
-
+        $request->session()->flash('message','Encuesta actualizada exitosamente');
         return $this->show($id);
         
     }
@@ -186,7 +187,7 @@ class EncuestaController extends Controller
         $encuesta->preguntas()->delete();
         $encuesta->delete();
         // parent::delete();
-        $request->session()->flash('message', 'Encuesta borrado exitosamente!');
+        $request->session()->flash('message', 'Encuesta borrada exitosamente!');
         return $this->index();
 
     }

@@ -21,9 +21,7 @@
 					@if(Session::has('message'))
                         <div class="alert alert-success success-dismissable">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            <!-- <i class="glyphicon glyphicon-success"></i> -->
                             {{ Session::get('message') }}
-                            <!-- {{ Session::forget('message') }} -->
                         </div>
                     @endif
 					<table class="table table-user-information">

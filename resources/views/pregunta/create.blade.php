@@ -21,7 +21,6 @@
 								<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
 								{{ Session::get('error') }}
 							</div>
-
 	                    @endif
 						<h3>Preguntas: </h3>
 						<!-- //////////////////////////////////////////////////////// -->
