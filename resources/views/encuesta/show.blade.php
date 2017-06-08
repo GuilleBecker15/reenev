@@ -68,6 +68,10 @@
 								</tr>
 							</tbody>
 						</table>
+					<div>
+						<a class="btn btn-info btn-xs" href="{{ url()->previous() }}">Volver</a>
+					</div>
+
 					</div>
 				</div>
 			</div>									

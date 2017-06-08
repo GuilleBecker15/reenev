@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/home', 'HomeController@index'); //Por si Laravel lo sigue usando internamente
+Route::get('/back', ['uses' => 'HomeController@back', 'as' => 'back']);
 
 Route::post('/Cursos/buscar', 'CursoController@buscar');
 Route::post('/Docentes/buscar', 'DocenteController@buscar');
