@@ -8,6 +8,7 @@ var patron_cedula = /\d{1}[.]\d{3}[.]\d{3}[-]\d{1}/g;
 var cadena_ids = "name1,name2,apellido1,apellido2,nacimiento,generacion,ci,email,modificar,cambiarPass,pass";
 
 var arreglo_ids = cadena_ids.split(',');
+let idPregunta = 0;
 
 /*FORMATEO DE CAMPOS DEL DOCUMENTO*/
 
@@ -118,6 +119,16 @@ $('document').ready( function() {
 		var nueva_consulta = procesarCampo(consulta);
 		$("#q").val(nueva_consulta);
 	});
+
+	// ---------------------------//
+	var id = document.getElementById('habilitar');
+	if(id!=null){
+		console.log("se puede habilitar");
+		$( ":checkbox" ).trigger( "click" );
+		console.log("paso");
+	}
+	// ---------------------------//
+
 
 });
 
@@ -369,3 +380,19 @@ function vaildarEmail(evt){
 }*/
 
 //---------------------------------------------------//
+
+jQuery("#agregarPregunta").click(function(){
+	console.log("entro a la funcion");
+
+    var newQuestion = '<div id=remove'+idPregunta+' class="form-group text-center"><div class="col-md-11"><label type="text" name="pregunta" form="pregunta">Ingrese una pregunta para la encuesta</label></div><span id=close'+idPregunta+' class="col-md-1" onclick="removerPregunta()">x</span></div><div class="form-group"><div class="col-md-12"><input type="text" class="form-control" id=descPregunta'+idPregunta+' placeholder="¿Que pregunta desea formular?"></div></div>';
+    jQuery("#agregarUno").append(newQuestion); 
+    console.log("Deberia agregar algo");
+    console.log(newQuestion);
+    idPregunta ++;   
+});
+
+function removerPregunta(){
+	$('#remove'+idPregunta+'').remove();
+
+	// this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); return false;
+}

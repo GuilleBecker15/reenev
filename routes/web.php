@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/home', 'HomeController@index'); //Por si Laravel lo sigue usando internamente
+Route::get('/back', ['uses' => 'HomeController@back', 'as' => 'back']);
 
 Route::post('/Cursos/buscar', 'CursoController@buscar');
 Route::post('/Docentes/buscar', 'DocenteController@buscar');
@@ -36,6 +37,7 @@ Route::resource('Docentes', 'DocenteController');
 Route::resource('Encuestas', 'EncuestaController');
 Route::resource('Realizadas', 'RealizadaController');
 Route::resource('Users', 'UserController');
+Route::resource('Encuestas.Preguntas','PreguntaController');
 
 // Route::get('cambiar' ,['as'=> 'cambiar', 'uses' => 'HomeController@cambiar'] );
 /*Route::get('cambiar/{user}' ,['as' => 'cambiar', function(){

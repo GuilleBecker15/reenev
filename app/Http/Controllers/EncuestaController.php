@@ -8,6 +8,9 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
+use Carbon\Carbon;
+use App\Pregunta;
 
 class EncuestaController extends Controller
 {
@@ -119,7 +122,26 @@ class EncuestaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $inicio = Carbon::now()->toDateString();  // 1975-12-25
+        $vence = $this->sqlDateFormat($request->get('vence'));
+
+        /*$encuesta = Encuesta::newModelInstance();
+        $encuesta->asunto = $request->get('asunto');
+        $encuesta->descripcion = $request->get('descripcion');
+        $encuesta->vence = $vence;
+        $encuesta->inicio = $inicio;
+        $encuesta->save();*/
+
+        $data = [
+            'asunto'=>$request->get('asunto'),
+            'descripcion'=>$request->get('descripcion'),
+            'inicio'=>$inicio,
+            'vence'=>$vence,
+        ];
+
+        $encuesta = Encuesta::create($data)->id;
+
+        return $this->show($encuesta);
     }
 
     /**
@@ -128,9 +150,18 @@ class EncuestaController extends Controller
      * @param  \App\Encuesta  $encuesta
      * @return \Illuminate\Http\Response
      */
-    public function show(Encuesta $encuesta)
-    {
-        //
+    public function show($id){
+        $encuesta = Encuesta::findOrFail($id);
+        // $pregunta = $encuesta->preguntas();
+        // $preguntas = Pregunta::with(['encuesta' => function($query){
+        //         $query->where('encuesta_id');
+        //     }])->get();
+        // $preguntas = Pregunta::with('encuesta')->find($id);
+        $preguntas = Pregunta::where('encuesta_id',$id)->get();
+        $cant = $preguntas->count();
+        $encuesta->vence = $this->uyDateFormat($encuesta->vence);
+        $encuesta->inicio = $this->uyDateFormat($encuesta->inicio);
+        return view('encuesta.show', ['encuesta' => $encuesta,'preguntas'=>$preguntas,'cant'=>$cant]);
     }
 
     /**
@@ -139,9 +170,13 @@ class EncuestaController extends Controller
      * @param  \App\Encuesta  $encuesta
      * @return \Illuminate\Http\Response
      */
-    public function edit(Encuesta $encuesta)
+    public function edit($id)
     {
-        //
+        //return view('encuesta.edit', compact($encuesta));
+        $encuesta = Encuesta::findOrFail($id);
+        $encuesta->vence = $this->uyDateFormat($encuesta->vence);
+        // return View::make('encuesta.edit', ['id'=>$encuesta->id])->with('encuesta', $encuesta);        
+        return view('encuesta.edit', ['id'=>$encuesta->id])->with('encuesta', $encuesta);        
     }
 
     /**
@@ -151,9 +186,20 @@ class EncuestaController extends Controller
      * @param  \App\Encuesta  $encuesta
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Encuesta $encuesta)
+    public function update(Request $request, $id)
     {
-        //
+        
+        $encuesta = Encuesta::findOrFail($id);
+        $encuesta->asunto = $request->get('asunto');
+        $encuesta->descripcion = $request->get('descripcion');
+        //$encuesta->inicio = $request->get('inicio'); 
+        $encuesta->vence = $this->sqlDateFormat($request->get('vence'));
+
+        $encuesta->save();
+
+
+        return $this->show($id);
+        
     }
 
     /**
@@ -162,8 +208,19 @@ class EncuestaController extends Controller
      * @param  \App\Encuesta  $encuesta
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Encuesta $encuesta)
+    public function destroy(Request $request, $id)
     {
-        //
+        //$flight->history()->forceDelete();
+        // $encuesta = Encuesta::findOrFail($id);
+        // $pre = $encuesta->preguntas()->get();
+        // return view('encuesta.help',['pregunta'=>$pre]);
+        
+        $encuesta = Encuesta::findOrFail($id);
+        $encuesta->preguntas()->delete();
+        $encuesta->delete();
+        // parent::delete();
+        $request->session()->flash('message', 'Encuesta borrado exitosamente!');
+        return $this->index();
+
     }
 }

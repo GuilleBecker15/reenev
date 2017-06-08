@@ -17,6 +17,12 @@ class Pregunta extends Model
      */
     protected $dates = ['deleted_at'];
     
+    protected $fillable = [
+		'enunciado',
+		'numero',
+		'encuesta_id'
+	];
+
     public function respuestas()
     {
         return $this->hasMany('App\Respuesta');

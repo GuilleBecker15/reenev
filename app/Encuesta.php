@@ -19,6 +19,13 @@ class Encuesta extends Model
      */
     protected $dates = ['deleted_at'];
 
+	protected $fillable = [
+		'asunto',
+		'descripcion',
+		'inicio',
+		'vence',
+	];
+  
     public function realizadas()
     {
         return $this->hasMany('App\Realizada');
@@ -29,9 +36,23 @@ class Encuesta extends Model
         return $this->hasMany('App\Pregunta');
     }
 
+
+    // public static function boot ()
+    // {
+    //     parent::boot();
+
+    //     self::deleting(function (Preguntas $preguntas) {
+
+            
+    //             $preguntas->delete();
+            
+    //     });
+    // }
+
     public function uyInicioVence($inicio_vence)
     {
         return $this->uyDateFormat($inicio_vence);
     }
+
 
 }

@@ -46,6 +46,27 @@
 
                    			 <input name="_method" type="hidden" value="PUT">
                         	{{ csrf_field() }}
+								<div class="form-group{{ $errors->has('pass') ? ' has-error' : '' }}">
+										<label for="pass" class="col-md-4 control-label">Contraseña actual</label>
+									<div class="col-md-6">
+										<input id="pass" type="password" name="pass" value="" class="form-control" placeholder="******" required>										
+									</div>
+									<div class="col-md-offset-4 col-md-6">
+										@if ($errors->has('pass'))
+	                                    <span class="help-block">
+	                                        <strong>{{ $errors->first('pass') }}</strong>
+	                                    </span>
+	                                	@endif
+	                                </div>
+<!-- 									<div class="col-md-offset-4 col-md-6">
+										@if ($errors->has('incorrecta'))
+	                                    <span class="help-block">
+	                                        <strong>{{ $errors->first('incorrecta') }}</strong>
+	                                    </span>
+	                                	@endif                                		
+                                	</div> -->
+								</div>
+								<hr>
 								<div class="form-group{{ $errors->has('pass1') ? ' has-error' : '' }}">
 										<label for="pass1" class="col-md-4 control-label">Contraseña nueva</label>
 									<div class="col-md-6">
@@ -75,26 +96,6 @@
 	                                </div>
 								</div>
 
-								<div class="form-group{{ $errors->has('pass') ? ' has-error' : '' }}">
-										<label for="pass" class="col-md-4 control-label">Contraseña actual</label>
-									<div class="col-md-6">
-										<input id="pass" type="password" name="pass" value="" class="form-control" placeholder="******" required>										
-									</div>
-									<div class="col-md-offset-4 col-md-6">
-										@if ($errors->has('pass'))
-	                                    <span class="help-block">
-	                                        <strong>{{ $errors->first('pass') }}</strong>
-	                                    </span>
-	                                	@endif
-	                                </div>
-<!-- 									<div class="col-md-offset-4 col-md-6">
-										@if ($errors->has('incorrecta'))
-	                                    <span class="help-block">
-	                                        <strong>{{ $errors->first('incorrecta') }}</strong>
-	                                    </span>
-	                                	@endif                                		
-                                	</div> -->
-								</div>
 
 							    <div class="form-group">
 		                            <div class="col-md-6 col-md-offset-4 ">
