@@ -29,6 +29,8 @@ class CursoController extends Controller
         $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
         
         $cursos = Curso::all();
+
+        $h1 = "Cursos en el sistema";
         
         $title = "ID, Nombre, Semestre o Abreviatura"; //Para el tooltrip
 
@@ -36,7 +38,7 @@ class CursoController extends Controller
 
         return view(
             'admin.cursos',
-            ['cursos' => $cursos, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['cursos' => $cursos, 'route' => $route, 'title' => $title, 'c' => $c, 'h1' => $h1]);
     
     }
 
@@ -48,6 +50,8 @@ class CursoController extends Controller
         $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
         
         $query = $request->get('q');
+
+        if (!$query) return $this->index();
 
         // $cursos1 = collect([]);
         // $cursos3 = collect([]);
@@ -82,13 +86,17 @@ class CursoController extends Controller
 
         }
 
+        $h1 = "Se encontraron ".$cursos->count()." cursos";
+
+        if ($cursos->count()==0) $h1 = "No se encontraron cursos";
+
         $title = "ID, Nombre, Semestre o Abreviatura"; //Para el tooltrip
 
         $c = $request->consulta;
 
         return view(
             'admin.cursos',
-            ['cursos' => $cursos, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['cursos' => $cursos, 'route' => $route, 'title' => $title, 'c' => $c, 'h1' => $h1]);
 
     }
 

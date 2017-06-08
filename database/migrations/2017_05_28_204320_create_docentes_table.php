@@ -22,6 +22,7 @@ class CreateDocentesTable extends Migration
             $table->string('apellido')->default("");
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

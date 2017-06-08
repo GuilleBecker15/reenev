@@ -22,6 +22,7 @@ class CreateEncuestasTable extends Migration
             $table->string('descripcion');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });    
     }
 

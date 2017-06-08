@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->boolean('estaBorrado')->default(false);
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

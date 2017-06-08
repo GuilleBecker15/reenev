@@ -3,7 +3,7 @@
         <form method="POST" action="{{ url($route) }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div data-toggle="tooltip" class="input-group">
-                <input title="Puedes escribir un {{ $title }}" autofocus required name="consulta" id="consulta" type="text" class="form-control" placeholder="Cualquier dato" value="{{ $c }}">
+                <input title="Puedes escribir un {{ $title }}" autofocus name="consulta" id="consulta" type="text" class="form-control" placeholder="Cualquier dato" value="{{ $c }}">
                 <input type="hidden" name="q" id="q" class="form-control">
                 <span class="input-group-btn">
                     <button id="btn-buscar" type="submit" class="btn btn-default">

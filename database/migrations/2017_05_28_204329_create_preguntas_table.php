@@ -20,6 +20,7 @@ class CreatePreguntasTable extends Migration
             $table->integer('numero');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

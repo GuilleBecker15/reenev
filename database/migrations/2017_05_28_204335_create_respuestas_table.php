@@ -19,6 +19,7 @@ class CreateRespuestasTable extends Migration
             $table->integer('calificacion');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
