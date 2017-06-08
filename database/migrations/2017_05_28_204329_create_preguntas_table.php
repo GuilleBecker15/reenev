@@ -16,11 +16,13 @@ class CreatePreguntasTable extends Migration
         $this->down();
         Schema::create('preguntas', function (Blueprint $table) {
             $table->increments('id');
+
             $table->string('enunciado')->unique();
             $table->integer('numero');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+
         });
     }
 

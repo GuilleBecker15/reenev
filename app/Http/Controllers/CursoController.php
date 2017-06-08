@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Curso;
+use App\Docente;
 use App\Http\Traits\Utilidades;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\Rule;
+use Validator;
 
 class CursoController extends Controller
 {
@@ -43,11 +46,21 @@ class CursoController extends Controller
         $this->authorize('es_admin', User::class);
 
         $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
+        
+        $query = $request->get('q');
 
-        $cursos1 = Curso::where('id', 'like','%'.$request->get('q').'%')->get();
-        $cursos2 = Curso::where('nombre', 'like','%'.$request->get('q').'%')->get();
-        $cursos3 = Curso::where('semestre', 'like','%'.$request->get('q').'%')->get();
-        $cursos4 = Curso::where('abreviatura', 'like','%'.$request->get('q').'%')->get();
+        $cursos1 = collect([]);
+        $cursos3 = collect([]);
+
+        if (is_numeric($query)) {
+
+            $cursos1 = Curso::where('id', $query)->get();
+            $cursos3 = Curso::where('semestre', $query)->get();
+
+        }
+        
+        $cursos2 = Curso::where('nombre', 'like','%'.$query.'%')->get();
+        $cursos4 = Curso::where('abreviatura', 'like','%'.$query.'%')->get();
 
         $cursos =
         $cursos4->merge(
@@ -65,6 +78,17 @@ class CursoController extends Controller
 
     }
 
+    public function docente($id) {
+        $this->authorize('es_admin', User::class);
+        $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
+        $cursos = Curso::all()->where('docente_id', $id);
+        $title = "ID, Nombre, Semestre o Abreviatura"; //Para el tooltrip
+        $c = "";
+        return view(
+            'admin.cursos',
+            ['cursos' => $cursos, 'route' => $route, 'title' => $title, 'c' => $c]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -72,7 +96,9 @@ class CursoController extends Controller
      */
     public function create()
     {
-        return view('curso.create');
+        $this->authorize('es_admin', User::class);
+        $docentes = Docente::all();
+        return view('curso.create', compact('docentes'));
     }
 
     /**
@@ -83,7 +109,44 @@ class CursoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $this->authorize('es_admin', User::class);
+
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|string|max:255|unique:cursos',
+            'abreviatura' => 'required|string|max:25|unique:cursos',
+            'semestre' => 'required|integer|min:1|max:6',
+        ]);
+
+        $curso = new Curso;
+
+        $docente_id = $request->get('docente_id');
+        $docente = Docente::find($docente_id);
+
+        if ($validator->fails())
+            return redirect('Cursos/create')->withErrors($validator)->withInput();
+
+        if (!$docente) {
+
+            $docente = Docente::create();
+            
+            $docente->email = 'N/A';
+            $docente->ci = 'N/A';
+            $docente->nombre = 'Docente';
+            $docente->apellido = 'Anonimo';
+            
+            $docente->save();
+
+        }
+        
+        $curso->docente()->associate($docente);
+        $curso->nombre = $request->get('nombre');
+        $curso->semestre = $request->get('semestre');
+        $curso->abreviatura = $request->get('abreviatura');
+        $curso->save();
+
+        return $this->index();
+
     }
 
     /**
@@ -97,27 +160,54 @@ class CursoController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Curso  $curso
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Curso $curso)
+    public function edit($id)
     {
-        //
+        $this->authorize('es_admin', User::class);
+        $curso = Curso::find($id);
+        $docente = $curso->docente;
+        $docentes = Docente::all()->whereNotIn('id', [$docente->id]);
+        return view('curso.edit', compact('curso','docente','docentes'));     
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Curso  $curso
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Curso $curso)
+    public function update(Request $request, $id)
     {
-        //
+
+        $this->authorize('es_admin', User::class);
+
+        $curso = Curso::find($id);
+
+        $validator = Validator::make($request->all(),
+            [
+            'semestre' => 'required|integer|min:1|max:6',
+            'nombre' => ['required', 'string', 'max:255',
+            Rule::unique('cursos')->ignore($curso->id)],
+            'abreviatura' => ['required', 'string', 'max:25',
+            Rule::unique('cursos')->ignore($curso->id)],
+            ]);
+
+        $docente_id = $request->get('docente_id');
+        $docente = Docente::find($docente_id);
+
+        $curso->docente()->associate($docente);
+        $curso->semestre = $request->get('semestre');
+        $curso->nombre = $request->get('nombre');
+        $curso->abreviatura = $request->get('abreviatura');
+
+        if ($validator->fails()) {
+
+            $request->session()->flash('message', 'Ocurrieron errores al actualizar');
+            $docentes = Docente::all()->whereNotIn('id', [$docente->id]);
+            return view('curso.edit',
+                compact('curso','docente','docentes'))->withErrors($validator);
+
+        }
+
+        $curso->save();
+
+        $request->session()->flash('message', '¡Curso actualizado con exito!');
+
+        return $this->edit($curso->id);
+
     }
 
     /**

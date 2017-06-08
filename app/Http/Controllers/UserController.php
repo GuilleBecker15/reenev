@@ -54,16 +54,23 @@ class UserController extends Controller
         $this->authorize('es_admin', User::class);
         
         $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
+
+        $query = $request->get('q');
+
+        $users1 = collect([]);
+        $users6 = collect([]);
+
+        if (is_numeric($query)) $users1 = User::where('id', $query)->get();
         
-        $users1 = User::where('id', 'like','%'.$request->get('q').'%')->get();
-        $users2 = User::where('name1', 'like','%'.$request->get('q').'%')->get();
-        $users3 = User::where('name2', 'like','%'.$request->get('q').'%')->get();
-        $users4 = User::where('apellido1', 'like','%'.$request->get('q').'%')->get();
-        $users5 = User::where('apellido2', 'like','%'.$request->get('q').'%')->get();
-        $users6 = User::where('nacimiento', 'like','%'.$request->get('q').'%')->get();
-        $users7 = User::where('generacion', 'like','%'.$request->get('q').'%')->get();
-        $users8 = User::where('ci', 'like','%'.$request->get('q').'%')->get();
-        $users9 = User::where('email', 'like','%'.$request->get('q').'%')->get();
+        if ($this->es_fecha($query)) $users6 = User::where('nacimiento', $query)->get();
+        
+        $users2 = User::where('name1', 'like', '%'.$query.'%')->get();
+        $users3 = User::where('name2', 'like', '%'.$query.'%')->get();
+        $users4 = User::where('apellido1', 'like', '%'.$query.'%')->get();
+        $users5 = User::where('apellido2', 'like', '%'.$query.'%')->get();
+        $users7 = User::where('generacion', $query)->get();
+        $users8 = User::where('ci', 'like', '%'.$query.'%')->get();
+        $users9 = User::where('email', 'like', '%'.$query.'%')->get();
 
         $users =
         $users9->merge(
@@ -88,14 +95,14 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         $this->authorize('es_admin_o_es_el', $user);
         return view('user.show', ['user' => $user]);
     }
 
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         $this->authorize('es_admin_o_es_el', $user);
         //Session::set('algo','mi_nombre');
         session(['habilitar' => 'no']);
@@ -126,7 +133,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         
-        $user = User::findOrFail($id);
+        $user = User::find($id);
             
         $this->authorize('es_admin_o_es_el', $user);
 
@@ -189,7 +196,7 @@ class UserController extends Controller
 // =======
 //         if (Auth::user()->id==$id) {
 
-//             $user = User::findOrFail($id);
+//             $user = User::find($id);
 
 //             // if($user->password == bcrypt($request->get('confirmarPass'))){
 //             if(Hash::check($request->get('confirmarPass'), $user->password)){
@@ -220,7 +227,7 @@ class UserController extends Controller
 
     public function hacerAdmin($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         $this->authorize('es_admin_y_no_es_el', $user);
         $this->authorize('es_supervisor', $user);
         $user->supervisor=Auth::user()->id;
@@ -238,7 +245,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         // $this->authorize('es_admin', User::class);
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         $this->authorize('es_admin_y_no_es_el', $user);
         $this->authorize('es_supervisor', $user);
         $user->supervisor=Auth::user()->id;
@@ -248,12 +255,12 @@ class UserController extends Controller
     }
 
     public function redirectCambiarPass($user){
-        $users = User::findOrFail($user);
+        $users = User::find($user);
         return view('user.cambiarPass', ['user' => $users]);
     }
 
     public function updatePass(Request $request, $id){
-        $usuario = User::findOrFail($id);
+        $usuario = User::find($id);
         $password = $request->get('pass');
         if(Auth::user()->id == $id){
             $message = [
@@ -295,7 +302,7 @@ class UserController extends Controller
 
     public function updateByAjax(Request $request, $id){
         if($request->ajax()){
-            $user = User::findOrFail($id);
+            $user = User::find($id);
             if(Hash::check($request->get('confirmarPass'),$user->password)){
                 $nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
                 $user->name1=$request->get('name1');

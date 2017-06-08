@@ -19,6 +19,7 @@
                                     <th>C.I.</th>
                                     <th>Nombre</th>
                                     <th>Apellido</th>
+                                    <th>Cursos</th>
                                 </tr>
                             </thead>
                             @foreach ($docentes as $key => $docente)
@@ -29,6 +30,11 @@
                                     <td>{{ $docente->ci }}</td>
                                     <td>{{ $docente->nombre }}</td>
                                     <td>{{ $docente->apellido }}</td>
+                                    <td>
+                                        <a href="/Cursos/docente/{{ $docente->id }}">
+                                            {{ $docente->cursos()->count() }}
+                                        </a>
+                                    </td>
                                 </tr>
                             </tbody>
                             @endforeach

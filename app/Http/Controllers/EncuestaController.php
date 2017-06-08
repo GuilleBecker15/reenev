@@ -48,11 +48,23 @@ class EncuestaController extends Controller
         
         $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
         
-        $encuestas1 = Encuesta::where('id', 'like','%'.$request->get('q').'%')->get();
-        $encuestas2 = Encuesta::where('inicio', 'like','%'.$request->get('q').'%')->get();
-        $encuestas3 = Encuesta::where('vence', 'like','%'.$request->get('q').'%')->get();
-        $encuestas4 = Encuesta::where('asunto', 'like','%'.$request->get('q').'%')->get();
-        $encuestas5 = Encuesta::where('descripcion', 'like','%'.$request->get('q').'%')->get();
+        $query = $request->get('q');
+
+        $encuestas1 = collect([]);
+        $encuestas2 = collect([]);
+        $encuestas3 = collect([]);
+
+        if (is_numeric($query)) $encuestas1 = Encuesta::where('id', $query)->get();
+        
+        if ($this->es_fecha($query)) {
+
+            $encuestas2 = Encuesta::where('inicio', $query)->get();
+            $encuestas3 = Encuesta::where('vence', $query)->get();
+
+        }
+
+        $encuestas4 = Encuesta::where('asunto', 'like','%'.$query.'%')->get();
+        $encuestas5 = Encuesta::where('descripcion', 'like','%'.$query.'%')->get();
 
         $encuestas =
         $encuestas5->merge(
@@ -78,6 +90,7 @@ class EncuestaController extends Controller
      */
     public function create()
     {
+        $this->authorize('es_admin', User::class);
         return view('encuesta.create');
     }
 

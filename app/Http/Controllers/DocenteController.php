@@ -7,6 +7,7 @@ use App\Http\Traits\Utilidades;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Validator;
 
 class DocenteController extends Controller
 {
@@ -43,12 +44,17 @@ class DocenteController extends Controller
         $this->authorize('es_admin', User::class);
         
         $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
+     
+        $query = $request->get('q');
+
+        $docentes1 = collect([]);
+
+        if (is_numeric($query)) $docentes1 = Docente::where('id', $query)->get();
         
-        $docentes1 = Docente::where('id', 'like','%'.$request->get('q').'%')->get();
-        $docentes2 = Docente::where('email', 'like','%'.$request->get('q').'%')->get();
-        $docentes3 = Docente::where('ci', 'like','%'.$request->get('q').'%')->get();
-        $docentes4 = Docente::where('nombre', 'like','%'.$request->get('q').'%')->get();
-        $docentes5 = Docente::where('apellido', 'like','%'.$request->get('q').'%')->get();
+        $docentes2 = Docente::where('email', 'like','%'.$query.'%')->get();
+        $docentes3 = Docente::where('ci', 'like','%'.$query.'%')->get();
+        $docentes4 = Docente::where('nombre', 'like','%'.$query.'%')->get();
+        $docentes5 = Docente::where('apellido', 'like','%'.$query.'%')->get();
 
         $docentes =
         $docentes5->merge(
@@ -74,6 +80,7 @@ class DocenteController extends Controller
      */
     public function create()
     {
+        $this->authorize('es_admin', User::class);
         return view('docente.create');
     }
 
@@ -85,7 +92,35 @@ class DocenteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $this->authorize('es_admin', User::class);
+        
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|max:255|unique:users|unique:docentes',
+            'ci' => 'required|string|max:255|unique:users|unique:docentes',
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+
+            return redirect('Docentes/create')->withErrors($validator)->withInput();
+
+        } else {
+
+            $docente = Docente::create();
+
+            $docente->email=$request->get('email');
+            $docente->ci=$request->get('ci');
+            $docente->nombre=$request->get('nombre');
+            $docente->apellido=$request->get('apellido');
+
+            $docente->save();
+
+        }
+
+        return $this->index();
+
     }
 
     /**
