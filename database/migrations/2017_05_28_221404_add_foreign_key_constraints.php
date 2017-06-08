@@ -17,6 +17,12 @@ class AddForeignKeyConstraints extends Migration
             $table->integer('docente_id')->unsigned();
             $table->foreign('docente_id')->references('id')->on('docentes');
         });
+
+        Schema::table('preguntas', function (Blueprint $table) {
+            $table->integer('encuesta_id')->unsigned();
+            $table->foreign('encuesta_id')->references('id')->on('encuestas');
+        });
+
     }
 
     /**
@@ -30,5 +36,12 @@ class AddForeignKeyConstraints extends Migration
             $table->dropForeign('cursos_docente_id_foreign');
             $table->dropColumn('docente_id');
         });
+
+        Schema::table('preguntas', function (Blueprint $table) {
+            $table->dropForeign('preguntas_encuesta_id_foreign');
+            $table->dropColumn('encuesta_id');
+        });
+
+
     }
 }

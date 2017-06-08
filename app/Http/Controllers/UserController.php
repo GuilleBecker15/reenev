@@ -11,6 +11,8 @@ use Log;
 use Illuminate\Support\Facades\Hash;
 use Validator;
 use Illuminate\Validation\Rule;
+use Session;
+
 
 class UserController extends Controller
 {
@@ -102,6 +104,22 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $this->authorize('es_admin_o_es_el', $user);
+        //Session::set('algo','mi_nombre');
+        session(['habilitar' => 'no']);
+        if( session('datos') == null || session('actualizado') == 'ok'){
+            $datos = User::newModelInstance();
+            $datos->name1 = $user->name1;
+            $datos->name2 = $user->name1;
+            $datos->apellido1 = $user->apellido1;
+            $datos->apellido2 = $user->apellido2;
+            $nacimiento = $this->uyDateFormat($user->nacimiento);
+            $datos->nacimiento = $nacimiento;
+            $datos->generacion = $user->generacion;
+            $datos->ci = $user->ci;
+            $datos->email = $user->email;
+            session(['datos' => $datos]);
+            return view('user.edit', compact('user'));
+         }
         return view('user.edit', compact('user'));        
     }
 
@@ -151,11 +169,23 @@ class UserController extends Controller
                 $user->save();
                 
                 $request->session()->flash('message', 'Usuario actualizado con exito!');
-                return view('user.edit', ['user'=>$user ]);
+                session(['actualizado' => 'ok']);
+
+                return $this->edit($user->id);
 
             }
             else{
                 // $request->session()->flash('message', 'La contraseña actual es incorrecta');
+                $datos = User::newModelInstance();
+                $datos->name1 = $request->get('name1');
+                $datos->name2 = $request->get('name2');
+                $datos->apellido1 = $request->get('apellido1');
+                $datos->apellido2 = $request->get('apellido2');
+                $datos->nacimiento = $request->get('nacimiento');
+                $datos->generacion = $request->get('generacion');
+                $datos->ci = $request->get('ci');
+                $datos->email = $request->get('email');
+                session(['habilitar' => 'si', 'datos' => $datos]);
                 $validator->errors()->add('pass', 'La contraseña actual es incorrecta');
                 return view('user.edit', ['user'=>$user])->withErrors($validator,'pass');
             }
