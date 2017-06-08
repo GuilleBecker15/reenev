@@ -131,6 +131,8 @@ class PreguntaController extends Controller
         $idEncuesta = $pregunta->encuesta()->get()[0]->id;  
         $pregunta->delete();
 
+        //$table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+
         $request->session()->flash('error', 'Pregunta borrada con exito!');
         return $this->create($idEncuesta);
     }
