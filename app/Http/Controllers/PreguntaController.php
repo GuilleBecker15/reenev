@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Encuesta;
 use App\Pregunta;
 use Validator;
-
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -28,7 +28,7 @@ class PreguntaController extends Controller
      */
     public function create($id)
     {
-        //$this->authorize('es_admin', User::class);
+        $this->authorize('es_admin', User::class);
 
         $encuesta = Encuesta::findOrFail($id);
         // $preguntas = Pregunta::with('encuesta')->get();
@@ -50,11 +50,31 @@ class PreguntaController extends Controller
 
         $validator = Validator::make($request->all(),[
             'enunciado' => 'required|string|max:255',
-            // 'enunciado' => Rule::unique('preguntas'), //esto me causa error, si la pregunta ya existe me da error status 1 o algo asi
+            //'enunciado' => Rule::unique('preguntas'), //esto me causa error, si la pregunta ya existe me da error status 1 o algo asi
  
           ]);
 
-        if($validator->fails()){
+        // DB::table('users')
+        //     ->where('name', '=', 'John')
+        //     ->orWhere(function ($query) {
+        //         $query->where('votes', '>', 100)
+        //               ->where('title', '<>', 'Admin');
+        //     })
+        //     ->get();
+
+
+        // $existe = DB::table('preguntas')
+        //         ->where('encuesta_id', '=', $id)
+        //         ->where('enunciado', '=', $request->get('enunciado'))->get();
+        // if($existe){
+        //     $validator->errors()->add('Repetido', 'enunciado ya existe');            
+        // }
+
+
+
+
+
+        if($validator->fails() ){
             redirect('Pregunta.create',['id'=>$id])->whitErrors($validator,'enunciado');
         }
 
