@@ -46,7 +46,7 @@ class PreguntaController extends Controller
      */
     public function store(Request $request, $id)
     {
-        //$this->autorize('es_admin', User::class);
+        $this->autorize('es_admin', User::class);
 
         $validator = Validator::make($request->all(),[
             'enunciado' => 'required|string|max:255',
@@ -116,7 +116,7 @@ class PreguntaController extends Controller
      */
     public function edit($id_encuesta, $id_pregunta)
     {
-        //$this->authorize('es_admin', User::class);
+        $this->authorize('es_admin', User::class);
         $pregunta = Pregunta::findOrFail($id_pregunta);
         $encuesta = Encuesta::find($pregunta->encuesta()->get()[0]->id);
         return view('Pregunta.edit', ['encuesta'=>$encuesta,'pregunta'=>$pregunta]);
@@ -131,6 +131,8 @@ class PreguntaController extends Controller
      */
     public function update(Request $request, $idEncuesta, $idPreg)
     {
+        $this->authorize('es_admin', User::class);
+
         $pregunta = Pregunta::findOrFail($idPreg);
         $idEncuesta = $pregunta->encuesta()->get()[0]->id;
         $pregunta->enunciado = $request->get('enunciado');
@@ -149,7 +151,8 @@ class PreguntaController extends Controller
      */
     public function destroy(Request $request, $idEncuesta, $idPregunta)
     {
-        //$this->autorize('es_admin', User::class);
+        $this->autorize('es_admin', User::class);
+
         $pregunta = Pregunta::findOrFail($idPregunta);
         $idEncuesta = $pregunta->encuesta()->get()[0]->id;  
         $pregunta->delete();
