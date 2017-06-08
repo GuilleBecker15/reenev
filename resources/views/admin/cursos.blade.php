@@ -16,6 +16,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Nombre</th>
+                                    <th>Docente</th>
                                     <th>Semestre</th>
                                     <th>Abreviatura</th>
                                 </tr>
@@ -25,8 +26,18 @@
                                 <tr>
                                     <td>{{ $curso->id }}</td>
                                     <td>{{ $curso->nombre }}</td>
+                                    <td>
+                                    {{ $curso->docente->nombre }}
+                                    {{ $curso->docente->apellido }}
+                                    </td>
                                     <td>{{ $curso->semestre }}</td>
                                     <td>{{ $curso->abreviatura }}</td>
+                                    <td>
+                                        {{ Form::open(['method' => 'GET', 'route' => ['Cursos.edit', $curso->id]]) }}
+                                        {{ Form::hidden('id', $curso->id) }}
+                                        {{ Form::submit('Editar', ['class' => 'btn btn-xs btn-primary']) }}
+                                        {{Form::close()}}
+                                    </td>
                                 </tr>
                             </tbody>
                             @endforeach

@@ -9,6 +9,9 @@
                 <br>
                 <?php 
                     /*if (Session::has('error')  ) {
+
+                <!-- <?php 
+                    if (Session::has('error')  ) {
                         var_dump(Session::get('error'));
                     }
                     echo "<br>-------------------------<br>";                                   
@@ -69,7 +72,7 @@
                     <div class="form-group">
                         <label for="name1" class="col-md-4 control-label">Opciones</label>
                         <div class="col-md-6">
-                            <input id="verModificar" onChange="habilitar_o_no()" class="col-md-offset-4" type="checkbox" checked data-toggle="toggle" data-on="Ver campos" data-off="Editar campos" data-onstyle="info" data-offstyle="primary" data-style="slow">
+                            <input id="verModificar" onChange="habilitar_o_no()" class="col-md-offset-4" type="checkbox" checked data-toggle="toggle" data-on="Ver campos" data-off="Editar campos" data-onstyle="info" data-offstyle="primary" data-style="fast">
                         </div>
                     </div>
                     <div class="form-group{{ $errors->has('name1') ? ' has-error' : '' }}">
