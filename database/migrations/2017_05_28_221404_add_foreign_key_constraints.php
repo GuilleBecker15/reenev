@@ -78,7 +78,9 @@ class AddForeignKeyConstraints extends Migration
             $table->dropForeign('realizadas_encuesta_id_foreign');
             $table->dropColumn('encuesta_id');
             $table->dropForeign('realizadas_user_id_foreign');
-            $table->dropColumn('user_id');});
+            $table->dropColumn('user_id');
+            $table->dropForeign('realizadas_docente_id_foreign');
+            $table->dropColumn('docente_id');});
         }
 
         $has_pregunta_id = Schema::hasColumn('respuestas', 'pregunta_id');
@@ -91,13 +93,6 @@ class AddForeignKeyConstraints extends Migration
             $table->dropForeign('respuestas_realizada_id_foreign');
             $table->dropColumn('realizada_id');});
         }
-            $table->dropColumn('docente_id');
-        });
-
-        Schema::table('preguntas', function (Blueprint $table) {
-            $table->dropForeign('preguntas_encuesta_id_foreign');
-            $table->dropColumn('encuesta_id');
-        });
 
     }
 

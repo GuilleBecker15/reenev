@@ -34,7 +34,7 @@ class PreguntaController extends Controller
         $preguntas = Pregunta::where('encuesta_id',$id)->get();
 
         
-        return view('Pregunta.create',['encuesta'=>$encuesta, 'preguntas'=>$preguntas]);
+        return view('pregunta.create',['encuesta'=>$encuesta, 'preguntas'=>$preguntas]);
     }
 
     /**

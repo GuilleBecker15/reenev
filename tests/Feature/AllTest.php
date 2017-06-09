@@ -37,6 +37,7 @@ class AllTest extends TestCase
 			$realizada->curso_id = rand(1, $i);
 			$realizada->encuesta_id = rand(1, $i);
 			$realizada->user_id = rand(1, $i);
+			$realizada->docente_id = $docente->id;
 			$realizada->save();
 
 			$respuesta->pregunta_id = rand(1, $i);

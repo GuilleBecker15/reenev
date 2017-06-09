@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Traits\Utilidades;
 use App\Realizada;
+use App\Encuesta;
+use App\Docente;
+use App\Curso;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,7 +33,35 @@ class RealizadaController extends Controller
      */
     public function create()
     {
-        return view('realizada.create');
+        $encuestas = Encuesta::all();
+        $docentes = Docente::all();
+        $cursos = Curso::all();
+
+        return view('realizada.elegir',
+                ['encuestas' => $encuestas,
+                'docentes' => $docentes,
+                'cursos' => $cursos]);
+    }
+
+    public function continuar(Request $request)
+    {
+
+        if ($this->cursoNoValido($request)) {
+            $request->session()->flash('message', 'XXX no dicta el curso YYY');
+            return $this->create();
+        }
+
+        $encuesta = null;
+        $docente = null;
+        $curso = null;
+
+        return view('realizada.create', compact('encuesta', 'docente', 'curso'));
+    
+    }
+
+    public function cursoNoValido()
+    {
+        return false;
     }
 
     /**
