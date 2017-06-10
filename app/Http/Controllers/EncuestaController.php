@@ -30,6 +30,8 @@ class EncuestaController extends Controller
         $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
         
         $encuestas = Encuesta::all();
+
+        $h1 = "Encuestas en el sistema";
         
         $title = "ID, Fecha inicial, Fecha limite, Asunto o Descripcion"; //Para el tooltrip
 
@@ -37,7 +39,8 @@ class EncuestaController extends Controller
 
         return view(
             'admin.encuestas',
-            ['encuestas' => $encuestas, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['encuestas' => $encuestas, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
     
     }
 
@@ -49,6 +52,8 @@ class EncuestaController extends Controller
         $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
         
         $query = $request->get('q');
+
+        if (!$query) return $this->index();
 
         // $encuestas1 = collect([]);
         // $encuestas2 = collect([]);
@@ -93,13 +98,18 @@ class EncuestaController extends Controller
 
         // dd(DB::getQueryLog());
 
+        $h1 = "Se encontraron ".$encuestas->count()." encuestas";
+
+        if ($encuestas->count()==0) $h1 = "No se encontraron encuestas";
+
         $title = "ID, Fecha inicial, Fecha limite, Asunto o Descripcion"; //Para el tooltrip
 
         $c = $request->consulta;
 
         return view(
             'admin.encuestas',
-            ['encuestas' => $encuestas, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['encuestas' => $encuestas, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
     
     }
 

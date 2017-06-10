@@ -37,6 +37,8 @@ class UserController extends Controller
         $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
         
         $users = User::where('estaBorrado',$si_o_no)->get();
+
+        $h1 = "Usuarios en el sistema";
         
         $title = "ID, Nombres, Apellidos, Fecha de nacimiento, Generacion, C.I. o eMail"; //Para el tooltrip
 
@@ -44,7 +46,8 @@ class UserController extends Controller
 
         return view(
             'admin.users',
-            ['users' => $users, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['users' => $users, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
 
     }
 
@@ -56,6 +59,8 @@ class UserController extends Controller
         $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
 
         $query = $request->get('q');
+
+        if (!$query) return $this->index();
 
         // $users1 = collect([]);
         // $users6 = collect([]);
@@ -105,13 +110,18 @@ class UserController extends Controller
 
         }
 
+        $h1 = "Se encontraron ".$users->count()." usuarios";
+
+        if ($users->count()==0) $h1 = "No se encontraron usuarios";
+
         $title = "ID, Nombres, Apellidos, Fecha de nacimiento, Generacion, C.I. o eMail"; //Para el tooltrip
 
         $c = $request->consulta;
 
         return view(
             'admin.users',
-            ['users' => $users, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['users' => $users, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
     
     }
 
@@ -139,7 +149,7 @@ class UserController extends Controller
         if( session('datos') == null || session('actualizado') == 'ok'){
             $datos = User::newModelInstance();
             $datos->name1 = $user->name1;
-            $datos->name2 = $user->name1;
+            $datos->name2 = $user->name2;
             $datos->apellido1 = $user->apellido1;
             $datos->apellido2 = $user->apellido2;
             $nacimiento = $this->uyDateFormat($user->nacimiento);

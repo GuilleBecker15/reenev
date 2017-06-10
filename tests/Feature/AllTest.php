@@ -12,7 +12,7 @@ class AllTest extends TestCase
 
 	public function test() {
 
-		for ($i=1; $i<=100; $i++) {
+		for ($i=1; $i<=50; $i++) {
 		
 			$curso = factory(\App\Curso::class)->make();
 			$docente = factory(\App\Docente::class)->make();

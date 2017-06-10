@@ -56,7 +56,7 @@
                             <div class="col-md-6">
                                 <select id="curso_id" name="curso_id" type="text" class="form-control">
                                     @foreach ($cursos as $key => $c)
-                                    <option value="{{ $e->id }}">
+                                    <option value="{{ $c->id }}">
                                         {{ $c->id }} - {{ $c->nombre }}
                                     </option>
                                     @endforeach

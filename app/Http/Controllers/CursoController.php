@@ -38,7 +38,8 @@ class CursoController extends Controller
 
         return view(
             'admin.cursos',
-            ['cursos' => $cursos, 'route' => $route, 'title' => $title, 'c' => $c, 'h1' => $h1]);
+            ['cursos' => $cursos, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
     
     }
 
@@ -96,7 +97,8 @@ class CursoController extends Controller
 
         return view(
             'admin.cursos',
-            ['cursos' => $cursos, 'route' => $route, 'title' => $title, 'c' => $c, 'h1' => $h1]);
+            ['cursos' => $cursos, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
 
     }
 
@@ -104,11 +106,13 @@ class CursoController extends Controller
         $this->authorize('es_admin', User::class);
         $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
         $cursos = Curso::all()->where('docente_id', $id);
+        $h1 = "Cursos del docente ".$id;
         $title = "ID, Nombre, Semestre o Abreviatura"; //Para el tooltrip
         $c = "";
         return view(
             'admin.cursos',
-            ['cursos' => $cursos, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['cursos' => $cursos, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
     }
 
     /**

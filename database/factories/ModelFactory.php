@@ -49,9 +49,9 @@ $factory->define(App\Docente::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Encuesta::class, function (Faker\Generator $faker) {
 
-    $inicio = $faker->date($format = 'Y-m-d', $max = 'now');
+    $inicio = date('Y-m-d');
     $vence = new DateTime($inicio);
-    $vence->add(new DateInterval('P30D'));
+    $vence->add(new DateInterval('P'.rand(0,31).'D'));
 
     return [
         'inicio' => $inicio,

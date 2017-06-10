@@ -27,6 +27,8 @@ class DocenteController extends Controller
         $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
         
         $docentes = Docente::all();
+
+        $h1 = "Docentes en el sistema";
         
         $title = "ID, eMail, C.I., Nombre o Apellido"; //Para el tooltrip
 
@@ -34,7 +36,8 @@ class DocenteController extends Controller
 
         return view(
             'admin.docentes',
-            ['docentes' => $docentes, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['docentes' => $docentes, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
     
     }
 
@@ -46,6 +49,8 @@ class DocenteController extends Controller
         $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
      
         $query = $request->get('q');
+
+        if (!$query) return $this->index();
 
         // $docentes1 = collect([]);
 
@@ -76,13 +81,18 @@ class DocenteController extends Controller
 
         }
 
+        $h1 = "Se encontraron ".$docentes->count()." docentes";
+
+        if ($docentes->count()==0) $h1 = "No se encontraron docentes";
+
         $title = "ID, eMail, C.I., Nombre o Apellido"; //Para el tooltrip
 
         $c = $request->consulta;
 
         return view(
             'admin.docentes',
-            ['docentes' => $docentes, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['docentes' => $docentes, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
     
     }
 
