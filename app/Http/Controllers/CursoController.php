@@ -80,7 +80,10 @@ class CursoController extends Controller
 
     public function docente($id) {
         $this->authorize('es_admin', User::class);
-        $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
+        $routeEntera = Route::getFacadeRoot()->current()->uri(); //No esta en buscar
+        $routeSeparada = explode('/', $routeEntera,-2);
+        $route = implode('/', $routeSeparada);
+        $route = $route.'/buscar';
         //$cursos = Curso::all()->where('docente_id', $id);
         $docente = Docente::find($id);
         $cursos = $docente->cursos()->get();
