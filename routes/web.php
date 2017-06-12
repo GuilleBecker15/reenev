@@ -47,4 +47,4 @@ Route::put('updatePass/{user}', [ 'uses' => 'UserController@updatePass', 'as' =>
 Route::post('/updateByAjax/{id}', [ 'uses' => 'UserController@updateByAjax', 'as' => 'Users.updateByAjax']);
 
 // ['as' => 'my-profile', 'uses' => 'ProfileController@myProfile']
-Route::delete('/Cursos/{Curso}/Docentes/{Docente}', [ 'uses' => 'CursoController@borrardocente', 'as' => 'Cursos.Docente.destroy']);
+Route::delete('/Cursos/{Curso}/Docentes', [ 'uses' => 'CursoController@borrardocente', 'as' => 'Cursos.Docente.destroy']);

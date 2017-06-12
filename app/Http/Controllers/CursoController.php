@@ -81,7 +81,11 @@ class CursoController extends Controller
     public function docente($id) {
         $this->authorize('es_admin', User::class);
         $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
-        $cursos = Curso::all()->where('docente_id', $id);
+        //$cursos = Curso::all()->where('docente_id', $id);
+        $docente = Docente::find($id);
+        $cursos = $docente->cursos()->get();
+        // $docente = Curso::with('docentes')->where
+
         $title = "ID, Nombre, Semestre o Abreviatura"; //Para el tooltrip
         $c = "";
         return view(

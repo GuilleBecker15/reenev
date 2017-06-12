@@ -38,7 +38,6 @@
                                                     {{ $docente->apellido }} <br>   
                                                 </tr>
                                                 <tr>
-                                                
                                                 </tr>
                                             </tbody>
                                         @endforeach
