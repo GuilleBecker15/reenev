@@ -104,9 +104,16 @@ class CursoController extends Controller
 
     public function docente($id) {
         $this->authorize('es_admin', User::class);
-        $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
-        $cursos = Curso::all()->where('docente_id', $id);
         $h1 = "Cursos del docente ".$id;
+        $routeEntera = Route::getFacadeRoot()->current()->uri(); //No esta en buscar
+        $routeSeparada = explode('/', $routeEntera,-2);
+        $route = implode('/', $routeSeparada);
+        $route = $route.'/buscar';
+        //$cursos = Curso::all()->where('docente_id', $id);
+        $docente = Docente::find($id);
+        $cursos = $docente->cursos()->get();
+        // $docente = Curso::with('docentes')->where
+
         $title = "ID, Nombre, Semestre o Abreviatura"; //Para el tooltrip
         $c = "";
         return view(
@@ -165,11 +172,11 @@ class CursoController extends Controller
 
         }
         
-        $curso->docente()->associate($docente);
         $curso->nombre = $request->get('nombre');
         $curso->semestre = $request->get('semestre');
         $curso->abreviatura = $request->get('abreviatura');
         $curso->save();
+        $curso->docentes()->attach($docente->id);
 
         return $this->index();
 
@@ -190,8 +197,13 @@ class CursoController extends Controller
     {
         $this->authorize('es_admin', User::class);
         $curso = Curso::find($id);
-        $docente = $curso->docente;
-        $docentes = Docente::all()->whereNotIn('id', [$docente->id]);
+        $DocentesCurso = $curso->docentes()->get();
+        $ids = [];
+        for ($i=0; $i < $curso->docentes()->get()->count() ; $i++) { 
+            $ids = array_prepend($ids, $DocentesCurso[$i]->id);
+         } 
+        $docente = $curso->docentes()->get();
+        $docentes = Docente::all()->whereNotIn('id', $ids);
         return view('curso.edit', compact('curso','docente','docentes'));     
     }
 
@@ -214,7 +226,7 @@ class CursoController extends Controller
         $docente_id = $request->get('docente_id');
         $docente = Docente::find($docente_id);
 
-        $curso->docente()->associate($docente);
+        $curso->docentes()->attach($docente);
         $curso->semestre = $request->get('semestre');
         $curso->nombre = $request->get('nombre');
         $curso->abreviatura = $request->get('abreviatura');
@@ -246,5 +258,12 @@ class CursoController extends Controller
     {
         //
     }
+
+    public function borrardocente($idCurso, $idDocente){
+        $Curso = Curso::find($idCurso);
+        $curso->docentes()->detach($idDocente);
+        return $this->index();
+    }
+
 
 }

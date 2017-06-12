@@ -132,6 +132,8 @@ class EncuestaController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('es_admin', User::class);
+
         $inicio = Carbon::now()->toDateString();  // 1975-12-25
         $vence = $this->sqlDateFormat($request->get('vence'));
 
@@ -161,6 +163,7 @@ class EncuestaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id){
+
         $encuesta = Encuesta::findOrFail($id);
         // $pregunta = $encuesta->preguntas();
         // $preguntas = Pregunta::with(['encuesta' => function($query){
@@ -182,9 +185,11 @@ class EncuestaController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('es_admin', User::class);
         //return view('encuesta.edit', compact($encuesta));
         $encuesta = Encuesta::findOrFail($id);
         $encuesta->vence = $this->uyDateFormat($encuesta->vence);
+
         // return View::make('encuesta.edit', ['id'=>$encuesta->id])->with('encuesta', $encuesta);        
         return view('encuesta.edit', ['id'=>$encuesta->id])->with('encuesta', $encuesta);        
     }
@@ -198,7 +203,8 @@ class EncuestaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $this->authorize('es_admin', User::class);
+
         $encuesta = Encuesta::findOrFail($id);
         $encuesta->asunto = $request->get('asunto');
         $encuesta->descripcion = $request->get('descripcion');
@@ -207,7 +213,7 @@ class EncuestaController extends Controller
 
         $encuesta->save();
 
-
+        $request->session()->flash('message','Encuesta actualizada exitosamente');
         return $this->show($id);
         
     }
@@ -220,6 +226,7 @@ class EncuestaController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+        $this->authorize('es_admin', User::class);
         //$flight->history()->forceDelete();
         // $encuesta = Encuesta::findOrFail($id);
         // $pre = $encuesta->preguntas()->get();
@@ -229,7 +236,7 @@ class EncuestaController extends Controller
         $encuesta->preguntas()->delete();
         $encuesta->delete();
         // parent::delete();
-        $request->session()->flash('message', 'Encuesta borrado exitosamente!');
+        $request->session()->flash('message', 'Encuesta borrada exitosamente!');
         return $this->index();
 
     }

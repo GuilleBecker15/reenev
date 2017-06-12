@@ -15,13 +15,15 @@ class AddForeignKeyConstraints extends Migration
     public function up()
     {
         Schema::table('cursos', function (Blueprint $table) {
-            $table->integer('docente_id')->unsigned();
-            $table->foreign('docente_id')->references('id')->on('docentes');
+            //$table->integer('docente_id')->unsigned();
+            //$table->foreign('docente_id')->references('id')->on('docentes');
         });
 
         Schema::table('preguntas', function (Blueprint $table) {
             $table->integer('encuesta_id')->unsigned();
             $table->foreign('encuesta_id')->references('id')->on('encuestas');
+            $table->unique(['enunciado','encuesta_id']);
+
         });
 
         Schema::table('realizadas', function (Blueprint $table) {
@@ -50,7 +52,7 @@ class AddForeignKeyConstraints extends Migration
      */
     public function down()
     {
-        
+/*        
         $has_docente_id = Schema::hasColumn('cursos', 'docente_id');
 
         if ($has_docente_id) {
@@ -59,6 +61,11 @@ class AddForeignKeyConstraints extends Migration
             $table->dropColumn('docente_id');});
         }
 
+        Schema::table('cursos', function (Blueprint $table) {
+            //$table->dropForeign('cursos_docente_id_foreign');
+            //$table->dropColumn('docente_id');
+        });
+*/
         $has_encuesta_id = Schema::hasColumn('preguntas', 'encuesta_id');
 
         if ($has_encuesta_id) {

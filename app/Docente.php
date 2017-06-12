@@ -19,7 +19,7 @@ class Docente extends Model
 
     public function cursos()
     {
-        return $this->hasMany('App\Curso');
+        return $this->belongsToMany('App\Curso');
     }
 
 }
