@@ -14,9 +14,13 @@
                     @if(Session::has('message'))
                         <div class="alert alert-success success-dismissable">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            <!-- <i class="glyphicon glyphicon-success"></i> -->
                             {{ Session::get('message') }}
-                            <!-- {{ Session::forget('message') }} -->
+                        </div>
+                    @endif
+                    @if(Session::has('error'))
+                        <div class="alert alert-danger danger-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            {{ Session::get('error') }}
                         </div>
                     @endif
                         <form action="{{ route('Encuestas.store') }}" method="POST" class="form-horizontal" accept-charset="utf-8">

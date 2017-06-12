@@ -7,6 +7,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h1>Docentes</h1>
+                    <?php 
+                        // dd($docentes[0]->cursos());
+                     ?>
+
                 </div>
                 <div class="panel-body">
                 @include('admin.toolbar')

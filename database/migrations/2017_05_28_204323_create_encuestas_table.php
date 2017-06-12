@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 use Carbon\Carbon;
 
-=======
+
 
 
 class CreateEncuestasTable extends Migration

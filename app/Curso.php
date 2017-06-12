@@ -12,9 +12,9 @@ class Curso extends Model
     	return $this->belongsToMany('App\User');
     }
 
-    public function docente()
+    public function docentes()
     {
-    	return $this->belongsTo('App\Docente');
+    	return $this->belongsToMany('App\Docente');
     }
 
 }

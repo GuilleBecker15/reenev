@@ -17,14 +17,18 @@
                     // var_dump($encuesta); 
                     // echo "//--------------------------------//";Encuestas.edit
                 ?>
-                    @if(Session::has('message'))
-                        <div class="alert alert-success success-dismissable">
-                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            <!-- <i class="glyphicon glyphicon-success"></i> -->
-                            {{ Session::get('message') }}
-                            <!-- {{ Session::forget('message') }} -->
-                        </div>
-                    @endif
+                        @if(Session::has('message'))
+                            <div class="alert alert-success success-dismissable">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                {{ Session::get('message') }}
+                            </div>
+                        @endif
+                        @if(Session::has('error'))
+                            <div class="alert alert-danger danger-dismissable">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                {{ Session::get('error') }}
+                            </div>
+                        @endif
                         <form id=formEncuesta action="{{ route('Encuestas.update', $encuesta->id) }}" method="POST" class="form-horizontal" accept-charset="utf-8">
                         <input name="_method" type="hidden" value="PUT">
                          {{ csrf_field() }}

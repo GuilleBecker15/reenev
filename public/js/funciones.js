@@ -44,15 +44,8 @@ $('document').ready( function() {
 		combo.innerHTML = html;
 
 	}
+	/*
 
-	/*$(document).on('click','.btn-modificar',function(e){
-		$('#myModal').modal('show');
-	});
-
-	$('#modificarDatos').click(function(e){
-		e.preventDefault();
-			$('#myModal').modal('hide');
-			var datos 			= document.getElementById('formularioModificacion');
 			var url 			= datos.getAttribute('action');
 			var datos 			= {};
 			var token			= $('[name="_token"]').val();
@@ -396,3 +389,20 @@ function removerPregunta(){
 
 	// this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); return false;
 }
+
+$('table[data-form="deleteForm"]').on('click', '.form-delete', function(e){
+    e.preventDefault();
+    var $form=$(this);
+    $('#confirm').modal('show');//({ backdrop: 'static', keyboard: false })
+        //.on('click', '#delete-btn', function(){
+        //    $form.submit();
+        //});
+});	
+	// $(document).on('click','.btn-modificar',function(e){
+	// 	$('#myModal').modal('show');
+	// });
+
+	// $('#modificarDatos').click(function(e){
+	// 	e.preventDefault();
+	// 		$('#myModal').modal('hide');
+	// 		var datos 			= document.getElementById('formularioModificacion');
