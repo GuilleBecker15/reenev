@@ -51,7 +51,7 @@ class PreguntaController extends Controller
         $this->authorize('es_admin', User::class);
 
         $validator = Validator::make($request->all(),[
-            'enunciado' => 'unique:preguntas,enunciado,NULL,'.$request->get('enunciado').',encuesta_id,'.$id.'',
+            'enunciado' => 'required|string|max:255|unique:preguntas,enunciado,NULL,'.$request->get('enunciado').',encuesta_id,'.$id.'',
             //'enunciado' => 'unique:preguntas,enunciado,'.$request->get('enunciado').',encuesta_id,'.$id,
             //unique_multiple:memberships,user_id,group_id
             //|unique:table_name,label,NULL,event_id,event_id,'.$data['event_id'].',id,id'.$model->id;
