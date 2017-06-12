@@ -37,6 +37,8 @@ class UserController extends Controller
         $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
         
         $users = User::where('estaBorrado',$si_o_no)->get();
+
+        $h1 = "Usuarios en el sistema";
         
         $title = "ID, Nombres, Apellidos, Fecha de nacimiento, Generacion, C.I. o eMail"; //Para el tooltrip
 
@@ -44,7 +46,8 @@ class UserController extends Controller
 
         return view(
             'admin.users',
-            ['users' => $users, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['users' => $users, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
 
     }
 
@@ -57,31 +60,59 @@ class UserController extends Controller
 
         $query = $request->get('q');
 
-        $users1 = collect([]);
-        $users6 = collect([]);
+        if (!$query) return $this->index();
 
-        if (is_numeric($query)) $users1 = User::where('id', $query)->get();
-        
-        if ($this->es_fecha($query)) $users6 = User::where('nacimiento', $query)->get();
-        
-        $users2 = User::where('name1', 'like', '%'.$query.'%')->get();
-        $users3 = User::where('name2', 'like', '%'.$query.'%')->get();
-        $users4 = User::where('apellido1', 'like', '%'.$query.'%')->get();
-        $users5 = User::where('apellido2', 'like', '%'.$query.'%')->get();
-        $users7 = User::where('generacion', $query)->get();
-        $users8 = User::where('ci', 'like', '%'.$query.'%')->get();
-        $users9 = User::where('email', 'like', '%'.$query.'%')->get();
+        // $users1 = collect([]);
+        // $users6 = collect([]);
 
-        $users =
-        $users9->merge(
-            $users8->merge(
-                $users7->merge(
-                    $users6->merge(
-                        $users5->merge(
-                            $users4->merge(
-                                $users3->merge(
-                                    $users2->merge(
-                                        $users1))))))));
+        // if (is_numeric($query)) $users1 = User::where('id', $query)->get();
+        
+        // if ($this->es_fecha($query)) $users6 = User::where('nacimiento', $query)->get();
+        
+        // $users2 = User::where('name1', 'like', '%'.$query.'%')->get();
+        // $users3 = User::where('name2', 'like', '%'.$query.'%')->get();
+        // $users4 = User::where('apellido1', 'like', '%'.$query.'%')->get();
+        // $users5 = User::where('apellido2', 'like', '%'.$query.'%')->get();
+        // $users7 = User::where('generacion', $query)->get();
+        // $users8 = User::where('ci', 'like', '%'.$query.'%')->get();
+        // $users9 = User::where('email', 'like', '%'.$query.'%')->get();
+
+        // $users =
+        // $users9->merge(
+        //     $users8->merge(
+        //         $users7->merge(
+        //             $users6->merge(
+        //                 $users5->merge(
+        //                     $users4->merge(
+        //                         $users3->merge(
+        //                             $users2->merge(
+        //                                 $users1))))))));
+
+        $users = collect([]);
+
+        if (is_numeric($query)) {
+
+            $users = User::where('id', $query)
+            ->orWhere('generacion', $query)->get();
+
+        } else if ($this->es_fecha($query)) {
+
+            $users = User::where('nacimiento', $query)->get();
+
+        } else {
+
+            $users = User::where('name1', 'like', '%'.$query.'%')
+            ->orWhere('name2', 'like', '%'.$query.'%')
+            ->orWhere('apellido1', 'like', '%'.$query.'%')
+            ->orWhere('apellido2', 'like', '%'.$query.'%')
+            ->orWhere('ci', 'like', '%'.$query.'%')
+            ->orWhere('email', 'like', '%'.$query.'%')->get();
+
+        }
+
+        $h1 = "Se encontraron ".$users->count()." usuarios";
+
+        if ($users->count()==0) $h1 = "No se encontraron usuarios";
 
         $title = "ID, Nombres, Apellidos, Fecha de nacimiento, Generacion, C.I. o eMail"; //Para el tooltrip
 
@@ -89,7 +120,8 @@ class UserController extends Controller
 
         return view(
             'admin.users',
-            ['users' => $users, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['users' => $users, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
     
     }
 
@@ -98,6 +130,14 @@ class UserController extends Controller
         $user = User::find($id);
         $this->authorize('es_admin_o_es_el', $user);
         return view('user.show', ['user' => $user]);
+    }
+
+    public function realizadas($id)
+    {
+        $user = User::find($id);
+        $this->authorize('es_el', $user);
+        $realizadas = $user->realizadas()->get();
+        return view('user.realizadas', compact('realizadas'));
     }
 
     public function edit($id)
@@ -109,7 +149,7 @@ class UserController extends Controller
         if( session('datos') == null || session('actualizado') == 'ok'){
             $datos = User::newModelInstance();
             $datos->name1 = $user->name1;
-            $datos->name2 = $user->name1;
+            $datos->name2 = $user->name2;
             $datos->apellido1 = $user->apellido1;
             $datos->apellido2 = $user->apellido2;
             $nacimiento = $this->uyDateFormat($user->nacimiento);

@@ -8,16 +8,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Encuesta extends Model
 {
+
     use SoftDeletes;
     use Utilidades;
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
+
 	protected $fillable = [
 		'asunto',
 		'descripcion',
 		'inicio',
 		'vence',
 	];
-
-    protected $dates = ['deleted_at'];
   
     public function realizadas()
     {

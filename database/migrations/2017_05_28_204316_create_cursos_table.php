@@ -21,6 +21,7 @@ class CreateCursosTable extends Migration
             $table->integer('semestre')->default(1);
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -29,6 +29,8 @@ class CursoController extends Controller
         $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
         
         $cursos = Curso::all();
+
+        $h1 = "Cursos en el sistema";
         
         $title = "ID, Nombre, Semestre o Abreviatura"; //Para el tooltrip
 
@@ -36,7 +38,8 @@ class CursoController extends Controller
 
         return view(
             'admin.cursos',
-            ['cursos' => $cursos, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['cursos' => $cursos, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
     
     }
 
@@ -49,24 +52,44 @@ class CursoController extends Controller
         
         $query = $request->get('q');
 
-        $cursos1 = collect([]);
-        $cursos3 = collect([]);
+        if (!$query) return $this->index();
+
+        // $cursos1 = collect([]);
+        // $cursos3 = collect([]);
+
+        // if (is_numeric($query)) {
+
+        //     $cursos1 = Curso::where('id', $query)->get();
+        //     $cursos3 = Curso::where('semestre', $query)->get();
+
+        // }
+        
+        // $cursos2 = Curso::where('nombre', 'like','%'.$query.'%')->get();
+        // $cursos4 = Curso::where('abreviatura', 'like','%'.$query.'%')->get();
+
+        // $cursos =
+        // $cursos4->merge(
+        //     $cursos3->merge(
+        //         $cursos2->merge(
+        //             $cursos1)));
+
+        $cursos = collect([]);
 
         if (is_numeric($query)) {
 
-            $cursos1 = Curso::where('id', $query)->get();
-            $cursos3 = Curso::where('semestre', $query)->get();
+            $cursos = Curso::where('id', $query)
+            ->orWhere('semestre', $query)->get();
+
+        } else {
+
+            $cursos = Curso::where('nombre', 'like', '%'.$query.'%')
+            ->orWhere('abreviatura', 'like', '%'.$query.'%')->get();
 
         }
-        
-        $cursos2 = Curso::where('nombre', 'like','%'.$query.'%')->get();
-        $cursos4 = Curso::where('abreviatura', 'like','%'.$query.'%')->get();
 
-        $cursos =
-        $cursos4->merge(
-            $cursos3->merge(
-                $cursos2->merge(
-                    $cursos1)));
+        $h1 = "Se encontraron ".$cursos->count()." cursos";
+
+        if ($cursos->count()==0) $h1 = "No se encontraron cursos";
 
         $title = "ID, Nombre, Semestre o Abreviatura"; //Para el tooltrip
 
@@ -74,12 +97,14 @@ class CursoController extends Controller
 
         return view(
             'admin.cursos',
-            ['cursos' => $cursos, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['cursos' => $cursos, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
 
     }
 
     public function docente($id) {
         $this->authorize('es_admin', User::class);
+        $h1 = "Cursos del docente ".$id;
         $routeEntera = Route::getFacadeRoot()->current()->uri(); //No esta en buscar
         $routeSeparada = explode('/', $routeEntera,-2);
         $route = implode('/', $routeSeparada);
@@ -93,7 +118,8 @@ class CursoController extends Controller
         $c = "";
         return view(
             'admin.cursos',
-            ['cursos' => $cursos, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['cursos' => $cursos, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
     }
 
     /**

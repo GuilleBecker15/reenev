@@ -6,10 +6,8 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h1>Docentes</h1>
-                    <?php 
-                        // dd($docentes[0]->cursos());
-                     ?>
+
+              <h1>{{ $h1 }}</h1>
 
                 </div>
                 <div class="panel-body">

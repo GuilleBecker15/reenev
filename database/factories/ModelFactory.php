@@ -49,15 +49,44 @@ $factory->define(App\Docente::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Encuesta::class, function (Faker\Generator $faker) {
 
-    $inicio = $faker->date($format = 'Y-m-d', $max = 'now');
+    $inicio = date('Y-m-d');
     $vence = new DateTime($inicio);
-    $vence->add(new DateInterval('P30D'));
+    $vence->add(new DateInterval('P'.rand(0,31).'D'));
 
     return [
         'inicio' => $inicio,
         'vence' => $vence->format('Y-m-d'),
         'asunto' => $faker->sentence($nbWords = 5, $variableNbWords = true),
         'descripcion' => $faker->sentence($nbWords = 10, $variableNbWords = true),
+    ];
+
+});
+
+$factory->define(App\Pregunta::class, function (Faker\Generator $faker) {
+
+    return [
+        'enunciado' => $faker->sentence($nbWords = 5, $variableNbWords = true),
+        'numero' => rand(1,20),
+    ];
+
+});
+
+$factory->define(App\Realizada::class, function (Faker\Generator $faker) {
+
+    return [
+        'cuando' => (new DateTime())->format('Y-m-d'),
+    ];
+
+});
+
+$factory->define(App\Respuesta::class, function (Faker\Generator $faker) {
+
+    $inicio = $faker->date($format = 'Y-m-d', $max = 'now');
+    $vence = new DateTime($inicio);
+    $vence->add(new DateInterval('P30D'));
+
+    return [
+        'calificacion' => rand(0,5),
     ];
 
 });

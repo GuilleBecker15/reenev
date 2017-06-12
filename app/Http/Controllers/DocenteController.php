@@ -27,6 +27,8 @@ class DocenteController extends Controller
         $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
         
         $docentes = Docente::all();
+
+        $h1 = "Docentes en el sistema";
         
         $title = "ID, eMail, C.I., Nombre o Apellido"; //Para el tooltrip
 
@@ -34,7 +36,8 @@ class DocenteController extends Controller
 
         return view(
             'admin.docentes',
-            ['docentes' => $docentes, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['docentes' => $docentes, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
     
     }
 
@@ -47,21 +50,40 @@ class DocenteController extends Controller
      
         $query = $request->get('q');
 
-        $docentes1 = collect([]);
+        if (!$query) return $this->index();
 
-        if (is_numeric($query)) $docentes1 = Docente::where('id', $query)->get();
+        // $docentes1 = collect([]);
+
+        // if (is_numeric($query)) $docentes1 = Docente::where('id', $query)->get();
         
-        $docentes2 = Docente::where('email', 'like','%'.$query.'%')->get();
-        $docentes3 = Docente::where('ci', 'like','%'.$query.'%')->get();
-        $docentes4 = Docente::where('nombre', 'like','%'.$query.'%')->get();
-        $docentes5 = Docente::where('apellido', 'like','%'.$query.'%')->get();
+        // $docentes2 = Docente::where('email', 'like','%'.$query.'%')->get();
+        // $docentes3 = Docente::where('ci', 'like','%'.$query.'%')->get();
+        // $docentes4 = Docente::where('nombre', 'like','%'.$query.'%')->get();
+        // $docentes5 = Docente::where('apellido', 'like','%'.$query.'%')->get();
 
-        $docentes =
-        $docentes5->merge(
-            $docentes4->merge(
-                $docentes3->merge(
-                    $docentes2->merge(
-                        $docentes1))));
+        // $docentes =
+        // $docentes5->merge(
+        //     $docentes4->merge(
+        //         $docentes3->merge(
+        //             $docentes2->merge(
+        //                 $docentes1))));
+
+        if (is_numeric($query)) {
+
+            $docentes = Docente::where('id', $query)->get();
+
+        } else {
+
+            $docentes = Docente::where('email', 'like', '%'.$query.'%')
+            ->orWhere('ci', 'like', '%'.$query.'%')
+            ->orWhere('nombre', 'like', '%'.$query.'%')
+            ->orWhere('apellido', 'like', '%'.$query.'%')->get();
+
+        }
+
+        $h1 = "Se encontraron ".$docentes->count()." docentes";
+
+        if ($docentes->count()==0) $h1 = "No se encontraron docentes";
 
         $title = "ID, eMail, C.I., Nombre o Apellido"; //Para el tooltrip
 
@@ -69,7 +91,8 @@ class DocenteController extends Controller
 
         return view(
             'admin.docentes',
-            ['docentes' => $docentes, 'route' => $route, 'title' => $title, 'c' => $c]);
+            ['docentes' => $docentes, 'route' => $route,
+            'title' => $title, 'c' => $c, 'h1' => $h1]);
     
     }
 

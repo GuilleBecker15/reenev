@@ -5,7 +5,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Encuestas</h1></div>
+                <div class="panel-heading">
+                <h1>{{ $h1 }}</h1>
+                </div>
                 <div class="panel-body">
 
                 @include('admin.toolbar')

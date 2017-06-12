@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Curso;
+use App\Docente;
+use App\Encuesta;
 use App\Http\Traits\Utilidades;
 use App\Realizada;
+use App\Respuesta;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 class RealizadaController extends Controller
@@ -20,8 +25,7 @@ class RealizadaController extends Controller
      */
     public function index()
     {
-        $realizadas = Realizada::all();
-        return view('user.realizadas', compact('realizadas'));
+        //Hacer?
     }
 
     /**
@@ -31,7 +35,50 @@ class RealizadaController extends Controller
      */
     public function create()
     {
-        return view('realizada.create');
+
+        if (!Auth::user()) return view('auth.login');
+
+        $encuestas = Encuesta::all();
+        $docentes = Docente::all();
+        $cursos = Curso::all();
+
+        return view('realizada.elegir',
+                ['encuestas' => $encuestas,
+                'docentes' => $docentes,
+                'cursos' => $cursos]);
+
+    }
+
+    public function continuar(Request $request)
+    {
+
+        if (!Auth::user()) return view('auth.login');
+
+        $encuesta = Encuesta::find($request->get('encuesta_id'));
+        $docente = Docente::find($request->get('docente_id'));
+        $curso = Curso::find($request->get('curso_id'));
+        $preguntas = $encuesta->preguntas;
+
+        $realizada = Realizada::where('encuesta_id', $encuesta->id)
+        ->where('docente_id', $docente->id)
+        ->where('curso_id', $curso->id)
+        ->where('user_id', Auth::user()->id)->first();
+
+        if ($realizada) return $this->edit($realizada);
+        
+        if ($docente->cursos->where('id', $curso->id)->count()==0) {
+        
+            $request->session()->flash(
+                'message', "El docente ID:".$docente->id.
+                " (".$docente->nombre." ".$docente->apellido.
+                ") no dicta el curso ID:".$curso->id." (".$curso->nombre.")");
+
+            return $this->create();
+        
+        }
+
+        return view('realizada.create', compact('encuesta', 'docente', 'curso', 'preguntas'));
+    
     }
 
     /**
@@ -42,7 +89,39 @@ class RealizadaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        if (!Auth::user()) return view('auth.login');
+
+        $encuesta_json = $request->input('encuesta');
+        $docente_json = $request->input('docente');
+        $curso_json = $request->input('curso');
+        $preguntas_json = $request->input('preguntas');
+
+        $encuesta_array = json_decode($encuesta_json);
+        $docente_array = json_decode($docente_json);
+        $curso_array = json_decode($curso_json);
+        $preguntas_array = json_decode($preguntas_json);
+
+        $realizada = new Realizada;
+
+        $realizada->cuando = date('Y-m-d');
+        $realizada->encuesta_id = $encuesta_array->id;
+        $realizada->docente_id = $docente_array->id;
+        $realizada->curso_id = $curso_array->id;
+        $realizada->user_id = Auth::user()->id;
+
+        $realizada->save();
+
+        foreach ($preguntas_array as $p) {
+            $respuesta = new Respuesta;
+            $respuesta->calificacion = $request->get("p".$p->id);
+            $respuesta->pregunta_id = $p->id;
+            $respuesta->realizada_id = $realizada->id;
+            $respuesta->save();
+        }
+
+        return $this->create();
+
     }
 
     /**
@@ -64,19 +143,40 @@ class RealizadaController extends Controller
      */
     public function edit(Realizada $realizada)
     {
-        //
+        $encuesta = Encuesta::find($realizada->encuesta_id);
+        $docente = Docente::find($realizada->docente_id);
+        $curso = Curso::find($realizada->curso_id);
+        $preguntas = $encuesta->preguntas;
+        return view('realizada.edit',
+            compact('encuesta','docente', 'curso', 'preguntas', 'realizada'));    
     }
 
     /**
      * Update the specified resource in storage.
-     *
+     *s
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Realizada  $realizada
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Realizada $realizada)
+    public function update(Request $request, $id)
     {
-        //
+
+        $realizada = Realizada::find($id);
+        $preguntas = Encuesta::find($realizada->encuesta_id)->preguntas;
+
+        foreach ($preguntas as $key => $p) {
+
+            $respuesta = $p->respuestas
+            ->where('realizada_id', $realizada->id)->first();
+            
+            $respuesta->calificacion = $request->get("p".$p->id);
+
+            $respuesta->save();
+        
+        }
+
+        return $this->edit($realizada);
+
     }
 
     /**

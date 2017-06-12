@@ -19,6 +19,7 @@ class CreateRealizadasTable extends Migration
             $table->date('cuando');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

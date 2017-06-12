@@ -11,8 +11,9 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Completar encuesta</h1></div>
                 <div class="panel-body">
-                    <form onsubmit="return validarCampos();" class="form-horizontal" role="form" method="POST" action="{{ route('Realizadas.store') }}">
+                    <form onsubmit="return validarCampos();" class="form-horizontal" role="form" method="POST" action="{{ route('Realizadas.update', $realizada->id) }}">
                         
+                        {{ method_field('PUT') }}
                         {{ csrf_field() }}
 
                         <?php
@@ -25,6 +26,33 @@
 
                         @foreach ($preguntas as $key => $p)
 
+                        <?php
+                            
+                            $respuestas = $p->respuestas()
+                            ->where('realizada_id', $realizada->id);
+
+                            $r = null;
+                            
+                            if ($respuestas) {
+                                $r = $respuestas->take(1)->get()[0];
+                            }
+
+                            $_0 = "";
+                            $_1 = "";
+                            $_2 = "";
+                            $_3 = "";
+                            $_4 = "";
+                            $_5 = "";
+
+                            if ($r->calificacion == 0) $_0 = "checked";
+                            if ($r->calificacion == 1) $_1 = "checked";
+                            if ($r->calificacion == 2) $_2 = "checked";
+                            if ($r->calificacion == 3) $_3 = "checked";
+                            if ($r->calificacion == 4) $_4 = "checked";
+                            if ($r->calificacion == 5) $_5 = "checked";
+
+                        ?>
+
                         <div class="form-group">
                         
                         <label type="text" class="col-md-6 control-label">{{$p->enunciado}}</label>
@@ -32,27 +60,27 @@
                             <div class="col-md-6">
                             
                                 <label class="radio-inline">
-                                    <input checked type="radio" name="p{{$p->id}}" value="0">No corresponde
+                                    <input {{ $_0 }} type="radio" name="p{{$p->id}}" value="0">No corresponde
                                 </label>
 
                                 <label class="radio-inline">
-                                    <input type="radio" name="p{{$p->id}}" value="1">Muy mal
+                                    <input {{ $_1 }} type="radio" name="p{{$p->id}}" value="1">Muy mal
                                 </label>
 
                                 <label class="radio-inline">
-                                    <input type="radio" name="p{{$p->id}}" value="2">Mal
+                                    <input {{ $_2 }} type="radio" name="p{{$p->id}}" value="2">Mal
                                 </label>
 
                                 <label class="radio-inline">
-                                    <input type="radio" name="p{{$p->id}}" value="3">Normal
+                                    <input {{ $_3 }} type="radio" name="p{{$p->id}}" value="3">Normal
                                 </label>
 
                                 <label class="radio-inline">
-                                    <input type="radio" name="p{{$p->id}}" value="4">Bien
+                                    <input {{ $_4 }} type="radio" name="p{{$p->id}}" value="4">Bien
                                 </label>
 
                                 <label class="radio-inline">
-                                    <input type="radio" name="p{{$p->id}}" value="5">Muy bien
+                                    <input {{ $_5 }} type="radio" name="p{{$p->id}}" value="5">Muy bien
                                 </label>
 
                             </div>
