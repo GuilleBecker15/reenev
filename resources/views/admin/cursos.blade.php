@@ -7,6 +7,9 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h1>Cursos</h1>
+                <?php 
+                    //dd($cursos[0]->docentes()->get());
+                 ?>
                 </div>
                 <div class="panel-body">
                 @include('admin.toolbar', ['route' => $route])
@@ -27,8 +30,8 @@
                                     <td>{{ $curso->id }}</td>
                                     <td>{{ $curso->nombre }}</td>
                                     <td>
-                                    {{ $curso->docente->nombre }}
-                                    {{ $curso->docente->apellido }}
+                                    {{ $curso->docentes()->get()[0]->nombre }}
+                                    {{ $curso->docentes()->get()[0]->apellido }}
                                     </td>
                                     <td>{{ $curso->semestre }}</td>
                                     <td>{{ $curso->abreviatura }}</td>

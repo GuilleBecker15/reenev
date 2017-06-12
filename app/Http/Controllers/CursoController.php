@@ -139,11 +139,11 @@ class CursoController extends Controller
 
         }
         
-        $curso->docente()->associate($docente);
         $curso->nombre = $request->get('nombre');
         $curso->semestre = $request->get('semestre');
         $curso->abreviatura = $request->get('abreviatura');
         $curso->save();
+        $curso->docentes()->attach($docente->id);
 
         return $this->index();
 
@@ -164,7 +164,7 @@ class CursoController extends Controller
     {
         $this->authorize('es_admin', User::class);
         $curso = Curso::find($id);
-        $docente = $curso->docente;
+        $docentes = $curso->docentes;
         $docentes = Docente::all()->whereNotIn('id', [$docente->id]);
         return view('curso.edit', compact('curso','docente','docentes'));     
     }
@@ -188,7 +188,7 @@ class CursoController extends Controller
         $docente_id = $request->get('docente_id');
         $docente = Docente::find($docente_id);
 
-        $curso->docente()->associate($docente);
+        $curso->docentes()->attach($docente);
         $curso->semestre = $request->get('semestre');
         $curso->nombre = $request->get('nombre');
         $curso->abreviatura = $request->get('abreviatura');

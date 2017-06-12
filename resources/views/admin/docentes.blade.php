@@ -7,6 +7,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h1>Docentes</h1>
+                    <?php 
+                        // dd($docentes[0]->cursos());
+                     ?>
+
                 </div>
                 <div class="panel-body">
                 @include('admin.toolbar')
@@ -31,9 +35,9 @@
                                     <td>{{ $docente->nombre }}</td>
                                     <td>{{ $docente->apellido }}</td>
                                     <td>
-                                        <a href="/Cursos/docente/{{ $docente->id }}">
+                                        <!-- <a href="/Cursos/docente/{{ $docente->id }}">
                                             {{ $docente->cursos()->count() }}
-                                        </a>
+                                        </a> -->
                                     </td>
                                 </tr>
                             </tbody>

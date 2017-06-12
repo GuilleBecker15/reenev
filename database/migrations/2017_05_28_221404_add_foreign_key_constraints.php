@@ -14,8 +14,8 @@ class AddForeignKeyConstraints extends Migration
     public function up()
     {
         Schema::table('cursos', function (Blueprint $table) {
-            $table->integer('docente_id')->unsigned();
-            $table->foreign('docente_id')->references('id')->on('docentes');
+            //$table->integer('docente_id')->unsigned();
+            //$table->foreign('docente_id')->references('id')->on('docentes');
         });
 
         Schema::table('preguntas', function (Blueprint $table) {
@@ -33,8 +33,8 @@ class AddForeignKeyConstraints extends Migration
     public function down()
     {
         Schema::table('cursos', function (Blueprint $table) {
-            $table->dropForeign('cursos_docente_id_foreign');
-            $table->dropColumn('docente_id');
+            //$table->dropForeign('cursos_docente_id_foreign');
+            //$table->dropColumn('docente_id');
         });
 
         Schema::table('preguntas', function (Blueprint $table) {
