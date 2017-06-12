@@ -35,9 +35,9 @@
                                     <td>{{ $docente->nombre }}</td>
                                     <td>{{ $docente->apellido }}</td>
                                     <td>
-                                        <!-- <a href="/Cursos/docente/{{ $docente->id }}">
+                                        <a href="/Cursos/docente/{{ $docente->id }}">
                                             {{ $docente->cursos()->count() }}
-                                        </a> -->
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>

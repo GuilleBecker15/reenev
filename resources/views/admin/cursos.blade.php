@@ -30,8 +30,19 @@
                                     <td>{{ $curso->id }}</td>
                                     <td>{{ $curso->nombre }}</td>
                                     <td>
-                                    {{ $curso->docentes()->get()[0]->nombre }}
-                                    {{ $curso->docentes()->get()[0]->apellido }}
+                                    <table>
+                                        @foreach($curso->docentes()->get() as $key => $docente)
+                                            <tbody>
+                                                <tr>
+                                                    {{ $docente->nombre }}
+                                                    {{ $docente->apellido }} <br>   
+                                                </tr>
+                                                <tr>
+                                                
+                                                </tr>
+                                            </tbody>
+                                        @endforeach
+                                    </table>
                                     </td>
                                     <td>{{ $curso->semestre }}</td>
                                     <td>{{ $curso->abreviatura }}</td>

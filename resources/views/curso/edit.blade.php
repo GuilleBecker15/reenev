@@ -17,16 +17,18 @@
                         <input name="_method" type="hidden" value="PUT">
                         {{ csrf_field() }}
 
-
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Docente</label>
+                            @foreach ($docente as $key => $docenteActual)
+                            <label class="col-md-8 col-md-offset-1  control-label">Docente(s) actual(es):  {{ $docenteActual->id }} -
+                                {{ $docenteActual->nombre }} {{ $docenteActual->apellido }} </label> <br>
+                            @endforeach
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Agregar docente</label>
 
                             <div class="col-md-6">
                                 <select id="docente_id" name="docente_id" type="text" class="form-control">
-                                <option selected value="{{ $docente->id }}">
-                                {{ $docente->id }} -
-                                {{ $docente->nombre }} {{ $docente->apellido }}
-                                </option>
+                                
                                 @foreach ($docentes as $key => $d)
                                     <option value="{{ $d->id }}">
                                     {{ $d->id }} - {{ $d->nombre }} {{ $d->apellido }}

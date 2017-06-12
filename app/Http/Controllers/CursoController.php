@@ -164,8 +164,13 @@ class CursoController extends Controller
     {
         $this->authorize('es_admin', User::class);
         $curso = Curso::find($id);
-        $docentes = $curso->docentes;
-        $docentes = Docente::all()->whereNotIn('id', [$docente->id]);
+        $DocentesCurso = $curso->docentes()->get();
+        $ids = [];
+        for ($i=0; $i < $curso->docentes()->get()->count() ; $i++) { 
+            $ids = array_prepend($ids, $DocentesCurso[$i]->id);
+         } 
+        $docente = $curso->docentes()->get();
+        $docentes = Docente::all()->whereNotIn('id', $ids);
         return view('curso.edit', compact('curso','docente','docentes'));     
     }
 
@@ -220,5 +225,12 @@ class CursoController extends Controller
     {
         //
     }
+
+    public function borrardocente($idCurso, $idDocente){
+        $Curso = Curso::find($idCurso);
+        $curso->docentes()->detach($idDocente);
+        return $this->index();
+    }
+
 
 }
