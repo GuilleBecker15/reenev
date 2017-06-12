@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Encuesta;
 use App\Pregunta;
 use Validator;
+use App\Http\Traits\Utilidades;
+use App\User;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -46,12 +48,16 @@ class PreguntaController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $this->autorize('es_admin', User::class);
+        $this->authorize('es_admin', User::class);
 
         $validator = Validator::make($request->all(),[
-            'enunciado' => 'required|string|max:255',
+            'enunciado' => 'unique:preguntas,enunciado,NULL,'.$request->get('enunciado').',encuesta_id,'.$id.'',
+            //'enunciado' => 'unique:preguntas,enunciado,'.$request->get('enunciado').',encuesta_id,'.$id,
+            //unique_multiple:memberships,user_id,group_id
+            //|unique:table_name,label,NULL,event_id,event_id,'.$data['event_id'].',id,id'.$model->id;
             //'enunciado' => Rule::unique('preguntas'), //esto me causa error, si la pregunta ya existe me da error status 1 o algo asi
  
+            //'enunciado' => Rule::unique('preguntas')->where('encuesta_id','$id'),//maso menos anda
           ]);
 
         // DB::table('users')
@@ -74,11 +80,13 @@ class PreguntaController extends Controller
 
 
 
+        $encuesta = Encuesta::findOrFail($id);
+        $preguntas = Pregunta::where('encuesta_id',$id)->get();
+
         if($validator->fails() ){
-            redirect('Pregunta.create',['id'=>$id])->whitErrors($validator,'enunciado');
+            return view('Pregunta.create',['encuesta'=>$encuesta, 'preguntas'=>$preguntas])->withErrors($validator,'enunciado');
         }
 
-        $encuesta = Encuesta::findOrFail($id);
         $pregunta = new Pregunta;
         // $preguntas = Pregunta::with('encuesta')->get();
         $preguntas = Pregunta::where('encuesta_id',$id)->get();
@@ -151,7 +159,7 @@ class PreguntaController extends Controller
      */
     public function destroy(Request $request, $idEncuesta, $idPregunta)
     {
-        $this->autorize('es_admin', User::class);
+        $this->authorize('es_admin', User::class);
 
         $pregunta = Pregunta::findOrFail($idPregunta);
         $idEncuesta = $pregunta->encuesta()->get()[0]->id;  

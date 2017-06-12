@@ -21,6 +21,8 @@ class AddForeignKeyConstraints extends Migration
         Schema::table('preguntas', function (Blueprint $table) {
             $table->integer('encuesta_id')->unsigned();
             $table->foreign('encuesta_id')->references('id')->on('encuestas');
+            $table->unique(['enunciado','encuesta_id']);
+
         });
 
     }

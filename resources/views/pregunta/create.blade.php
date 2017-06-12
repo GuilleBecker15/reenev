@@ -16,10 +16,11 @@
 	                            {{ Session::get('message') }}
 	                        </div>
 	                    @endif
-	                    @if(Session::has('error'))
+	                    @if($errors->has('enunciado'))
+	                    
 							<div class="alert alert-danger danger-dismissable">
 								<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-								{{ Session::get('error') }}
+								{{ $errors->first('enunciado') }}
 							</div>
 	                    @endif
 						<h3>Preguntas: </h3>
