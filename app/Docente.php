@@ -22,4 +22,9 @@ class Docente extends Model
         return $this->belongsToMany('App\Curso');
     }
 
+    public function realizadas()
+    {
+        return $this->hasMany('App\Realizada');
+    }
+
 }

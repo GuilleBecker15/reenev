@@ -64,7 +64,7 @@ class RealizadaController extends Controller
         ->where('curso_id', $curso->id)
         ->where('user_id', Auth::user()->id)->first();
 
-        if ($realizada) return $this->edit($realizada);
+        if ($realizada) return $this->edit($realizada->id);
         
         if ($docente->cursos->where('id', $curso->id)->count()==0) {
         
@@ -141,8 +141,9 @@ class RealizadaController extends Controller
      * @param  \App\Realizada  $realizada
      * @return \Illuminate\Http\Response
      */
-    public function edit(Realizada $realizada)
+    public function edit($id)
     {
+        $realizada = Realizada::find($id);
         $encuesta = Encuesta::find($realizada->encuesta_id);
         $docente = Docente::find($realizada->docente_id);
         $curso = Curso::find($realizada->curso_id);
@@ -175,7 +176,7 @@ class RealizadaController extends Controller
         
         }
 
-        return $this->edit($realizada);
+        return $this->edit($realizada->id);
 
     }
 

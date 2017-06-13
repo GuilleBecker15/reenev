@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Encuestas completadas</h1></div>
                 <div class="panel-body">
@@ -14,6 +14,9 @@
                                     <th>ID</th>
                                     <th>Cuando la hiciste</th>
                                     <th>De que trataba</th>
+                                    <th>Para quien era</th>
+                                    <th>Que curso dictaba</th>
+                                    <th>En que semestre</th>
                                 </tr>
                             </thead>
                             @foreach ($realizadas as $key => $realizada)
@@ -21,7 +24,19 @@
                                 <tr>
                                     <td>{{ $realizada->id }}</td>
                                     <td>{{ $realizada->uyCuando($realizada->cuando) }}</td>
-                                    <td>{{ $realizada->encuesta->asunto }}</td>
+                                    <td>
+                                    <a target="_blank" href="/Realizadas/{{ $realizada->id }}/edit">
+                                        {{ $realizada->encuesta->asunto }}
+                                    </a>
+                                    </td>
+                                    <td>
+                                    <a target="_blank" href="/Docentes/{{ $realizada->docente->id }}">
+                                        {{ $realizada->docente->nombre }}
+                                        {{ $realizada->docente->apellido }}
+                                    </a>
+                                    </td>
+                                    <td>{{ $realizada->curso->abreviatura }}</td>
+                                    <td>{{ $realizada->curso->semestre }}</td>
                                 </tr>
                             </tbody>
                             @endforeach

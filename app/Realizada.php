@@ -34,6 +34,16 @@ class Realizada extends Model
     	return $this->belongsTo('App\Encuesta');
     }
 
+    public function docente()
+    {
+        return $this->belongsTo('App\Docente');
+    }
+
+    public function curso()
+    {
+        return $this->belongsTo('App\Curso');
+    }
+
     public function uyCuando($cuando)
     {
         return $this->uyDateFormat($cuando);
