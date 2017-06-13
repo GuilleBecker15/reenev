@@ -84,7 +84,7 @@ class PreguntaController extends Controller
         $preguntas = Pregunta::where('encuesta_id',$id)->get();
 
         if($validator->fails() ){
-            return view('Pregunta.create',['encuesta'=>$encuesta, 'preguntas'=>$preguntas])->withErrors($validator,'enunciado');
+            return view('pregunta.create',['encuesta'=>$encuesta, 'preguntas'=>$preguntas])->withErrors($validator,'enunciado');
         }
 
         $pregunta = new Pregunta;
@@ -127,7 +127,7 @@ class PreguntaController extends Controller
         $this->authorize('es_admin', User::class);
         $pregunta = Pregunta::findOrFail($id_pregunta);
         $encuesta = Encuesta::find($pregunta->encuesta()->get()[0]->id);
-        return view('Pregunta.edit', ['encuesta'=>$encuesta,'pregunta'=>$pregunta]);
+        return view('pregunta.edit', ['encuesta'=>$encuesta,'pregunta'=>$pregunta]);
     }
 
     /**

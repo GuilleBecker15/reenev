@@ -24,7 +24,7 @@ class AllTest extends TestCase
 
 			$docente->save();
 			
-			$curso->docente_id = rand(1, $i);
+			// $curso->docente_id = rand(1, $i);
 			$curso->save();
 			
 			$encuesta->save();

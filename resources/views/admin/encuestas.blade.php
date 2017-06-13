@@ -36,16 +36,20 @@
                                     <td>{{ $encuesta->uyInicioVence($encuesta->vence) }}</td>
                                     <td>{{ $encuesta->asunto }}</td>
                                     <td>{{ $encuesta->descripcion }}</td>
-                                    <td>
-                                        {{ Form::open(['method' => 'GET', 'route' => ['Encuestas.show', $encuesta->id]]) }}
-                                        <!-- {{ Form::hidden('id', $encuesta->id) }} -->
+                                    <td> <div>
+                                      {{ Form::open(['method' => 'GET', 'route' => ['Encuestas.show', $encuesta->id]]) }}
+                                        {{ Form::hidden('id', $encuesta->id) }}
                                         {{ Form::submit('Ver', ['class' => 'btn btn-xs btn-info']) }}
                                         {{Form::close()}}
+                                        </div>
                                     </td>
                                     <td>
-                                        {{ Form::open(['method' => 'POST', 'route' => ['Encuestas.destroy', $encuesta->id]]) }}
-                                        {{ method_field('DELETE') }}
-                                        {{ Form::submit('Borrar', ['class' => 'btn btn-xs btn-danger']) }}
+                                        <div>
+                                        {{ Form::open(['method' => 'DELETE', 'route' => ['Encuestas.destroy', $encuesta->id]]) }}
+                                        {{ Form::hidden('id', $encuesta->id) }}
+                                        {{ Form::submit('Borrar', ['class' => 'btn-xs btn btn-danger']) }}
+                                        {{Form::close()}}
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>

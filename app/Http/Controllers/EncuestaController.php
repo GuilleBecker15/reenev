@@ -27,8 +27,16 @@ class EncuestaController extends Controller
         
         $this->authorize('es_admin', User::class);
         
-        $route = Route::getFacadeRoot()->current()->uri().'/buscar'; //No esta en buscar
-        
+        $routeEntera = Route::getFacadeRoot()->current()->uri(); //No esta en buscar
+        $routeSeparada = explode('/', $routeEntera);
+
+        if (last($routeSeparada)!='buscar') {
+            $route = implode('/', $routeSeparada);
+            $route = $route.'/buscar';
+        } else {
+            $route = implode('/', $routeSeparada);
+        }
+                
         $encuestas = Encuesta::all();
 
         $h1 = "Encuestas en el sistema";

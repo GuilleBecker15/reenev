@@ -29,12 +29,12 @@ class AddForeignKeyConstraints extends Migration
         Schema::table('realizadas', function (Blueprint $table) {
             $table->integer('curso_id')->unsigned();
             $table->foreign('curso_id')->references('id')->on('cursos');
-            $table->integer('docente_id')->unsigned();
-            $table->foreign('docente_id')->references('id')->on('docentes');
             $table->integer('encuesta_id')->unsigned();
             $table->foreign('encuesta_id')->references('id')->on('encuestas');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('docente_id')->unsigned();
+            $table->foreign('docente_id')->references('id')->on('docentes');
         });
         Schema::table('respuestas', function (Blueprint $table) {
             $table->integer('pregunta_id')->unsigned();
