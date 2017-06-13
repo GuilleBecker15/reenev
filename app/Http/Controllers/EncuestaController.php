@@ -159,9 +159,22 @@ class EncuestaController extends Controller
             'vence'=>$vence,
         ];
 
-        $encuesta = Encuesta::create($data)->id;
+        $ultima_encuesta = Encuesta::all()->sortBy('updated_at')->last();
+        
+        $encuesta = Encuesta::create($data);
 
-        return $this->show($encuesta);
+        $ultimas_preguntas = $ultima_encuesta->preguntas()->get()->toArray();
+
+        foreach ($ultimas_preguntas as $u_p) {
+            $pregunta = new Pregunta;
+            $n = $encuesta->preguntas()->count();
+            $pregunta->encuesta()->associate($encuesta);
+            $pregunta->numero = $n+1;
+            $pregunta->enunciado = $u_p['enunciado'];
+            $pregunta->save();
+        }
+
+        return $this->show($encuesta->id);
     }
 
     /**
