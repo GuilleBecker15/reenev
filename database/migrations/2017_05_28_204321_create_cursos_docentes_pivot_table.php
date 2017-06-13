@@ -21,7 +21,7 @@ class CreateCursosDocentesPivotTable extends Migration
             $table->foreign('docente_id')->references('id')->on('docentes')->onDelete('cascade');
             $table->timestamps();
             $table->unique(['curso_id','docente_id']);
-
+            $table->softDeletes();
         });
     }
 
