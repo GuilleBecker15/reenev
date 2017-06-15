@@ -270,7 +270,8 @@ class CursoController extends Controller
     public function borrardocente(Request $request, $idCurso){
         $curso = Curso::find($idCurso);
         $curso->docentes()->detach($request->get('docente_id'));
-        return $this->index();
+        $request->session()->flash('message', 'El docente ya no pertenece al curso');
+        return $this->edit($idCurso);
     }
 
 

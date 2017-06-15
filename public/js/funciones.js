@@ -406,3 +406,11 @@ $('table[data-form="deleteForm"]').on('click', '.form-delete', function(e){
 	// 	e.preventDefault();
 	// 		$('#myModal').modal('hide');
 	// 		var datos 			= document.getElementById('formularioModificacion');
+	
+
+	/*Contador para cerrar automaticamente las flashes despues de "n" segundos*/
+	window.setTimeout(function() {
+    	$(".alert").fadeTo(500, 0).slideUp(500, function(){
+        	$(this).remove(); 
+    	});
+	}, 7000);
