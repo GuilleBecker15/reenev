@@ -135,8 +135,8 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::find($id);
-        $this->authorize('es_admin_o_es_el', $user);
+        $user = User::withTrashed()->where('id', $id)->get();
+        //$this->authorize('es_admin_o_es_el', $user);
         return view('user.show', ['user' => $user]);
     }
 
@@ -290,16 +290,29 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         // $this->authorize('es_admin', User::class);
         $user = User::find($id);
         $this->authorize('es_admin_y_no_es_el', $user);
         $this->authorize('es_supervisor', $user);
         $user->supervisor=Auth::user()->id;
-        $user->estaBorrado=!$user->estaBorrado;
+        //$user->estaBorrado=!$user->estaBorrado;
         $user->save();
+        $user->delete();
+        $request->session()->flash('message', 'El usuario ha sido eliminada exitosamente');
         return $this->show($user->id);
+    }
+
+    public function recuperar(Request $request, $id){
+        //$this->authorize('es_admin', User::class);
+        //$user = User::withTrashed()->where('id', $id)->get();
+        //$user->undelete();
+        //User::restore($id);
+        User::withTrashed()->find($id)->restore();
+        $request->session()->flash('message', 'El usuario ha sido recuperado exitosamente');
+
+        return $this->show($id);
     }
 
     public function redirectCambiarPass($user){

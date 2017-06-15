@@ -4,10 +4,10 @@
         {{ Session::get('message') }}
     </div>
 @endif
-@if($errors->has('enunciado'))
+@if(Session::has('error'))
 
 	<div class="alert alert-danger danger-dismissable">
 		<button aria-hidden="true" data-dismiss="alert" class="close cerrarflash" type="button">×</button>
-		{{ $errors->first('enunciado') }}
+		{{ Session::get('error') }}
 	</div>
 @endif

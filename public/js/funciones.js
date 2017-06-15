@@ -390,14 +390,14 @@ function removerPregunta(){
 	// this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); return false;
 }
 
-$('table[data-form="deleteForm"]').on('click', '.form-delete', function(e){
-    e.preventDefault();
-    var $form=$(this);
-    $('#confirm').modal('show');//({ backdrop: 'static', keyboard: false })
+// $('table[data-form="deleteForm"]').on('click', '.form-delete', function(e){
+//     e.preventDefault();
+//     var $form=$(this);
+//     $('#confirm').modal('show');//({ backdrop: 'static', keyboard: false })
         //.on('click', '#delete-btn', function(){
         //    $form.submit();
         //});
-});	
+// });	
 	// $(document).on('click','.btn-modificar',function(e){
 	// 	$('#myModal').modal('show');
 	// });
@@ -406,11 +406,32 @@ $('table[data-form="deleteForm"]').on('click', '.form-delete', function(e){
 	// 	e.preventDefault();
 	// 		$('#myModal').modal('hide');
 	// 		var datos 			= document.getElementById('formularioModificacion');
-	
 
-	/*Contador para cerrar automaticamente las flashes despues de "n" segundos*/
+
+
+	
+/*------------------Contador para cerrar automaticamente las flashes despues de "n" segundos------------------*/
 	window.setTimeout(function() {
     	$(".alert").fadeTo(500, 0).slideUp(500, function(){
         	$(this).remove(); 
     	});
 	}, 7000);
+/*-------------------------------------------------------------------------------------------------------------*/
+
+/*--------------Para abrir modal cuando quiere crear un nuevo cursos pero no existen prefesores creados ----- */
+
+let bot_abrir   = document.getElementById('activar');
+let ventana     = document.getElementsByClassName('modalmio')[0];
+let bots_cerrar = ventana.getElementsByClassName('cerrarYvolver');
+
+if( document.getElementById('comboDocentesParaCrearCurso').childElementCount == 0) {
+    ventana.classList.add('activo');
+}
+for (let i = 0, l = bots_cerrar.length; i < l; i++)
+{
+    bots_cerrar[i].addEventListener('click', function (evt)
+    {
+        history.back();
+    })
+}
+/*-----------------------------------------------------------------------------------------------------------*/

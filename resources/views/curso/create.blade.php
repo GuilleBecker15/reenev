@@ -88,12 +88,12 @@
         <a href="#" class="boton-cerrar cerrarYvolver">x</a>
         
         <div class="cuerpo text-justify">
-            Lo lamento, aun no puede crear un nuevo curso debido a que no exiten profesores en el sistema.
+            Lo lamento, aun no puede crear un nuevo curso debido a que no existen profesores en el sistema.
         </div>
         <div>
             <div class="row">
                 <div class="col-md-6 text-center">
-                    <a class="btn btn-success" href="/Docentes/create">Crear nuevo docente</a>
+                    <a class="btn btn-info" href="/Docentes/create">Crear nuevo docente</a>
                 </div>
                 <div class="col-md-6  text-right">
                     <a class="btn btn-warning" href="javascript:history.back();">Volver</a>        
@@ -104,32 +104,10 @@
 
 </div>
 
-<button type="button" id="activar">
-    Abrir
-</button>
+
 
 <script>
-let bot_abrir   = document.getElementById('activar');
-let ventana     = document.getElementsByClassName('modalmio')[0];
-let bots_cerrar = ventana.getElementsByClassName('cerrarYvolver');
 
-// bot_abrir.addEventListener('click', function (evt)
-// {
-//     ventana.classList.add('activo');
-// })
-
-if( document.getElementById('comboDocentesParaCrearCurso').childElementCount == 0) {
-    ventana.classList.add('activo');
-}
-
-for (let i = 0, l = bots_cerrar.length; i < l; i++)
-{
-    bots_cerrar[i].addEventListener('click', function (evt)
-    {
-        //ventana.classList.remove('activo');
-        history.back();
-    })
-}
 
 
 </script>

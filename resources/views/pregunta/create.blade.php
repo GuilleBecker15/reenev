@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title','Agregar pregunta a una encuesta')
 @section('content')
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
@@ -37,7 +38,7 @@
                     					<form class="form-inline form-delete" method="POST" action="{{ route('Encuestas.Preguntas.destroy', [$encuesta->id, $pregunta->id]) }}">
                     						<input name="_method" type="hidden" value="DELETE">
                     						{{ csrf_field() }}
-                    						<button name="delete_modal" type="submit" class="btn btn-danger btn-xs delete">Borrar</button>
+                    						<button name="confirmarBorrar" type="submit" class="btn btn-danger btn-xs delete borrado_confirm">Borrar</button>
                     					</form>
 	                                </td>
 
@@ -77,4 +78,47 @@
 			</div>
 		</div>				
 	</div>
+
+<div class="modalmio">
+    <div class="overlay cerrar"></div>
+
+    <div class="ventana">
+        <a href="#" class="boton-cerrar cerrarModal">x</a>
+        
+        <div class="cuerpo text-justify">
+			¿Esta seguro que desea realizar esta accion?
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <a class="btn btn-info" href="/Docentes/create">Crear nuevo docente</a>
+                </div>
+                <div class="col-md-6  text-right">
+                    <a href="#" class="btn btn-success cerrarModal">Cancelar</a>        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	let borrado					= document.getElementsByClassName('borrado_confirm');
+	let ventana_confirmacion 	= document.getElementsByClassName('modalmio')[0];
+	let boton_cerrar			= document.getElementsByClassName('cerrarModal');
+
+		for (let i = 0, l = boton_cerrar.length; i < l; i++)
+	{
+		boton_cerrar[i].addEventListener('click', function (evt)
+		{
+			ventana.classList.remove('activo');
+		})
+	}
+
+	for (let i = 0, l = borrado.length; i < l; i++){
+		borrado[i].addEventListener('click', function(evt){
+			//alert("esto seria un modal");
+			evt.preventDefault();
+			ventana_confirmacion.classList.add('activo');
+		});
+	}
+</script>			
 @endsection

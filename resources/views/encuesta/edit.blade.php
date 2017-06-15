@@ -7,7 +7,7 @@
     
     <div class="row">
 
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Editar una encuesta</h1></div>
                 <div class="panel-body">
@@ -48,37 +48,16 @@
                                 <label type="text" name="descripcion" class="col-md-6 control-label" for="descripcion" value="">Fecha limite para completar la encuesta</label>  
                                 <div class="col-md-4">
                                     <input class="form-control" id="vence" type="fecha" name="vence" value="{{ $encuesta->vence }}" placeholder="" required>
+                                </div>
+                                <div class="col-md-6 col-md-offset-3">               
                                     @if ($errors->has('vence'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('vence') }}</strong>
                                         </span>
                                     @endif
-                                </div>               
-                            </div>
-                            </div>
-                            <!-- <div class="form-group">
-                                <div class="col-md-6">
-                                    <a href="{{ route('Encuestas.Preguntas.create', $encuesta->id) }} ">
-                                        <button id="agregarPreguntas" type="button" class="btn btn-info">Agregar preguntas</button>                                        
-                                    </a>
-                                </div>
-                            </div> -->
-                           <!--  <div id="agregarUno" class="form-group">
-                           
-                               
-                           </div> -->
-
-                            <!-- <div class="form-group text-center">
-                                <div class="col-md-12">
-                                    <label type="text" name="pregunta" form="pregunta">Ingrese una pregunta para la encuensta</label>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control" id=descPregunta placeholder="¿Que pregunta desea formular?">
-                                </div>
-                            </div> -->
-
+                            
                             <div class="form-group text-center">
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-primary">
