@@ -267,9 +267,9 @@ class CursoController extends Controller
         //
     }
 
-    public function borrardocente($idCurso, $idDocente){
-        $Curso = Curso::find($idCurso);
-        $curso->docentes()->detach($idDocente);
+    public function borrardocente(Request $request, $idCurso){
+        $curso = Curso::find($idCurso);
+        $curso->docentes()->detach($request->get('docente_id'));
         return $this->index();
     }
 

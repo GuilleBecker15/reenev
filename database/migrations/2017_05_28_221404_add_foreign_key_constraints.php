@@ -68,11 +68,11 @@ class AddForeignKeyConstraints extends Migration
 */
         $has_encuesta_id = Schema::hasColumn('preguntas', 'encuesta_id');
 
-        if ($has_encuesta_id) {
-            Schema::table('preguntas', function (Blueprint $table) {
-            $table->dropForeign('preguntas_encuesta_id_foreign');
-            $table->dropColumn('encuesta_id');});
-        }
+        // if ($has_encuesta_id) {
+        //     Schema::table('preguntas', function (Blueprint $table) {
+        //     //$table->dropForeign('preguntas_encuesta_id_foreign');
+        //     //$table->dropColumn('encuesta_id');});
+        // }
 
         $has_curso_id = Schema::hasColumn('realizadas', 'curso_id');
         $has_encuesta_id = Schema::hasColumn('realizadas', 'encuesta_id');

@@ -13,17 +13,32 @@
                         {{ Session::get('message') }}
                     </div>
                     @endif
+                        <div class="form-group">
+                            <div style="border: 1px solid transparent; border-radius: 4px; box-shadow: 0 1px 1px rgba(0,0,0,.05)" class="text-center">
+                                <label class="control-label ">Docente(s) actual(es)</label>
+                            </div>
+                            @foreach ($docente as $key => $docenteActual)
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-1">                                
+                                <label class="control-label">{{ $docenteActual->id }} -
+                                    {{ $docenteActual->nombre }} {{ $docenteActual->apellido }} </label>
+                                </div>
+                                <div>
+                                    <form class="form-inline form-delete" method="POST" action="{{ route('Cursos.Docente.destroy', $curso->id) }}">
+                                        {{ csrf_field() }}
+                                        <input name="_method" type="hidden" value="DELETE">
+                                        <input name="docente_id" type="hidden" value="{{ $docenteActual->id }}">
+                                    <button type="submit" class="btn btn-danger ">Borrar</button>
+                                    </form>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        <div class="form-group">
                     <form onsubmit="return validarCampos();" id="formularioModificacion" class="form-horizontal" role="form" method="POST" action="{{ route('Cursos.update',$curso->id) }}">
                         <input name="_method" type="hidden" value="PUT">
                         {{ csrf_field() }}
 
-                        <div class="form-group">
-                            @foreach ($docente as $key => $docenteActual)
-                            <label class="col-md-8 col-md-offset-1  control-label">Docente(s) actual(es):  {{ $docenteActual->id }} -
-                                {{ $docenteActual->nombre }} {{ $docenteActual->apellido }} </label> <br>
-                            @endforeach
-                        </div>
-                        <div class="form-group">
                             <label class="col-md-4 control-label">Agregar docente</label>
 
                             <div class="col-md-6">

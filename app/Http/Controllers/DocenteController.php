@@ -171,9 +171,12 @@ class DocenteController extends Controller
      * @param  \App\Docente  $docente
      * @return \Illuminate\Http\Response
      */
-    public function edit(Docente $docente)
+    public function edit($id)
     {
-        //
+        $this->authorize('es_admin', User::class);
+
+        $docente = Docente::findOrFail($id);
+        return view('docente.edit', compact('docente'));
     }
 
     /**
@@ -183,9 +186,20 @@ class DocenteController extends Controller
      * @param  \App\Docente  $docente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Docente $docente)
+    public function update(Request $request, $id)
     {
-        //
+        $docente = Docente::findOrFail($id);
+
+        $docente->email=$request->get('email');
+        $docente->ci=$request->get('ci');
+        $docente->nombre=$request->get('nombre');
+        $docente->apellido=$request->get('apellido');
+
+        $docente->save();
+
+        $request->session()->flash('message', 'Datos del docente actualizados con exito');
+
+        return $this->edit($id);
     }
 
     /**
@@ -194,8 +208,16 @@ class DocenteController extends Controller
      * @param  \App\Docente  $docente
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Docente $docente)
+    public function destroy(Request $request, $id)
     {
-        //
+        $this->authorize('es_admin', User::class);
+
+        $docente = Docente::find($id);
+        $nomApe = $docente->nombre." ".$docente->apellido;
+        //if (se puede borrar)
+        $docente->delete();
+
+        $request->session()->flash('message', 'El docente '.$nomApe. ' fue borrado exitosamente');
+        return $this->index();
     }
 }

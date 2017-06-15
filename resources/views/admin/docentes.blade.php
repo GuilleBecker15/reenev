@@ -33,9 +33,19 @@
                                     <td>{{ $docente->nombre }}</td>
                                     <td>{{ $docente->apellido }}</td>
                                     <td>
-                                        <a href="/Cursos/docente/{{ $docente->id }}">
-                                            {{ $docente->cursos()->count() }}
+                                        <a class="btn btn-primary" href="/Cursos/docente/{{ $docente->id }}">
+                                        {{ $docente->cursos()->count() }}
                                         </a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-info" href="/Docentes/{{ $docente->id }}/edit">Editar</a>
+                                    </td>
+                                    <td>
+                                        <form class="form-inline form-delete" method="POST" action="{{ route('Docentes.destroy', $docente->id) }}">
+                                        <input name="_method" type="hidden" value="DELETE">
+                                        {{ csrf_field() }}
+                                        <button type="submit" class="btn btn-danger">Borrar</button>
+                                        </form>
                                     </td>
                                 </tr>
                             </tbody>
