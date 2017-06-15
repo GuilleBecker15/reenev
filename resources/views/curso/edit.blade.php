@@ -8,7 +8,7 @@
                 <div class="panel-heading"><h1>Datos del curso</h1></div>
                 <div class="panel-body">
                     @include('layouts.flashes')
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <div style="border: 1px solid transparent; border-radius: 4px; box-shadow: 0 1px 1px rgba(0,0,0,.05)" class="text-center">
                                 <label class="control-label ">Docente(s) actual(es)</label>
                             </div>
@@ -28,11 +28,11 @@
                                 </div>
                             </div>
                             @endforeach
-                        </div>
-                        <div class="form-group">
+                        </div> -->
                     <form onsubmit="return validarCampos();" id="formularioModificacion" class="form-horizontal" role="form" method="POST" action="{{ route('Cursos.update',$curso->id) }}">
                         <input name="_method" type="hidden" value="PUT">
                         {{ csrf_field() }}
+                        <!-- <div class="form-group">
 
                             <label class="col-md-4 control-label">Agregar docente</label>
 
@@ -46,7 +46,7 @@
                                 @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
                             <label for="nombre" class="col-md-4 control-label">Nombre</label>
