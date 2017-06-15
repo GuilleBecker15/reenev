@@ -14,18 +14,7 @@
                     echo Request::flash();
                 ?>
                 <div class="panel-body">
-                    @if(Session::has('message'))
-                        <div class="alert alert-success success-dismissable">
-                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            {{ Session::get('message') }}
-                        </div>
-                    @endif
-                    @if(Session::has('error'))
-                        <div class="alert alert-danger danger-dismissable">
-                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            {{ Session::get('error') }}
-                        </div>
-                    @endif
+                   @include('layouts.flashes')
                     <form onsubmit="return validarCampos();" class="form-horizontal" role="form" method="POST" action="{{ route('Docentes.update', $docente->id) }}">
                         {{ csrf_field() }}
                         <input name="_method" type="hidden" value="PUT">

@@ -47,14 +47,7 @@
                             <i class="glyphicon glyphicon-danger"></i> {{ Session::get('error') }}
                         </div>
                     @endif -->
-                    @if(Session::has('message'))
-                        <div class="alert alert-success success-dismissable">
-                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            <!-- <i class="glyphicon glyphicon-success"></i> -->
-                            {{ Session::get('message') }}
-                            <!-- {{ Session::forget('message') }} -->
-                        </div>
-                    @endif
+                    @include('layouts.flashes')
                     <form onsubmit="return validarCampos();" id="formularioModificacion" class="form-horizontal" role="form" method="POST" action="{{ route('Users.update',$user->id) }}">
                         <input name="_method" type="hidden" value="PUT">
                         {{ csrf_field() }}

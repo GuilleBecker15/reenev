@@ -7,6 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Informacion del usuario</h1></div>
                 <div class="panel-body">
+
                 <h3>
                     @if($user->estaBorrado)
                         <span class="glyphicon glyphicon-remove"></span>
@@ -16,6 +17,7 @@
                         {{$user->tipo($user->esAdmin)}}
                     @endif
                 </h3>
+                @include('layouts.flashes')
                     <table class="table table-user-information">
                         <tbody>
                             <tr>

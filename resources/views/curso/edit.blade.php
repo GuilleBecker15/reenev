@@ -7,12 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Datos del curso</h1></div>
                 <div class="panel-body">
-                    @if(Session::has('message'))
-                    <div class="alert alert-info success-dismissable">
-                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                        {{ Session::get('message') }}
-                    </div>
-                    @endif
+                    @include('layouts.flashes')
                         <div class="form-group">
                             <div style="border: 1px solid transparent; border-radius: 4px; box-shadow: 0 1px 1px rgba(0,0,0,.05)" class="text-center">
                                 <label class="control-label ">Docente(s) actual(es)</label>

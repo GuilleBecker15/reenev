@@ -7,6 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Dar de alta un docente</h1></div>
                 <div class="panel-body">
+                    @include('layouts.flashes')
                     <form onsubmit="return validarCampos();" class="form-horizontal" role="form" method="POST" action="{{ route('Docentes.store') }}">
                         {{ csrf_field() }}
 

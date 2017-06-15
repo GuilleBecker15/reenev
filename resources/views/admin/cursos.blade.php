@@ -8,7 +8,7 @@
                 <div class="panel-heading">
 
                     <h1>{{ $h1 }}</h1>
-
+                @include('layouts.flashes')
                 </div>
                 <div class="panel-body">
                 @include('admin.toolbar', ['route' => $route])

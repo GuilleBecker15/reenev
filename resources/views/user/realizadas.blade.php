@@ -7,6 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Encuestas completadas</h1></div>
                 <div class="panel-body">
+                @include('layouts.flashes')
                     <div class="table-responsive">
                         <table class="table">
                             <thead>

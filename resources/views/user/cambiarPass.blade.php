@@ -34,12 +34,7 @@
 						
 					</div>
 					<div class="panel-body">
-						@if(Session::has('error')||Session::has('message'))
-                        <div class="alert alert-success alert-dismissable">
-                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            <i class="glyphicon glyphicon-success"></i> {{ Session::get('message') }}
-                        </div>
-                    	@endif
+						@include('layouts.flashes')
 
 
 						<form id="formularioUpdatePass" class="form-horizontal" role="form" method="POST" action="{{ route('updatePass', $user->id ) }}">
