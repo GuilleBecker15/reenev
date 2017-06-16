@@ -12,7 +12,7 @@
 					<div class="panel-body">
 						@include('layouts.flashes')
 						<h3>Preguntas: </h3>
-						<!-- //////////////////////////////////////////////////////// -->
+						
 							
 						<table class="table table-bordered table-striped table-hover category-table" data-toggle="dataTable" data-form="deleteForm">
 							<thead>
@@ -79,27 +79,7 @@
 		</div>				
 	</div>
 
-<div class="modalmio">
-    <div class="overlay cerrar"></div>
-
-    <div class="ventana">
-        <a href="#" class="boton-cerrar cerrarModal">x</a>
-        
-        <div class="cuerpo text-justify">
-			¿Esta seguro que desea realizar esta accion?
-        </div>
-        <div>
-            <div class="row">
-                <div class="col-md-6  text-right">
-                    <a href="#" class="btn btn-success cerrarModal">Cancelar</a>        
-                </div>
-                <div class="col-md-6 text-center">
-                    <a id="aceptarBorrado" class="btn btn-info " href="#">Aceptar</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@include('layouts.modalconfirmacion')
 <script>
 	let borrado					= document.getElementsByClassName('borrado_confirm');
 	let ventana_confirmacion 	= document.getElementsByClassName('modalmio')[0];
@@ -123,7 +103,8 @@
 	aceptar.addEventListener('click',function(evt){
 		idForm.submit();
 		ventana_confirmacion.classList.remove('activo');
-		waitingDialog.show('Custom message');
+		waitingDialog.show('Por favor espere', {dialogSize: 'sm', progressType: 'success'});
+		setTimeout(function () {waitingDialog.hide();}, 15000 );
 	});
 
 
