@@ -35,7 +35,7 @@
 	                                </td>
 	                                <td>
 	                                	
-                    					<form class="form-inline form-delete" method="POST" action="{{ route('Encuestas.Preguntas.destroy', [$encuesta->id, $pregunta->id]) }}">
+                    					<form id="{{ $pregunta->id }}.formulario" class="form-inline form-delete" method="POST" action="{{ route('Encuestas.Preguntas.destroy', [$encuesta->id, $pregunta->id]) }}">
                     						<input name="_method" type="hidden" value="DELETE">
                     						{{ csrf_field() }}
                     						<button name="confirmarBorrar" type="submit" class="btn btn-danger btn-xs delete borrado_confirm">Borrar</button>
@@ -90,11 +90,11 @@
         </div>
         <div>
             <div class="row">
-                <div class="col-md-6 text-center">
-                    <a class="btn btn-info" href="/Docentes/create">Crear nuevo docente</a>
-                </div>
                 <div class="col-md-6  text-right">
                     <a href="#" class="btn btn-success cerrarModal">Cancelar</a>        
+                </div>
+                <div class="col-md-6 text-center">
+                    <a id="aceptarBorrado" class="btn btn-info " href="#">Aceptar</a>
                 </div>
             </div>
         </div>
@@ -104,6 +104,7 @@
 	let borrado					= document.getElementsByClassName('borrado_confirm');
 	let ventana_confirmacion 	= document.getElementsByClassName('modalmio')[0];
 	let boton_cerrar			= document.getElementsByClassName('cerrarModal');
+	let aceptar				=document.getElementById('aceptarBorrado');
 
 		for (let i = 0, l = boton_cerrar.length; i < l; i++)
 	{
@@ -118,7 +119,16 @@
 			//alert("esto seria un modal");
 			evt.preventDefault();
 			ventana_confirmacion.classList.add('activo');
+
+									
 		});
 	}
+
+	aceptar.addEventListener('click',function(evt){
+		alert("esto");
+		console.log(evt)
+	});
+
+
 </script>			
 @endsection
