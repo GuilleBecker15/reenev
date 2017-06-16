@@ -124,8 +124,24 @@ class PreguntaController extends Controller
         $this->authorize('es_admin', User::class);
 
         $pregunta = Pregunta::findOrFail($idPreg);
+        //$enun = str_replace(",", "/", $request->get('enunciado'));
+
+        $enun = str_replace(",", "/", $request->get('enunciado'));
+        $request->merge(['enunciado' => $enun]);
+
+        $validator = Validator::make($request->all(),[
+            'enunciado' => 'required|string|max:255|unique:preguntas,enunciado,NULL,'.$request->get('enunciado').',encuesta_id,'.$idEncuesta.'',
+            
+          ]);
+
+        if($validator->fails() ){
+            $encuesta = Encuesta::findOrFail($idEncuesta);
+            return view('pregunta.edit',['encuesta'=>$encuesta, 'pregunta'=>$pregunta])->withErrors($validator,'enunciado');
+        }
+
+
         $idEncuesta = $pregunta->encuesta()->get()[0]->id;
-        $pregunta->enunciado = $request->get('enunciado');
+        $pregunta->enunciado = $enun ;
         $pregunta->save();
         $request->session()->flash('message', 'Pregunta actualizada exitosmente!');
 
