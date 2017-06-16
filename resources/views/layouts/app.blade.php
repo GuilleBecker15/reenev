@@ -32,10 +32,12 @@
     <!-- <script src="{{ asset('js/app.js') }}"></script> -->
 
     <script src="{{ asset('/js/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('/js/wait.js') }}"></script>
     <script src="{{ asset('/bootstrap-3.3.7-dist/js/bootstrap.min.js') }}"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="{{ asset('/js/funciones.js') }}"></script>
+
 
 </body>
 </html>
