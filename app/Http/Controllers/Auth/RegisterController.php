@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Http\Traits\Utilidades;
+use Carbon\Carbon;
+
 
 class RegisterController extends Controller
 {
@@ -54,12 +56,12 @@ class RegisterController extends Controller
             'name2' => 'required|string|max:255',
             'apellido1' => 'required|string|max:255',
             'apellido2' => 'required|string|max:255',
-            'nacimiento' => 'required|string', 
+            'nacimiento' => 'required|string|before:'.Carbon::now()->toDateString(), 
             'generacion' => 'required|integer',
             'ci' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-        ]);
+        ], ['before' => 'El campo nacimiento no es una fecha valida']);
     }
 
     /**

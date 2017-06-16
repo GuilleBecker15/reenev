@@ -163,7 +163,7 @@ class PreguntaController extends Controller
 
         $pregunta = Pregunta::findOrFail($idPregunta);
         $idEncuesta = $pregunta->encuesta()->get()[0]->id;  
-        $pregunta->delete();
+        $pregunta->forceDelete();
 
         //$table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 

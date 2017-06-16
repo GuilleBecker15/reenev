@@ -7,12 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Dar de alta un curso</h1></div>
                 <div class="panel-body">
-                    @if(Session::has('message'))
-                    <div class="alert alert-info success-dismissable">
-                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                        {{ Session::get('message') }}
-                    </div>
-                    @endif
+                    @include('layouts.flashes')
                     <form onsubmit="return validarCampos();" class="form-horizontal" role="form" method="POST" action="{{ route('Cursos.store') }}">
                         {{ csrf_field() }}
 
@@ -20,7 +15,7 @@
                             <label class="col-md-4 control-label">Docente</label>
 
                             <div class="col-md-6">
-                                <select id="docente_id" name="docente_id" type="text" class="form-control">
+                                <select id="comboDocentesParaCrearCurso" name="docente_id" type="text" class="form-control">
                                 @foreach ($docentes as $key => $d)
                                     <option value="{{ $d->id }}">
                                     {{ $d->id }} - {{ $d->nombre }} {{ $d->apellido }}
@@ -86,4 +81,34 @@
         </div>
     </div>
 </div>
+ <div class="modalmio">
+    <div class="overlay cerrar"></div>
+
+    <div class="ventana">
+        <a href="#" class="boton-cerrar cerrarYvolver">x</a>
+        
+        <div class="cuerpo text-justify">
+            Lo lamento, aun no puede crear un nuevo curso debido a que no existen profesores en el sistema.
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <a class="btn btn-info" href="/Docentes/create">Crear nuevo docente</a>
+                </div>
+                <div class="col-md-6  text-right">
+                    <a class="btn btn-warning" href="javascript:history.back();">Volver</a>        
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+
+</script>
 @endsection

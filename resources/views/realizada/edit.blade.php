@@ -11,6 +11,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Completar encuesta</h1></div>
                 <div class="panel-body">
+                @include('layouts.flashes')
                     <form onsubmit="return validarCampos();" class="form-horizontal" role="form" method="POST" action="{{ route('Realizadas.update', $realizada->id) }}">
                         
                         {{ method_field('PUT') }}

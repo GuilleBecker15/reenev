@@ -8,7 +8,7 @@
                 <div class="panel-heading">
 
                     <h1>{{ $h1 }}</h1>
-
+                @include('layouts.flashes')
                 </div>
                 <div class="panel-body">
                 @include('admin.toolbar', ['route' => $route])
@@ -48,6 +48,12 @@
                                         {{ Form::open(['method' => 'GET', 'route' => ['Cursos.edit', $curso->id]]) }}
                                         {{ Form::hidden('id', $curso->id) }}
                                         {{ Form::submit('Editar', ['class' => 'btn btn-xs btn-primary']) }}
+                                        {{Form::close()}}
+                                    </td>
+                                    <td>
+                                        {{ Form::open(['method' => 'GET', 'route' => ['Cursos.Docente.edit', $curso->id]]) }}
+                                        {{ Form::hidden('id', $curso->id) }}
+                                        {{ Form::submit('Agregar/quitar docente', ['class' => 'btn btn-xs btn-warninig']) }}
                                         {{Form::close()}}
                                     </td>
                                 </tr>

@@ -1,4 +1,4 @@
-{{ Form::open(['method' => 'DELETE', 'route' => ['Users.destroy', $user->id]]) }}
-{{ Form::hidden('id', $user->id) }}
-{{ Form::submit('Eliminarlo/Recuperarlo', ['class' => 'btn-xs btn btn-danger']) }}
+{{ Form::open(['method' => 'DELETE', 'route' => ['Users.destroy', $user[0]->id]]) }}
+{{ Form::hidden('id', $user[0]->id) }}
+{{ Form::submit('Eliminar', ['class' => 'btn-xs btn btn-danger']) }}
 {{Form::close()}}
