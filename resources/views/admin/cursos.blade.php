@@ -23,14 +23,14 @@
                                     <th>Abreviatura</th>
                                 </tr>
                             </thead>
-                            @foreach ($cursos as $key => $curso)
+                            @foreach ($cursos as $curso)
                             <tbody>
                                 <tr>
                                     <td>{{ $curso->id }}</td>
                                     <td>{{ $curso->nombre }}</td>
                                     <td>
                                     <table>
-                                        @foreach($curso->docentes()->get() as $key => $docente)
+                                        @foreach($curso->docentes as $docente)
                                             <tbody>
                                                 <tr>
                                                     {{ $docente->nombre }}

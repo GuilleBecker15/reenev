@@ -18,18 +18,27 @@
                         {{ csrf_field() }}
 
                         <div class="form-group">
-                            @foreach ($docente as $key => $docenteActual)
-                            <label class="col-md-8 col-md-offset-1  control-label">Docente(s) actual(es):  {{ $docenteActual->id }} -
-                                {{ $docenteActual->nombre }} {{ $docenteActual->apellido }} </label> <br>
-                            @endforeach
-                        </div>
-                        <div class="form-group">
                             <label class="col-md-4 control-label">Agregar docente</label>
 
                             <div class="col-md-6">
                                 <select id="docente_id" name="docente_id" type="text" class="form-control">
                                 
                                 @foreach ($docentes as $key => $d)
+                                    <option value="{{ $d->id }}">
+                                    {{ $d->id }} - {{ $d->nombre }} {{ $d->apellido }}
+                                </option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Docenestes actuales</label>
+
+                            <div class="col-md-6">
+                                <select id="docente_id" name="docente_id" type="text" class="form-control">
+                                
+                                @foreach ($docente as $key => $d)
                                     <option value="{{ $d->id }}">
                                     {{ $d->id }} - {{ $d->nombre }} {{ $d->apellido }}
                                 </option>

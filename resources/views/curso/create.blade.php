@@ -21,10 +21,11 @@
 
                             <div class="col-md-6">
                                 <select id="docente_id" name="docente_id" type="text" class="form-control">
+                                <option value="nadie">- Docente Anonimo -</option>
                                 @foreach ($docentes as $key => $d)
                                     <option value="{{ $d->id }}">
                                     {{ $d->id }} - {{ $d->nombre }} {{ $d->apellido }}
-                                </option>
+                                    </option>
                                 @endforeach
                                 </select>
                             </div>

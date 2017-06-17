@@ -22,11 +22,6 @@ class Respuesta extends Model
     	return $this->belongsTo('App\Realizada');
     }
 
-    public function post()
-    {
-        return $this->belongsTo('App\Post');
-    }
-
     public function pregunta()
     {
         return $this->belongsTo('App\Pregunta');
