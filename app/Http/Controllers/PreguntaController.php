@@ -37,6 +37,9 @@ class PreguntaController extends Controller
         // $preguntas = Pregunta::with('encuesta')->get();
         $preguntas = Pregunta::where('encuesta_id',$id)->get();
 
+        for ($i=0; $i < $preguntas->count() ; $i++) { 
+            $preguntas[$i]->enunciado = str_replace("/", ",", $preguntas[$i]->enunciado);
+        }
         
         return view('pregunta.create',['encuesta'=>$encuesta, 'preguntas'=>$preguntas]);
     }
@@ -50,15 +53,12 @@ class PreguntaController extends Controller
     public function store(Request $request, $id)
     {
         $this->authorize('es_admin', User::class);
+        $enun = str_replace(",", "/", $request->get('enunciado'));
+        $request->merge(['enunciado' => $enun]);
 
         $validator = Validator::make($request->all(),[
             'enunciado' => 'required|string|max:255|unique:preguntas,enunciado,NULL,'.$request->get('enunciado').',encuesta_id,'.$id.'',
-            //'enunciado' => 'unique:preguntas,enunciado,'.$request->get('enunciado').',encuesta_id,'.$id,
-            //unique_multiple:memberships,user_id,group_id
-            //|unique:table_name,label,NULL,event_id,event_id,'.$data['event_id'].',id,id'.$model->id;
-            //'enunciado' => Rule::unique('preguntas'), //esto me causa error, si la pregunta ya existe me da error status 1 o algo asi
- 
-            //'enunciado' => Rule::unique('preguntas')->where('encuesta_id','$id'),//maso menos anda
+            
           ]);
 
         // DB::table('users')
@@ -146,8 +146,24 @@ class PreguntaController extends Controller
         $this->authorize('es_admin', User::class);
 
         $pregunta = Pregunta::findOrFail($idPreg);
+        //$enun = str_replace(",", "/", $request->get('enunciado'));
+
+        $enun = str_replace(",", "/", $request->get('enunciado'));
+        $request->merge(['enunciado' => $enun]);
+
+        $validator = Validator::make($request->all(),[
+            'enunciado' => 'required|string|max:255|unique:preguntas,enunciado,NULL,'.$request->get('enunciado').',encuesta_id,'.$idEncuesta.'',
+            
+          ]);
+
+        if($validator->fails() ){
+            $encuesta = Encuesta::findOrFail($idEncuesta);
+            return view('pregunta.edit',['encuesta'=>$encuesta, 'pregunta'=>$pregunta])->withErrors($validator,'enunciado');
+        }
+
         $idEncuesta = $pregunta->encuesta()->get()[0]->id;
-        $pregunta->enunciado = $request->get('enunciado');
+
+        $pregunta->enunciado = $enun ;
 
         if (Realizada::where('encuesta_id', $idEncuesta)->get()->isNotEmpty()) {
             $request->session()->flash(
@@ -173,6 +189,7 @@ class PreguntaController extends Controller
         $this->authorize('es_admin', User::class);
 
         $pregunta = Pregunta::findOrFail($idPregunta);
+
         $idEncuesta = $pregunta->encuesta()->get()[0]->id;
 
         if (Realizada::where('encuesta_id', $idEncuesta)->get()->isNotEmpty()) {
@@ -182,7 +199,7 @@ class PreguntaController extends Controller
             return $this->create($idEncuesta);
         }
 
-        $pregunta->delete();
+        $pregunta->forceDelete();
 
         //$table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 

@@ -13,6 +13,87 @@ nav {
     box-shadow: 0 0 10px black;
 }
 
+a {
+    color: white;
+}
+
+        /* Reset */
+       
+.modalmio {
+            visibility: hidden;
+
+            transition: visibility 1s;
+        }
+
+        .modalmio.activo {
+            visibility: visible;
+        }
+
+        .modalmio .overlay {
+            position: fixed;
+            top: 0; bottom: 0;
+            left: 0; right: 0;
+            z-index: 1000;
+
+            background: rgba(0,0,0,0);
+
+            transition: background 1s;
+        }
+
+        .modalmio.activo .overlay {
+            background: rgba(0,0,0,0.5);
+            /*opacity: .5;*/
+        }
+
+        .modalmio .ventana {
+            position: fixed;
+            left: calc(50% - 250px);
+            top: -350px;
+            z-index: 1001;
+
+            width: 90%;
+            max-width: 500px;
+            padding: 26px 5px;
+
+            background: #8dbffe;
+            border-radius: 6px;
+
+            transition: top .5s;
+        }
+
+        .modalmio.activo .ventana {
+            top: 100px;
+        }
+
+        .modalmio .cuerpo {
+            padding: 1em;
+            background: white;
+            border-radius: 6px;
+        }
+
+        .modalmio .boton-cerrar {
+            display: inline-block;
+
+            position: absolute;
+            right: 5px; top: 5px;
+
+            font-family:    sans-serif;
+            font-weight:    bold;
+            font-size:      12px;
+            text-align:     center;
+            text-decoration:none;
+
+            background: red;
+            color: white;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+    
+        #activar {
+            margin: 40px 60px;
+        }
+
 .nav > li {
     padding: 0 9px;
     font-size: 18px;

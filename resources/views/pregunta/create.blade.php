@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title','Agregar pregunta a una encuesta')
 @section('content')
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
@@ -9,22 +10,9 @@
 						<h2>Agregar un pregunta a la encuesta: {{$encuesta->asunto}} : {{$encuesta->id}}</h2>
 					</div>
 					<div class="panel-body">
-					@include('pregunta.modal')
-						@if(Session::has('message'))
-	                        <div class="alert alert-success success-dismissable">
-	                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-	                            {{ Session::get('message') }}
-	                        </div>
-	                    @endif
-	                    @if($errors->has('enunciado'))
-	                    
-							<div class="alert alert-danger danger-dismissable">
-								<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-								{{ $errors->first('enunciado') }}
-							</div>
-	                    @endif
+						@include('layouts.flashes')
 						<h3>Preguntas: </h3>
-						<!-- //////////////////////////////////////////////////////// -->
+						
 							
 						<table class="table table-bordered table-striped table-hover category-table" data-toggle="dataTable" data-form="deleteForm">
 							<thead>
@@ -47,10 +35,10 @@
 	                                </td>
 	                                <td>
 	                                	
-                    					<form class="form-inline form-delete" method="POST" action="{{ route('Encuestas.Preguntas.destroy', [$encuesta->id, $pregunta->id]) }}">
+                    					<form id="{{ $pregunta->id }}.formulario" class="form-inline form-delete" method="POST" action="{{ route('Encuestas.Preguntas.destroy', [$encuesta->id, $pregunta->id]) }}">
                     						<input name="_method" type="hidden" value="DELETE">
                     						{{ csrf_field() }}
-                    						<button name="delete_modal" type="submit" class="btn btn-danger btn-xs delete">Borrar</button>
+                    						<button name="confirmarBorrar" type="submit" class="btn btn-danger btn-xs delete borrado_confirm" id = "{{ $pregunta->id }}.boton">Borrar</button>
                     					</form>
 	                                </td>
 
@@ -90,4 +78,35 @@
 			</div>
 		</div>				
 	</div>
+
+@include('layouts.modalconfirmacion')
+<script>
+	let borrado					= document.getElementsByClassName('borrado_confirm');
+	let ventana_confirmacion 	= document.getElementsByClassName('modalmio')[0];
+	let boton_cerrar			= document.getElementsByClassName('cerrarModal');
+	let aceptar				=document.getElementById('aceptarBorrado');
+	let idForm;
+	for (let i = 0, l = boton_cerrar.length; i < l; i++){
+		boton_cerrar[i].addEventListener('click', function (evt){
+			ventana.classList.remove('activo');
+		});
+	}
+
+	for (let i = 0, l = borrado.length; i < l; i++){
+		borrado[i].addEventListener('click', function(evt){
+			evt.preventDefault();
+			ventana_confirmacion.classList.add('activo');
+			idForm = borrado[i].parentElement;									
+		});
+	}
+
+	aceptar.addEventListener('click',function(evt){
+		idForm.submit();
+		ventana_confirmacion.classList.remove('activo');
+		waitingDialog.show('Por favor espere', {dialogSize: 'sm', progressType: 'success'});
+		setTimeout(function () {waitingDialog.hide();}, 15000 );
+	});
+
+
+</script>			
 @endsection

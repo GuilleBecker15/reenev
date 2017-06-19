@@ -231,10 +231,10 @@ class CursoController extends Controller
             Rule::unique('cursos')->ignore($curso->id)],
             ]);
 
-        $docente_id = $request->get('docente_id');
-        $docente = Docente::find($docente_id);
+        // $docente_id = $request->get('docente_id');
+        // $docente = Docente::find($docente_id);
 
-        $curso->docentes()->attach($docente);
+        // $curso->docentes()->attach($docente);
         $curso->semestre = $request->get('semestre');
         $curso->nombre = $request->get('nombre');
         $curso->abreviatura = $request->get('abreviatura');
@@ -242,7 +242,7 @@ class CursoController extends Controller
         if ($validator->fails()) {
 
             $request->session()->flash('message', 'Ocurrieron errores al actualizar');
-            $docentes = Docente::all()->whereNotIn('id', [$docente->id]);
+            //$docentes = Docente::all()->whereNotIn('id', [$docente->id]);
             return view('curso.edit',
                 compact('curso','docente','docentes'))->withErrors($validator);
 
@@ -256,6 +256,31 @@ class CursoController extends Controller
 
     }
 
+    public function editdocente($idCurso){
+        $this->authorize('es_admin', User::class);
+
+        $curso = Curso::findOrFail($idCurso);
+        $docentesActuales = $curso->docentes()->get();
+        $ids = [];
+        for ($i=0; $i < $curso->docentes()->get()->count() ; $i++) { 
+            $ids = array_prepend($ids, $docentesActuales[$i]->id);
+         }
+        $otrosDocentes =  Docente::all()->whereNotIn('id', $ids);
+        return view('curso.editdocentes',compact('curso','docentesActuales','otrosDocentes'));
+    }
+
+    public function actualizardocente(Request $request, $idCurso){
+        $this->authorize('es_admin', User::class);
+
+       $curso = Curso::findOrFail($idCurso);
+       $docente = Docente::findOrFail($request->get('docente_id'));
+       $nombreDocente = $docente->nombre.' '.$docente->apellido;
+       $nombreCurso = $curso->nombre; 
+       $curso->docentes()->attach($docente);
+       $request->session()->flash('message', 'El docente '.$nombreDocente.' pertenece al curso '.$nombreCurso);
+       return $this->editdocente($idCurso);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -267,10 +292,13 @@ class CursoController extends Controller
         //
     }
 
-    public function borrardocente($idCurso, $idDocente){
-        $Curso = Curso::find($idCurso);
-        $curso->docentes()->detach($idDocente);
-        return $this->index();
+    public function borrardocente(Request $request, $idCurso){
+        $this->authorize('es_admin', User::class);
+
+        $curso = Curso::find($idCurso);
+        $curso->docentes()->detach($request->get('docente_id'));
+        $request->session()->flash('message', 'El docente ya no pertenece al curso');
+        return $this->editdocente($idCurso);
     }
 
 

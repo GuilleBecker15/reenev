@@ -5,17 +5,24 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Dar de alta un docente</h1></div>
+                <div class="panel-heading"><h1>Editar datos de un docente</h1></div>
+                <?php 
+                    $a = Session::get('old');
+                    if(Session::get('old')){
+                        echo "algo adentro";                        
+                    }
+                    echo Request::flash();
+                ?>
                 <div class="panel-body">
-                    @include('layouts.flashes')
-                    <form onsubmit="return validarCampos();" class="form-horizontal" role="form" method="POST" action="{{ route('Docentes.store') }}">
+                   @include('layouts.flashes')
+                    <form onsubmit="return validarCampos();" class="form-horizontal" role="form" method="POST" action="{{ route('Docentes.update', $docente->id) }}">
                         {{ csrf_field() }}
-
+                        <input name="_method" type="hidden" value="PUT">
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Correo</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="ejemplo@mail.com" required autofocus>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="{{ $docente->email }}" required autofocus>
 
                                 @if ($errors->has('email'))
                                 <span class="help-block">

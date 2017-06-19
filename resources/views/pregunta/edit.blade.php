@@ -12,18 +12,7 @@
 					?>
 				</div>
 				<div class="panel-body">
-                    @if(Session::has('message'))
-	                        <div class="alert alert-success success-dismissable">
-	                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-	                            {{ Session::get('message') }}
-	                        </div>
-	                    @endif
-	                    @if(Session::has('error'))
-							<div class="alert alert-danger danger-dismissable">
-								<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-								{{ Session::get('error') }}
-							</div>
-	                    @endif
+                    @include('layouts.flashes')
 					<form class="form-horizontal" action="{{ route('Encuestas.Preguntas.update',[$encuesta->id, $pregunta->id] ) }}" method="POST" accept-charset="utf-8">
 						<input type="hidden" name="_method" value="PUT">
 						{{ csrf_field() }}
