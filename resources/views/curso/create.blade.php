@@ -15,13 +15,19 @@
                             <label class="col-md-4 control-label">Docente</label>
 
                             <div class="col-md-6">
+                            
                                 <select id="comboDocentesParaCrearCurso" name="docente_id" type="text" class="form-control">
-                                @foreach ($docentes as $key => $d)
-                                    <option value="{{ $d->id }}">
-                                    {{ $d->id }} - {{ $d->nombre }} {{ $d->apellido }}
-                                </option>
-                                @endforeach
+                                  
+                                  <option value="nadie">- Docente Anonimo -</option>
+                                  
+                                  @foreach ($docentes as $key => $d)
+                                      <option value="{{ $d->id }}">
+                                      {{ $d->id }} - {{ $d->nombre }} {{ $d->apellido }}
+                                      </option>
+                                  @endforeach
+                                
                                 </select>
+                            
                             </div>
                         </div>
 

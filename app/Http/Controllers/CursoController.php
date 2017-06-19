@@ -138,7 +138,8 @@ class CursoController extends Controller
     public function create()
     {
         $this->authorize('es_admin', User::class);
-        $docentes = Docente::all();
+        $docentes = Docente::where('nombre','<>','Docente')
+        ->where('apellido', '<>', 'Anonimo')->get();
         return view('curso.create', compact('docentes'));
     }
 
@@ -169,14 +170,17 @@ class CursoController extends Controller
 
         if (!$docente) {
 
-            $docente = Docente::create();
-            
-            $docente->email = 'N/A';
-            $docente->ci = 'N/A';
-            $docente->nombre = 'Docente';
-            $docente->apellido = 'Anonimo';
-            
-            $docente->save();
+            $docente = Docente::where('nombre', 'Docente')
+            ->where('apellido', 'Anonimo')->first();
+
+            if (!$docente) {
+                $docente = Docente::create();
+                $docente->email = 'N/A';
+                $docente->ci = 'N/A';
+                $docente->nombre = 'Docente';
+                $docente->apellido = 'Anonimo';
+                $docente->save();
+            }
 
         }
         

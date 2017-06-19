@@ -17,19 +17,14 @@ class Curso extends Model
      */
     protected $dates = ['deleted_at'];
 
-	public function users()
+    public function realizadas()
     {
-    	return $this->belongsToMany('App\User');
+        return $this->hasMany('App\Realizada');
     }
 
     public function docentes()
     {
-    	return $this->hasMany('App\Docente');
-    }
-
-    public function cursos()
-    {
-        return $this->hasMany('App\Curso');
+    	return $this->belongsToMany('App\Docente');
     }
 
 }

@@ -54,5 +54,4 @@ class Encuesta extends Model
         return $this->uyDateFormat($inicio_vence);
     }
 
-
 }

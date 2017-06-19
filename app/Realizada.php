@@ -24,6 +24,16 @@ class Realizada extends Model
     	return $this->belongsTo('App\User');
     }
 
+    public function curso()
+    {
+        return $this->belongsTo('App\Curso');
+    }
+
+    public function docente()
+    {
+        return $this->belongsTo('App\Docente');
+    }
+
     public function respuestas()
     {
         return $this->hasMany('App\Respuesta');
@@ -32,16 +42,6 @@ class Realizada extends Model
     public function encuesta()
     {
     	return $this->belongsTo('App\Encuesta');
-    }
-
-    public function docente()
-    {
-        return $this->belongsTo('App\Docente');
-    }
-
-    public function curso()
-    {
-        return $this->belongsTo('App\Curso');
     }
 
     public function uyCuando($cuando)
