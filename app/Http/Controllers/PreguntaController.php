@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Encuesta;
-use App\Pregunta;
-use Validator;
 use App\Http\Traits\Utilidades;
+use App\Pregunta;
+use App\Realizada;
 use App\User;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Validator;
 
 class PreguntaController extends Controller
 {
@@ -60,10 +61,31 @@ class PreguntaController extends Controller
             
           ]);
 
-        
+        // DB::table('users')
+        //     ->where('name', '=', 'John')
+        //     ->orWhere(function ($query) {
+        //         $query->where('votes', '>', 100)
+        //               ->where('title', '<>', 'Admin');
+        //     })
+        //     ->get();
+
+
+        // $existe = DB::table('preguntas')
+        //         ->where('encuesta_id', '=', $id)
+        //         ->where('enunciado', '=', $request->get('enunciado'))->get();
+        // if($existe){
+        //     $validator->errors()->add('Repetido', 'enunciado ya existe');            
+        // }
 
         $encuesta = Encuesta::findOrFail($id);
         $preguntas = Pregunta::where('encuesta_id',$id)->get();
+
+        if (Realizada::where('encuesta_id', $id)->get()->isNotEmpty()) {
+            $request->session()->flash(
+                'message',
+                'Imposible agregar pregunta, esta encuesta ya fue completada por alguien');
+            return view('pregunta.create',['encuesta'=>$encuesta, 'preguntas'=>$preguntas]);
+        }
 
         if($validator->fails() ){
             return view('pregunta.create',['encuesta'=>$encuesta, 'preguntas'=>$preguntas])->withErrors($validator,'enunciado');
@@ -139,11 +161,18 @@ class PreguntaController extends Controller
             return view('pregunta.edit',['encuesta'=>$encuesta, 'pregunta'=>$pregunta])->withErrors($validator,'enunciado');
         }
 
-
         $idEncuesta = $pregunta->encuesta()->get()[0]->id;
+
         $pregunta->enunciado = $enun ;
-        $pregunta->save();
-        $request->session()->flash('message', 'Pregunta actualizada exitosmente!');
+
+        if (Realizada::where('encuesta_id', $idEncuesta)->get()->isNotEmpty()) {
+            $request->session()->flash(
+                'message',
+                'Imposible modificar pregunta, esta encuesta ya fue completada por alguien');
+        } else {
+            $pregunta->save();
+            $request->session()->flash('message', 'Pregunta actualizada exitosmente!');
+        }
 
         return $this->create($idEncuesta);
 
@@ -160,7 +189,16 @@ class PreguntaController extends Controller
         $this->authorize('es_admin', User::class);
 
         $pregunta = Pregunta::findOrFail($idPregunta);
-        $idEncuesta = $pregunta->encuesta()->get()[0]->id;  
+
+        $idEncuesta = $pregunta->encuesta()->get()[0]->id;
+
+        if (Realizada::where('encuesta_id', $idEncuesta)->get()->isNotEmpty()) {
+            $request->session()->flash(
+                'message',
+                'Imposible quitar pregunta, esta encuesta ya fue completada por alguien');
+            return $this->create($idEncuesta);
+        }
+
         $pregunta->forceDelete();
 
         //$table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
