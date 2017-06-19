@@ -12,12 +12,7 @@
                 <div class="panel-heading"><h1>Completar encuesta</h1></div>
                 <div class="panel-body">
 
-                    @if(Session::has('message'))
-                    <div class="alert alert-danger success-dismissable">
-                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                        {{ Session::get('message') }}
-                    </div>
-                    @endif
+                    @include('layouts.flashes')
 
                     <form onsubmit="return validarCampos();" class="form-horizontal" role="form" method="POST" action="{{ url('Realizadas/continuar') }}">
                         {{ csrf_field() }}
