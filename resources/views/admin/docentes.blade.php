@@ -56,6 +56,7 @@
         </div>
     </div>
 </div>
+
 @include('layouts.modalconfirmacion')
 <script>
     let borrado                 = document.getElementsByClassName('borrado_confirm');
