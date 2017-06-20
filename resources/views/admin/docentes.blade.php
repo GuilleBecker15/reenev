@@ -32,7 +32,7 @@
                                     <td>{{ $docente->nombre }}</td>
                                     <td>{{ $docente->apellido }}</td>
                                     <td>
-                                        <a class="btn btn-primary" href="/Cursos/docente/{{ $docente->id }}">
+                                        <a class="btn btn-primary mianchor" href="/Cursos/docente/{{ $docente->id }}">
                                         {{ $docente->cursos()->count() }}
                                         </a>
                                     </td>
