@@ -130,6 +130,7 @@ class PreguntaController extends Controller
     {
         $this->authorize('es_admin', User::class);
         $pregunta = Pregunta::findOrFail($id_pregunta);
+        $pregunta->enunciado = str_replace("/", ",", $pregunta->enunciado);
         $encuesta = Encuesta::find($pregunta->encuesta()->get()[0]->id);
         return view('pregunta.edit', ['encuesta'=>$encuesta,'pregunta'=>$pregunta]);
     }
