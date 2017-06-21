@@ -35,7 +35,7 @@
                             $r = null;
                             
                             if ($respuestas) {
-                                $r = $respuestas->take(1)->get()[0];
+                                $r = $respuestas->first();
                             }
 
                             $_0 = "";

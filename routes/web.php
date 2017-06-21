@@ -33,6 +33,8 @@ Route::get('/Users/borrados/{si_o_no}', 'UserController@borrados');
 Route::get('/Users/completadas/{id}', 'UserController@realizadas');
 Route::get('/Cursos/docente/{id}', 'CursoController@docente');
 
+Route::get('/Docentes/estadisticas', 'DocenteController@estadisticas');
+
 Route::resource('Cursos', 'CursoController');
 Route::resource('Docentes', 'DocenteController');
 Route::resource('Encuestas', 'EncuestaController');
