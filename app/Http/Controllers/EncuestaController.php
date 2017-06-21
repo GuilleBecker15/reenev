@@ -175,18 +175,23 @@ class EncuestaController extends Controller
         
         $encuesta = Encuesta::create($data);
 
-        $ultimas_preguntas = $ultima_encuesta->preguntas()->get()->toArray();
+        if ($ultima_encuesta) {
 
-        foreach ($ultimas_preguntas as $u_p) {
-            $pregunta = new Pregunta;
-            $n = $encuesta->preguntas()->count();
-            $pregunta->encuesta()->associate($encuesta);
-            $pregunta->numero = $n+1;
-            $pregunta->enunciado = $u_p['enunciado'];
-            $pregunta->save();
-        }
+        	$ultimas_preguntas = $ultima_encuesta->preguntas()->get()->toArray();
+
+	        foreach ($ultimas_preguntas as $u_p) {
+	            $pregunta = new Pregunta;
+	            $n = $encuesta->preguntas()->count();
+	            $pregunta->encuesta()->associate($encuesta);
+	            $pregunta->numero = $n+1;
+	            $pregunta->enunciado = $u_p['enunciado'];
+	            $pregunta->save();
+	        }
+
+	    }
 
         return $this->show($encuesta->id);
+        
     }
 
     /**

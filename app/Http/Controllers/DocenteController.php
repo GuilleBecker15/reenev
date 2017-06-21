@@ -220,4 +220,9 @@ class DocenteController extends Controller
         $request->session()->flash('message', 'El docente '.$nomApe. ' fue borrado exitosamente');
         return $this->index();
     }
+
+    public function estadisticas() {
+    	return view('docente.estadisticas');
+    }
+
 }

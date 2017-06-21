@@ -273,16 +273,18 @@ class CursoController extends Controller
         return view('curso.editdocentes',compact('curso','docentesActuales','otrosDocentes'));
     }
 
-    public function actualizardocente(Request $request, $idCurso){
-        $this->authorize('es_admin', User::class);
-
-       $curso = Curso::findOrFail($idCurso);
-       $docente = Docente::findOrFail($request->get('docente_id'));
-       $nombreDocente = $docente->nombre.' '.$docente->apellido;
-       $nombreCurso = $curso->nombre; 
-       $curso->docentes()->attach($docente);
-       $request->session()->flash('message', 'El docente '.$nombreDocente.' pertenece al curso '.$nombreCurso);
-       return $this->editdocente($idCurso);
+    public function actualizardocente(Request $request, $idCurso) {
+    	$this->authorize('es_admin', User::class);
+    	$curso = Curso::find($idCurso);
+    	$docente = Docente::find($request->get('docente_id'));
+    	if (!$curso || !$docente) return $this->editdocente($idCurso);
+    	$nombreDocente = $docente->nombre.' '.$docente->apellido;
+        $nombreCurso = $curso->nombre; 
+        $curso->docentes()->attach($docente);
+        $request->session()->flash(
+        	'message', 'El docente '.$nombreDocente.
+        	' pertenece al curso '.$nombreCurso);
+        return $this->editdocente($idCurso);
     }
 
     /**

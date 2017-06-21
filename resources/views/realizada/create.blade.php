@@ -28,7 +28,7 @@
 
                         <div class="form-group">
                         
-                        <label type="text" class="col-md-6 control-label">{{$p->enunciado}}</label>
+                        <div type="text" class="col-md-6 control-label">{{$p->enunciado}}</div>
                         
                             <div class="col-md-6">
                             

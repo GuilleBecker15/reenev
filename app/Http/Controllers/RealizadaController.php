@@ -38,7 +38,7 @@ class RealizadaController extends Controller
 
         if (!Auth::user()) return view('auth.login');
 
-        $encuestas = Encuesta::all();
+        $encuestas = Encuesta::whereDate('vence', '>', date('Y-m-d'))->get();
         $docentes = Docente::all();
         $cursos = Curso::all();
 
@@ -149,7 +149,7 @@ class RealizadaController extends Controller
         $curso = Curso::find($realizada->curso_id);
         $preguntas = $encuesta->preguntas;
         return view('realizada.edit',
-            compact('encuesta','docente', 'curso', 'preguntas', 'realizada'));    
+            compact('encuesta','docente', 'curso', 'preguntas', 'realizada'));
     }
 
     /**
