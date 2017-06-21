@@ -12,10 +12,7 @@
                 <div class="panel-heading"><h1>Editar una encuesta</h1></div>
                 <div class="panel-body">
                 <?php 
-                    // echo "//--------------------------------//";
-                    //var_dump(Session::all()); 
-                    // var_dump($encuesta); 
-                    // echo "//--------------------------------//";Encuestas.edit
+                    //dd($old_form_data);
                 ?>
                         @include('layouts.flashes')
                         <form id=formEncuesta action="{{ route('Encuestas.update', $encuesta->id) }}" method="POST" class="form-horizontal" accept-charset="utf-8">
@@ -24,7 +21,7 @@
                             <div class="form-group{{ $errors->has('asunto') ? 'has-error' : '' }}">
                                 <label type="text" name="asunto" class="col-md-4 control-label" for="asunto" value="">Asunto</label>  
                                 <div class="col-md-6"> 
-                                    <input class="form-control" id="asunto" name="asunto" value="{{ $encuesta->asunto }}" placeholder="" required autofocus >
+                                    <input class="form-control" id="asunto" name="asunto" value="{{ old('asunto') }}" placeholder="" required autofocus >
                                     @if ($errors->has('asunto'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('asunto') }}</strong>
@@ -60,9 +57,7 @@
                             
                             <div class="form-group text-center">
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-primary">
-                                        Aceptar
-                                    </button>
+                                    <input type="submit" class="btn btn-primary" value="Modificar"></input>
                                 </div>
                             </div>
                         </form>

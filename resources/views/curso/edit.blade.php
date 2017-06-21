@@ -33,10 +33,10 @@
                         <input name="_method" type="hidden" value="PUT">
                         {{ csrf_field() }}
                         
-                        <div class="form-group">
-
+                        <!-- <div class="form-group">
+                        
                             <label class="col-md-4 control-label">Agregar docente</label>
-
+                        
                             <div class="col-md-6">
                                 <select id="docente_id" name="docente_id" type="text" class="form-control">
                                 
@@ -48,10 +48,10 @@
                                 </select>
                             </div>
                         </div>
-
+                        
                         <div class="form-group">
                             <label class="col-md-4 control-label">Docenestes actuales</label>
-
+                        
                             <div class="col-md-6">
                                 <select id="docente_id" name="docente_id" type="text" class="form-control">
                                 
@@ -62,7 +62,7 @@
                                 @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
                             <label for="nombre" class="col-md-4 control-label">Nombre</label>

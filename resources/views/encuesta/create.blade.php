@@ -10,6 +10,19 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Dar de alta una encuesta</h1></div>
+                <?php 
+                        // use Carbon\Carbon;
+                        // var_dump(Carbon::now()->toDateString());
+                        // $hoy=Carbon::now()->toDateString();
+                        // var_dump(Carbon::createFromDate(2017, 06, 20)->toDateString());
+                        // $otro=Carbon::createFromDate(2017, 06, 20)->toDateString();
+                        // if($hoy<$otro) echo "el mayor";
+                        //     else echo "no es mayor <br> <br> ";
+                        //     if(!isset($e)){
+                        // dd($e);
+                        //     }
+
+                ?>
                 <div class="panel-body">
                     @include('layouts.flashes')
                         <form action="{{ route('Encuestas.store') }}" method="POST" class="form-horizontal" accept-charset="utf-8">
