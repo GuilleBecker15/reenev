@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Curso;
 use App\Docente;
 use App\Encuesta;
-use App\Http\Traits\Utilidades;
 use App\Realizada;
 use App\Respuesta;
 use App\User;
+use App\Http\Traits\Utilidades;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +25,9 @@ class RealizadaController extends Controller
      */
     public function index()
     {
-        //Hacer?
+        $realizadas = Encuesta::orderBy('inicio', 'desc')->get();
+        // dd($realizadas[0]->realizadas->groupBy('user_id'));
+        return view('realizada.index',['realizadas' => $realizadas]);
     }
 
     /**
@@ -190,4 +192,11 @@ class RealizadaController extends Controller
     {
         //
     }
+
+    public function verpormateria($id){
+        $realizadasPorMateria = Realizada::where('encuesta_id', $id)->join('cursos','curso_id', '=','cursos.id')->join('docentes','docente_id', '=', 'docentes.id')->select('realizadas.*','docentes.nombre as nombredocente','docentes.apellido','cursos.*')->orderBy('curso_id')->get()->groupBy('curso_id');
+        // dd($realizadasPorMateria);
+        return view('realizada.verpormateria',['realizadasPorMateria' => $realizadasPorMateria]);
+    }
+
 }

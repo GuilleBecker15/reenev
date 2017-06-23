@@ -30,6 +30,7 @@
                 <li><a href="{{ route('Cursos.index')}}">Cursos</a></li>
                 <li><a href="{{ route('Docentes.index')}}">Docentes</a></li>
                 <li><a href="{{ route('Encuestas.index')}}">Encuestas</a></li>
+                <li><a href="{{ route('Realizadas.index')}}">Realizadas</a></li>
                 <li><a href="{{ route('Users.index')}}">Usuarios</a></li>
                 @endcan
                 <li class="dropdown">

@@ -295,6 +295,12 @@ class EncuestaController extends Controller
         // return view('encuesta.help',['pregunta'=>$pre]);
         
         $encuesta = Encuesta::findOrFail($id);
+        //if (Realizada::where('encuesta_id', $id)->get()->isNotEmpty()) {
+        //dd($encuesta->realizadas()->get()->isNotEmpty());
+        if($encuesta->realizadas()->get()->isNotEmpty()){
+            $request->session()->flash('error', 'Encuesta no se puede eliminar porque alguien ya la completo');
+            return $this->index();
+        }
         $encuesta->preguntas()->delete();
         $encuesta->delete();
         // parent::delete();
