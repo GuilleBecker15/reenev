@@ -199,4 +199,55 @@ class RealizadaController extends Controller
         return view('realizada.verpormateria',['realizadasPorMateria' => $realizadasPorMateria]);
     }
 
+    public function quienes(Request $request, $id){
+        // dd($request);
+        $realizadas = Realizada::where('encuesta_id', $request->get('idEncuesta'))->where('curso_id',$request->get('idCurso'))->where('docente_id',$request->get('idDocente'))->join('users','user_id','=','users.id')->select('realizadas.id as idrealizada', 'realizadas.cuando','realizadas.user_id','users.name1','users.apellido1')->get();
+        foreach ($realizadas as $key => $estudiante) {
+            // dd($estudiante->cuando);
+            $respuesta = Respuesta::where('realizada_id', $estudiante->idrealizada)->get();
+
+                // dd($cantRespuestas);
+                $nocorresponde=0; $muymal=0; $mal=0; $normal=0; $bien=0; $muybien=0;
+
+                foreach ($respuesta as $key => $cadapregunta) {
+                    // dd($cadapregunta->calificacion);
+                    switch ($cadapregunta->calificacion) {
+                        case '0':
+                            $nocorresponde ++;
+                            break;
+                        case '1':
+                            $muymal ++;
+                            break;
+                        case '2':
+                            $mal ++;
+                            break;
+                        case '3':
+                            $normal ++;
+                            break;
+                        case '4':
+                            $bien ++;
+                            break;
+                        case '5':
+                            $muybien ++;
+                            break;
+                        default:
+                            # code...
+                            break;
+                    }
+                }//fin segundo for each
+                //$estudiante->toArray();
+                $estudiante = array_add($estudiante,'nocorresponde',$nocorresponde);
+                $estudiante = array_add($estudiante,'muymal',$muymal);
+                $estudiante = array_add($estudiante,'mal',$mal);
+                $estudiante = array_add($estudiante,'normal',$normal);
+                $estudiante = array_add($estudiante,'bien',$bien);
+                $estudiante = array_add($estudiante,'muybien',$muybien);
+            // dd($estudiante);
+        }//fin primer foreach
+        // dd($realizadas->toArray());
+    return view('quienescompletaron',compact($realizadas));
+    }//fin function quienes
+
+
+
 }
