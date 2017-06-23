@@ -207,6 +207,7 @@ class RealizadaController extends Controller
         $this->authorize('es_admin', User::class);
         $realizadas = Realizada::where('encuesta_id', $request->get('idEncuesta'))->where('curso_id',$request->get('idCurso'))->where('docente_id',$request->get('idDocente'))->join('users','user_id','=','users.id')->select('realizadas.id as idrealizada', 'realizadas.cuando','realizadas.user_id','users.name1','users.apellido1')->get();
         foreach ($realizadas as $key => $estudiante) {
+            $estudiante['cuando'] = $this->uyDateFormat($estudiante['cuando']);
             // dd($estudiante->cuando);
             $respuesta = Respuesta::where('realizada_id', $estudiante->idrealizada)->get();
 
@@ -287,7 +288,8 @@ class RealizadaController extends Controller
         // dd($todos);
         // dd($todos);
         foreach ($todos as $key => $estudiante) {
-            // dd($estudiante['id']);
+            $estudiante['cuando'] = $this->uyDateFormat($estudiante['cuando']);
+            // dd($estudiante['cuando']);
             $respuesta = Respuesta::where('realizada_id', $estudiante['id'])->get();
 
                 // dd($cantRespuestas);
