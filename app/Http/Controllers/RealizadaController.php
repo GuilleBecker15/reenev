@@ -30,6 +30,10 @@ class RealizadaController extends Controller
 
         $realizadas = Encuesta::orderBy('inicio', 'desc')->get();
         // dd($realizadas[0]->realizadas->groupBy('user_id'));
+        foreach ($realizadas as $key => $value) {
+            $value->inicio = $this->uyDateFormat($value->inicio);
+            $value->vence = $this->uyDateFormat($value->vence);
+        }
         return view('realizada.index',['realizadas' => $realizadas]);
     }
 
@@ -199,6 +203,9 @@ class RealizadaController extends Controller
     public function verpormateria($id){
         $this->authorize('es_admin', User::class);
         $realizadasPorMateria = Realizada::where('encuesta_id', $id)->join('cursos','curso_id', '=','cursos.id')->join('docentes','docente_id', '=', 'docentes.id')->select('realizadas.*','docentes.nombre as nombredocente','docentes.apellido','cursos.*')->orderBy('curso_id')->get()->groupBy('curso_id');
+        // foreach ($realizadaspormateria as $key => $value) {
+        //     dd($value);
+        // }
         // dd($realizadasPorMateria);
         return view('realizada.verpormateria',['realizadasPorMateria' => $realizadasPorMateria]);
     }

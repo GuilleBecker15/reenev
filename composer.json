@@ -50,5 +50,13 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true
+    },
+    "testing": {
+        "phpUnit": {
+            "pluginPath": "bash .\\vendor\bin\\phpunit"
+        },
+        "phpSpec": {
+            "pluginPath": "bash .\\vendor\bin\\phpspec"
+        }
     }
 }
