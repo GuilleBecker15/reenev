@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Docente;
 use App\Http\Traits\Utilidades;
 use App\User;
+use App\Realizada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Validator;
@@ -214,15 +215,36 @@ class DocenteController extends Controller
 
         $docente = Docente::find($id);
         $nomApe = $docente->nombre." ".$docente->apellido;
-        //if (se puede borrar)
+        
+        if (Realizada::where('docente_id', $id)->get()->isNotEmpty()) {
+            $request->session()->flash(
+                'message',
+                'No se puede eliminar el docente. Existen encuestas completadas para el');
+            return $this->index();
+        }
+        
         $docente->delete();
 
         $request->session()->flash('message', 'El docente '.$nomApe. ' fue borrado exitosamente');
         return $this->index();
     }
 
-    public function estadisticas() {
-    	return view('docente.estadisticas');
+    public function estadisticas($id) {
+    
+    	/*
+    
+    	1) Mostrar para este docente, cada encuesta que apunte a el
+    	2) Mostrar para cada encuesta, cada curso a la cual se dirige
+    	3) Mostrar para cada curso, la grafica
+
+    	(Ver raw queries)
+
+    	*/
+
+    	$realizadas = Realizada::where('docente_id', $id)->get();
+    
+    	return view('docente.estadisticas', compact('realizadas'));
+    
     }
 
 }

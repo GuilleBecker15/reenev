@@ -13,11 +13,11 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Cuando la hiciste</th>
-                                    <th>De que trataba</th>
-                                    <th>Para quien era</th>
-                                    <th>Que curso dictaba</th>
-                                    <th>En que semestre</th>
+                                    <th>Cuando</th>
+                                    <th>Encuesta</th>
+                                    <th>Docente</th>
+                                    <th>Curso</th>
+                                    <th>Semestre</th>
                                 </tr>
                             </thead>
                             @foreach ($realizadas as $key => $realizada)

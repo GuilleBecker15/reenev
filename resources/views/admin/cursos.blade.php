@@ -18,7 +18,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Nombre</th>
-                                    <th>Docente</th>
+                                    <th>Docentes asignados</th>
                                     <th>Semestre</th>
                                     <th>Abreviatura</th>
                                 </tr>
@@ -30,14 +30,15 @@
                                     <td>{{ $curso->nombre }}</td>
                                     <td>
                                     <table>
+                                    	@if ($curso->docentes->count()==0)
+                                    		- Ninguno -
+                                    	@endif
                                         @foreach($curso->docentes as $docente)
-                                            <tbody>
-                                                <tr>
-                                                    {{ $docente->nombre }}
-                                                    {{ $docente->apellido }} <br>   
-                                                </tr>
-                                                <tr>
-                                                </tr>
+                                            <tbody>- 
+                                                <tr><a href="">
+                                                	{{ $docente->nombre }}
+                                                	{{ $docente->apellido }} <br>   
+                                                </a></tr>
                                             </tbody>
                                         @endforeach
                                     </table>
@@ -53,7 +54,7 @@
                                     <td>
                                         {{ Form::open(['method' => 'GET', 'route' => ['Cursos.Docente.edit', $curso->id]]) }}
                                         {{ Form::hidden('id', $curso->id) }}
-                                        {{ Form::submit('Agregar/quitar docente', ['class' => 'btn btn-xs btn-warninig']) }}
+                                        {{ Form::submit('Agregar/quitar docente', ['class' => 'btn btn-xs btn-default']) }}
                                         {{Form::close()}}
                                     </td>
                                 </tr>

@@ -71,7 +71,7 @@
                     <div class="form-group{{ $errors->has('name1') ? ' has-error' : '' }}">
                         <label for="name1" class="col-md-4 control-label">Primer nombre</label>
                         <div class="col-md-6">
-                            <input disabled id="name1" type="text" class="form-control" name="name1" value="{{ session('datos')->name1 }}" required>
+                            <input disabled id="name1" type="text" class="form-control" name="name1" value="{{ $user->name1 }}" required>
                             @if ($errors->has('name1'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('name1') }}</strong>
@@ -82,7 +82,7 @@
                     <div class="form-group{{ $errors->has('name2') ? ' has-error' : '' }}">
                         <label for="name2" class="col-md-4 control-label">Segundo Nombre</label>
                         <div class="col-md-6">
-                            <input disabled id="name2" type="text" class="form-control" name="name2" value="{{ session('datos')->name2 }}" required>
+                            <input disabled id="name2" type="text" class="form-control" name="name2" value="{{ $user->name2 }}" required>
                             @if ($errors->has('name2'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('name2') }}</strong>
@@ -93,7 +93,7 @@
                     <div class="form-group{{ $errors->has('apellido1') ? ' has-error' : '' }}">
                         <label for="apellido1" class="col-md-4 control-label">Primer apellido</label>
                         <div class="col-md-6">
-                            <input disabled id="apellido1" type="text" class="form-control" name="apellido1" value="{{ session('datos')->apellido1 }}" required>
+                            <input disabled id="apellido1" type="text" class="form-control" name="apellido1" value="{{ $user->apellido1 }}" required>
                             @if ($errors->has('apellido1'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('apellido1') }}</strong>
@@ -105,7 +105,7 @@
                         <label for="apellido2" class="col-md-4 control-label">Segundo apellido</label>
 
                         <div class="col-md-6">
-                            <input disabled id="apellido2" type="text" class="form-control" name="apellido2" value="{{ session('datos')->apellido2 }}" required>
+                            <input disabled id="apellido2" type="text" class="form-control" name="apellido2" value="{{ $user->apellido2 }}" required>
 
                             @if ($errors->has('apellido2'))
                             <span class="help-block">
@@ -117,7 +117,7 @@
                     <div class="form-group{{ $errors->has('nacimiento') ? ' has-error' : '' }}">
                         <label for="nacimiento" class="col-md-4 control-label">Fecha de Nacimiento</label>
                         <div class="col-md-6">
-                            <input disabled id="nacimiento" type="fecha" class="form-control" name="nacimiento" placeholder="{{ $user->uyNacimiento($user->nacimiento) }}" value="{{ session('datos')->nacimiento }}" required >
+                            <input disabled id="nacimiento" type="fecha" class="form-control" name="nacimiento" placeholder="{{ $user->uyNacimiento($user->nacimiento) }}" value="{{ $user->uyNacimiento($user->nacimiento) }}" required >
                             @if ($errors->has('nacimiento'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('nacimiento') }}</strong>
@@ -128,7 +128,7 @@
                     <div class="form-group{{ $errors->has('generacion') ? ' has-error' : '' }}">
                         <label for="generacion" class="col-md-4 control-label">Generacion</label>
                         <div class="col-md-6">
-                            <select disabled id="generacion" type="text" class="form-control" name="generacion" value="{{ session('datos')->generacion }}" required></select>
+                            <select disabled id="generacion" type="text" class="form-control" name="generacion" value="{{ $user->generacion }}" required></select>
                             @if ($errors->has('generacion'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('generacion') }}</strong>
@@ -139,7 +139,7 @@
                     <div class="form-group{{ $errors->has('ci') ? ' has-error' : '' }}">
                         <label for="ci" class="col-md-4 control-label">Cedula</label>
                         <div class="col-md-6">
-                            <input disabled id="ci" type="cedula" class="form-control" name="ci" value="{{ session('datos')->ci }}" required >
+                            <input disabled id="ci" type="cedula" class="form-control" name="ci" value="{{ $user->ci }}" required >
                             @if ($errors->has('ci'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('ci') }}</strong>
@@ -150,7 +150,7 @@
                     <div id="divaniadir" class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Correo</label>
                         <div class="col-md-6">
-                            <input disabled id="email" type="email" class="form-control" name="email" value="{{ session('datos')->email }}" required>
+                            <input disabled id="email" type="email" class="form-control" name="email" value="{{ $user->email }}" required>
                             @if ($errors->has('email'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('email') }}</strong>
@@ -159,6 +159,7 @@
                         </div>
                     </div>
                     <hr>
+                    @cannot('es_admin', App\User::class)
                     <div class="form-group{{ $errors->has('pass') ? ' has-error' : '' }}">
                             <label for="pass" class="col-md-4 control-label">Ingrese su contraseña</label>
                         <div class="col-md-6">
@@ -170,6 +171,7 @@
                             @endif
                         </div>
                     </div>
+                    @endcannot
                     
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 ">
