@@ -21,6 +21,7 @@
 											<th>Normal</th>
 											<th>Bien</th>
 											<th>Muy bien</th>
+											<th></th>
 										</tr>
 									</thead>
 									@foreach ($realizadas as $key => $estudiante)
@@ -37,6 +38,12 @@
 											<td>{{ $estudiante->normal }}</td>
 											<td>{{ $estudiante->bien }}</td>
 											<td>{{ $estudiante->muybien }}</td>
+											<td>
+												{{ Form::open(['method' => 'POST', 'route' => ['Realizada.rehacer']]) }}
+												{{ Form::hidden('idrealizada', $estudiante->idrealizada) }}
+		                                        {{ Form::submit('Rehacer encuesta', ['class' => 'btn btn-xs btn-danger']) }}
+		                                        {{ Form::close() }}
+											</td>
 										</tr>
 									</tbody>
 									@endforeach

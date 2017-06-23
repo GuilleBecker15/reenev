@@ -248,6 +248,31 @@ class RealizadaController extends Controller
     return view('realizada.quienescompletaron',compact('realizadas',$realizadas));
     }//fin function quienes
 
+    public function rehacer(Request $request){
+        $respuestas = Respuesta::where('realizada_id',$request->get('idrealizada'))->get();
+        $iduser = Realizada::where('id',$request->get('idrealizada'))->select('realizadas.user_id')->get()->first()->user_id;
+        dd($iduser);
+        // dd($respuestas);
+
+        /*------Aca seteo a cero (no corresponde) todas las respuestas, no borro nada -------------- */
+        foreach ($respuestas as $key => $respuesta) {
+            // dd($respuesta->calificacion);
+            $respuesta->calificacion = 0;
+            $respuesta->save();
+        }
+        /*-------------------------------------------------------------------------------------------*/
+        // dd($respuestas);
+        /*-----------Esto borra fisicamente la encuestas realizada y todas las respuestas asociadas-------*/
+        // foreach ($respuestas as $key => $respuesta) {
+        //     $respuesta->forceDelete();
+        // }
+        // $realizada = Realizada::findOrFail($request->get('idrealizada'));
+        // $realizada->forceDelete();
+        // echo("borrado!");
+        /*-------------------------------------------------------------------------------------------*/
+
+        
+    }
 
 
 }

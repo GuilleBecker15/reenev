@@ -29,6 +29,7 @@ Route::post('/hacerAdmin/{id}', 'UserController@hacerAdmin');
 Route::post('/Realizadas/continuar', 'RealizadaController@continuar');
 Route::get('/Realizadas/{Encuesta}/show', [ 'uses' => 'RealizadaController@verpormateria', 'as' => 'Realizada.show.materia']);
 Route::get('/Realizadas/{Encuesta}/quienes', [ 'uses' => 'RealizadaController@quienes', 'as' => 'Realizada.quienes']);
+Route::post('/Realizadas/rehacer',['uses'=>'RealizadaController@rehacer','as'=>'Realizada.rehacer']);
 
 // CAMBIAR LAS RUTAS PARA QUE AL BUSCAR NO DE ERROR:
 Route::get('/Users/borrados/{si_o_no}', 'UserController@borrados');
