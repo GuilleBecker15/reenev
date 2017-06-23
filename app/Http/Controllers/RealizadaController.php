@@ -244,8 +244,8 @@ class RealizadaController extends Controller
                 $estudiante = array_add($estudiante,'muybien',$muybien);
             // dd($estudiante);
         }//fin primer foreach
-        // dd($realizadas->toArray());
-    return view('quienescompletaron',compact($realizadas));
+        // dd($realizadas);
+    return view('realizada.quienescompletaron',compact('realizadas',$realizadas));
     }//fin function quienes
 
 
