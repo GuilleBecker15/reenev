@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Curso;
 use App\Docente;
+use App\Encuesta;
 use App\Http\Traits\Utilidades;
-use App\User;
+use App\Pregunta;
 use App\Realizada;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Validator;
@@ -237,14 +240,63 @@ class DocenteController extends Controller
     	2) Mostrar para cada encuesta, cada curso a la cual se dirige
     	3) Mostrar para cada curso, la grafica
 
-    	(Ver raw queries)
-
     	*/
 
-    	$realizadas = Realizada::where('docente_id', $id)->get();
-    
-    	return view('docente.estadisticas', compact('realizadas'));
+        $docente = Docente::find($id);
+
+        $realizadas_encuesta_id = Realizada::where('docente_id', $id)->select('realizadas.encuesta_id')->distinct()->get();
+        $realizadas_curso_id = Realizada::where('docente_id', $id)->select('realizadas.curso_id')->distinct()->get();
+        
+        $encuesta_ids = array('');
+        $cursos_ids = array('');
+
+        foreach ($realizadas_encuesta_id as $r) {
+        	array_push($encuesta_ids, $r->encuesta_id);
+        }
+
+        foreach ($realizadas_curso_id as $r) {
+        	array_push($cursos_ids, $r->curso_id);
+        }
+
+        $encuestas = Encuesta::whereIn('id', $encuesta_ids)->get();
+        $cursos = Curso::whereIn('id', $cursos_ids)->get();
+
+        //$this->informe($encuestas, $cursos, $docente);
+
+    	return view('docente.estadisticas', compact('encuestas', 'cursos', 'docente'));
     
     }
+
+    private function informe($encuestas, $cursos, $docente) {
+	    echo "<ul>";
+        foreach ($encuestas as $encuesta) {
+        	echo "<li>Encuesta (".$encuesta->id.") ".$encuesta->asunto."</li>";
+	        echo "<ul>";
+        	foreach ($cursos as $curso) {
+				echo "<li>Curso (".$curso->id.") ".$curso->nombre."</li>";
+		        echo "<ul>";
+		        foreach ($encuesta->preguntas as $pregunta) {
+		        	echo "<li>Pregunta (".$pregunta->id.") ".$pregunta->enunciado."</li>";
+		        	echo "<ul>";
+		        	$no_corresponde = $docente->responden(0, $curso->id, $pregunta->id);
+		        	$muy_mal = $docente->responden(1, $curso->id, $pregunta->id);
+		        	$mal = $docente->responden(2, $curso->id, $pregunta->id);
+		        	$normal = $docente->responden(3, $curso->id, $pregunta->id);
+		        	$bien = $docente->responden(4, $curso->id, $pregunta->id);
+		        	$muy_bien = $docente->responden(5, $curso->id, $pregunta->id);
+		        	echo "<li>No corresponde: ".$no_corresponde." alumnos</li>";
+		        	echo "<li>Muy mal: ".$muy_mal." alumnos</li>";
+		        	echo "<li>Mal: ".$mal." alumnos</li>";
+		        	echo "<li>Normal: ".$normal." alumnos</li>";
+		        	echo "<li>Bien: ".$bien." alumnos</li>";
+		        	echo "<li>Muy bien: ".$muy_bien." alumnos</li>";
+		        	echo "</ul>";
+	        	}
+	        	echo "</ul>";        			
+        	}
+        	echo "</ul>";
+        }
+	    echo "</ul>";
+	}
 
 }

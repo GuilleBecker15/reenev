@@ -15,18 +15,19 @@ function drawChart() {
     // Create the data table.
 
     var data = google.visualization.arrayToDataTable([
-        ['Puntaje', 'No corresponde', 'Mal', 'Muy mal', 'Normal', 'Bien', 'Muy bien', { role: 'annotation' } ],
-        ['{{$r->id}}', 10, 24, 20, 32, 18, 5, ''],
-        ['Explica en clase con orden y claridad', 16, 22, 23, 30, 16, 9, ''],
-        ['Define el vocabulario técnico o específico que utiliza', 28, 19, 29, 30, 12, 13, ''],
-        ['Sintetiza y subraya los conceptos que considera importantes', 10, 24, 20, 32, 18, 5, ''],
-        ['Establece coAnexiones con contenidos de otras asignaturas', 16, 22, 23, 30, 16, 9, ''],
-        ['Hace buen uso de pizarra, o herramientas tecnológicas', 28, 19, 29, 30, 12, 13, ''],
-        ['Favorece el planteo de preguntas y se preocupa por responderlas', 10, 24, 20, 32, 18, 5, ''],
-        ['Motiva al estudiante por la asignatura', 16, 22, 23, 30, 16, 9, ''],
-        ['Cumple con los horarios de clase', 28, 19, 29, 30, 12, 13, ''],
-        ['Tiene una actitud respetuosa hacia los estudiantes', 10, 24, 20, 32, 18, 5, ''],
-        ['Juicio global del docente', 16, 22, 23, 30, 16, 9, ''],
+        ['Puntaje', 'No corresponde', 'Muy mal', 'Mal', 'Normal', 'Bien', 'Muy bien', { role: 'annotation' } ],
+        @if ($encuesta->preguntas->count()==0)
+        ['Esta encuesta no tiene preguntas', 0, 0, 0, 0, 0, 0, ''],
+        @endif
+    	@foreach ($encuesta->preguntas as $pregunta)
+        ['{{$pregunta->enunciado}}',
+        {{$docente->responden(0, $curso->id, $pregunta->id)}},
+        {{$docente->responden(1, $curso->id, $pregunta->id)}},
+        {{$docente->responden(2, $curso->id, $pregunta->id)}},
+        {{$docente->responden(3, $curso->id, $pregunta->id)}},
+        {{$docente->responden(4, $curso->id, $pregunta->id)}},
+        {{$docente->responden(5, $curso->id, $pregunta->id)}}, ''],
+        @endforeach
     ]);
 
     var chartwidth = $('#chartparent').width();
@@ -43,7 +44,7 @@ function drawChart() {
     };
 
     // Instantiate and draw our chart, passing in some options.
-    var chart = new google.visualization.BarChart(document.getElementById('chart_div_{{$r->id}}'));
+    var chart = new google.visualization.BarChart(document.getElementById("chart_div_{{$encuesta->id}}{{$curso->id}}"));
     chart.draw(data, options);
 
 }
