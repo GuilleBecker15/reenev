@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Inicia sesion en Reenev</h1></div>
+                <div class="panel-heading"><h1>Iniciar sesión en Reenev</h1></div>
                 <div class="panel-body">
                     <form onsubmit="return validarCampos();" class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}

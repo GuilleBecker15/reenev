@@ -18,7 +18,7 @@
                 <!-- Authentication Links -->
                 @if (Auth::guest())
                 <li><a href="{{ route('register') }}">
-                <span class="glyphicon glyphicon-new-window"></span>    Registrarme</a></li>
+                <span class="glyphicon glyphicon-new-window"></span>    Registrarse</a></li>
                 <li><a href="{{ route('login') }}">
                 <span class="glyphicon glyphicon-log-in"></span>    Entrar</a></li>
                 @else

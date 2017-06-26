@@ -16,9 +16,6 @@ function drawChart() {
 
     var data = google.visualization.arrayToDataTable([
         ['Puntaje', 'No corresponde', 'Muy mal', 'Mal', 'Normal', 'Bien', 'Muy bien', { role: 'annotation' } ],
-        @if ($encuesta->preguntas->count()==0)
-        ['Esta encuesta no tiene preguntas', 0, 0, 0, 0, 0, 0, ''],
-        @endif
     	@foreach ($encuesta->preguntas as $pregunta)
         ['{{$pregunta->enunciado}}',
         {{$docente->responden(0, $curso->id, $pregunta->id)}},
@@ -33,10 +30,12 @@ function drawChart() {
     var chartwidth = $('#chartparent').width();
 
     var options = {
+    	title: '{{$curso->nombre}} (semestre {{$curso->semestre}})',
         isStacked: 'percent',
+        is3D: true,
         width: chartwidth,
-        height: 450, 
-        legend: {position: 'top', maxLines: 6},
+        height: 480, 
+        legend: {position: 'top', maxLines: 60},
         hAxis: {
             minValue: 0,
             ticks: [0, .25, .50, .75, 1]
@@ -44,7 +43,8 @@ function drawChart() {
     };
 
     // Instantiate and draw our chart, passing in some options.
-    var chart = new google.visualization.BarChart(document.getElementById("chart_div_{{$encuesta->id}}{{$curso->id}}"));
+    var chart = new google.visualization.BarChart(
+    	document.getElementById("chart_div_{{$encuesta->id}}{{$curso->id}}"));
     chart.draw(data, options);
 
 }

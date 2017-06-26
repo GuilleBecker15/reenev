@@ -38,7 +38,7 @@
                                     </td>
                                     <td>
                                         <a class="btn btn-default btn-xs"
-                                        href="{{ url('Docentes/estadisticas', $docente->id) }}">
+                                        href="Docentes/estadisticas/{{$docente->id}}/graficas">
                                     	Estadísticas
                                         </a>
                                     </td>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dar de alta una encuesta')
+@section('title', 'Crear una encuesta')
 
 @section('content')
 <div class="container">
@@ -9,7 +9,7 @@
 
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Dar de alta una encuesta</h1></div>
+                <div class="panel-heading"><h1>Crear una encuesta</h1></div>
                 <?php 
                         // use Carbon\Carbon;
                         // var_dump(Carbon::now()->toDateString());

@@ -35,7 +35,7 @@ Route::post('/Realizadas/continuar', 'RealizadaController@continuar');
 Route::get('/Users/borrados/{si_o_no}', 'UserController@borrados');
 Route::get('/Users/completadas/{id}', 'UserController@realizadas');
 Route::get('/Cursos/docente/{id}', 'CursoController@docente');
-Route::get('/Docentes/estadisticas/{id}', 'DocenteController@estadisticas');
+Route::get('/Docentes/estadisticas/{id}/{tipo}', 'DocenteController@estadisticas');
 
 Route::resource('Cursos', 'CursoController');
 Route::resource('Docentes', 'DocenteController');

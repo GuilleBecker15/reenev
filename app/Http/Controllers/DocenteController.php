@@ -10,6 +10,7 @@ use App\Pregunta;
 use App\Realizada;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Validator;
 
@@ -232,7 +233,7 @@ class DocenteController extends Controller
         return $this->index();
     }
 
-    public function estadisticas($id) {
+    public function estadisticas($id, $tipo) {
     
     	/*
     
@@ -261,13 +262,44 @@ class DocenteController extends Controller
         $encuestas = Encuesta::whereIn('id', $encuesta_ids)->get();
         $cursos = Curso::whereIn('id', $cursos_ids)->get();
 
-        //$this->informe($encuestas, $cursos, $docente);
+    	if ($tipo=='graficas') {
+    		return view('docente.estadisticas.graficas',
+    			compact('encuestas', 'cursos', 'docente'));
+    	}
 
-    	return view('docente.estadisticas', compact('encuestas', 'cursos', 'docente'));
-    
+        if ($tipo=='exportar') {
+        	return view('docente.estadisticas.exportar',
+    			compact('encuestas', 'cursos', 'docente'));
+        }
+
+        if ($tipo=='ver_pdf') {
+        	$data = compact('encuestas', 'cursos', 'docente');
+        	return $this->html_to_pdf($data)->stream();
+        }
+
+        if ($tipo=='bajar_pdf') {
+        	$data = compact('encuestas', 'cursos', 'docente');
+        	$name = $docente->nombre."_".$docente->apellido."_".date('d/m/Y');
+        	return $this->html_to_pdf($data)->download($name.".pdf");
+
+        }
+
+        if ($tipo=='debug') {
+        	return $this->debug($encuestas, $cursos, $docente);
+        }
+
     }
 
-    private function informe($encuestas, $cursos, $docente) {
+    private function html_to_pdf($data) {
+    	$pdf = \PDF::loadView('docente.estadisticas.html_for_pdf', $data);
+    	return $pdf;
+	}
+
+    private function debug($encuestas, $cursos, $docente) {
+
+    	return view('docente.estadisticas.html_for_pdf',
+    			compact('encuestas', 'cursos', 'docente'));
+
 	    echo "<ul>";
         foreach ($encuestas as $encuesta) {
         	echo "<li>Encuesta (".$encuesta->id.") ".$encuesta->asunto."</li>";

@@ -5,7 +5,7 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				<div class="panel-default">
-					<h2>Edite la pregunta</h2>
+					<h2>Editar la pregunta</h2>
 					<?php 
 						 //var_dump($pregunta->encuesta()->get()[0]->id);
 						 //var_dump($encuesta->id);

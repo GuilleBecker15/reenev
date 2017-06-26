@@ -3,10 +3,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Confirmacion de borrado</h4>
+                <h4 class="modal-title">Confirmación de borrado</h4>
             </div>
             <div class="modal-body">
-                <p>Esta seguro que desea borrar la pregunta?</p>
+                <p>¿Esta seguro que desea borrar la pregunta?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-primary" id="delete-btn">Borrar</button>

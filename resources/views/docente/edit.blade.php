@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title', 'Dar de alta un docente')
+@section('title', 'Editar un docente')
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Editar datos de un docente</h1></div>
+                <div class="panel-heading"><h1>Editar el docente</h1></div>
                 <?php 
                     $a = Session::get('old');
                     if(Session::get('old')){
