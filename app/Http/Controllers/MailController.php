@@ -77,12 +77,13 @@ class MailController extends Controller
                         Mail::send('emails.html', $data_toview, function($message) use ($data)
                         {
  
-                            $message->from($data['sender'], 'Laravel Mailer');
+                            $message->from($data['sender'], 'Encuestas Tip');
                             $message->to($data['emailto'])
-                            ->replyTo($data['sender'], 'Laravel Mailer Replay')
+                            ->replyTo($data['sender'], 'Encuestas Tip')
                             ->subject('Encuestas Tip');
  
-                            echo 'The mail has been sent successfully';
+                            // echo 'The mail has been sent successfully';
+                            return redirect()->back()->with('message', 'El mail ha sido enviado correctamente');
  
                         });
  

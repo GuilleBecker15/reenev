@@ -272,19 +272,19 @@ class RealizadaController extends Controller
         // dd($respuestas);
 
         /*------Aca seteo a cero (no corresponde) todas las respuestas, no borro nada -------------- */
-        foreach ($respuestas as $key => $respuesta) {
-            // dd($respuesta->calificacion);
-            $respuesta->calificacion = 0;
-            $respuesta->save();
-        }
+        // foreach ($respuestas as $key => $respuesta) {
+        //     // dd($respuesta->calificacion);
+        //     $respuesta->calificacion = 0;
+        //     $respuesta->save();
+        // }
         /*-------------------------------------------------------------------------------------------*/
         // dd($respuestas);
-        /*-----------Esto borra fisicamente la encuestas realizada y todas las respuestas asociadas-------*/
-        // foreach ($respuestas as $key => $respuesta) {
-        //     $respuesta->forceDelete();
-        // }
-        // $realizada = Realizada::findOrFail($request->get('idrealizada'));
-        // $realizada->forceDelete();
+       /* /*-----------Esto borra fisicamente la encuestas realizada y todas las respuestas asociadas-------*/
+        foreach ($respuestas as $key => $respuesta) {
+            $respuesta->forceDelete();
+        }
+        $realizada = Realizada::findOrFail($request->get('idrealizada'));
+        $realizada->forceDelete();
         // echo("borrado!");
         /*-------------------------------------------------------------------------------------------*/
 
