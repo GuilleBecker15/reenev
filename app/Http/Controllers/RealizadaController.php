@@ -13,6 +13,7 @@ use App\Http\Traits\Utilidades;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MailController;
 
 class RealizadaController extends Controller
 {
@@ -263,8 +264,11 @@ class RealizadaController extends Controller
     public function rehacer(Request $request){
         $this->authorize('es_admin', User::class);
         $respuestas = Respuesta::where('realizada_id',$request->get('idrealizada'))->get();
-        $iduser = Realizada::where('id',$request->get('idrealizada'))->select('realizadas.user_id')->get()->first()->user_id;
-        dd($iduser);
+        $realizada = Realizada::where('id',$request->get('idrealizada'))->select('realizadas.*')->get();//->first()->user_id;
+        $user_id = $realizada->first()->user_id;
+        $docente_id = $realizada->first()->docente_id;
+        $curso_id = $realizada->first()->curso_id;
+        // dd();
         // dd($respuestas);
 
         /*------Aca seteo a cero (no corresponde) todas las respuestas, no borro nada -------------- */
@@ -284,7 +288,10 @@ class RealizadaController extends Controller
         // echo("borrado!");
         /*-------------------------------------------------------------------------------------------*/
 
-        
+       /*envio mail*/ 
+       $controllerMail = new MailController;
+       $controllerMail->sendemail($user_id, $docente_id, $curso_id);
+       /**/
     }
 
     public function todos(){

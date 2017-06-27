@@ -33,7 +33,13 @@
                 <li><a href="{{ route('Realizadas.index')}}">Realizadas</a></li>
                 <li><a href="{{ route('Users.index')}}">Usuarios</a></li>
                 <li><a href="{{ route('Realizada.todos')}}">Todos</a></li>
-                <li><a href="/sendemail">Mail</a></li>
+                <li>
+                    <a href="/sendemail" onclick="event.preventDefault(); document.getElementById('mail-form').submit();">Mail</a>
+                    <form id="mail-form" action="/sendemail" method="get" style="display: none;" accept-charset="utf-8">
+                    <input type="hidden" name="id" value="{{ Auth::user()->id }}">
+                    {{ csrf_field() }}
+                    </form>
+                </li>
 
                 @endcan
                 <li class="dropdown">

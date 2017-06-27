@@ -6,7 +6,11 @@ use Swift_Transport;
 use Swift_Message;
 use Swift_Mailer;
 use App\Http\Controllers\Controller;
- 
+use Illuminate\Http\Request;
+use App\User;
+use App\Docente;
+use App\Curso;
+
 class MailController extends Controller
 {
  
@@ -31,16 +35,24 @@ class MailController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function sendemail()
-    {
+    public function sendemail($user_id, $docente_id, $curso_id)
+    {   
  
+            $user = User::findOrFail($user_id);
+            $docente = Docente::findOrFail($docente_id);
+            $curso = Curso::findOrFail($curso_id);
+
             $data_toview = array();
-            $data_toview['bodymessage'] = "Hola esto es un mensaje";
+            $data_toview['bodymessage'] = "Hola esto es un mensaje para: ".$user->name1;
+            $data_toview['docente'] = $docente->nombre." ".$docente->apellido ;
+            $data_toview['curso'] = $curso->nombre;
  
-            $email_sender   = 'encuestastip@gmail.com';
-            $email_pass     = 'tecnologo2017';
-            $email_to       = 'guille.becker.15@gmail.com';
+            // $email_sender   = 'encuestastip@gmail.com';
+            // $email_pass     = 'tecnologo2017';
+            $email_to       = $user->email;
  
+            $email_sender   = env('MAIL_NEW_USERNAME', getenv("MAIL_NEW_USERNAME"));
+            $email_pass     = env('MAIL_NEW_PASSWORD', getenv("MAIL_NEW_PASSWORD"));
             // Backup your default mailer
             $backup = \Mail::getSwiftMailer();
  
@@ -68,7 +80,7 @@ class MailController extends Controller
                             $message->from($data['sender'], 'Laravel Mailer');
                             $message->to($data['emailto'])
                             ->replyTo($data['sender'], 'Laravel Mailer Replay')
-                            ->subject('Test Email');
+                            ->subject('Encuestas Tip');
  
                             echo 'The mail has been sent successfully';
  
