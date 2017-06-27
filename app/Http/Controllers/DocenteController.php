@@ -233,7 +233,7 @@ class DocenteController extends Controller
         return $this->index();
     }
 
-    public function estadisticas($id, $tipo) {
+    public function graficas($id_docente) {
     
     	/*
     
@@ -243,10 +243,10 @@ class DocenteController extends Controller
 
     	*/
 
-        $docente = Docente::find($id);
+        $docente = Docente::find($id_docente);
 
-        $realizadas_encuesta_id = Realizada::where('docente_id', $id)->select('realizadas.encuesta_id')->distinct()->get();
-        $realizadas_curso_id = Realizada::where('docente_id', $id)->select('realizadas.curso_id')->distinct()->get();
+        $realizadas_encuesta_id = Realizada::where('docente_id', $id_docente)->select('realizadas.encuesta_id')->distinct()->get();
+        $realizadas_curso_id = Realizada::where('docente_id', $id_docente)->select('realizadas.curso_id')->distinct()->get();
         
         $encuesta_ids = array('');
         $cursos_ids = array('');
@@ -262,32 +262,31 @@ class DocenteController extends Controller
         $encuestas = Encuesta::whereIn('id', $encuesta_ids)->get();
         $cursos = Curso::whereIn('id', $cursos_ids)->get();
 
-    	if ($tipo=='graficas') {
-    		return view('docente.estadisticas.graficas',
-    			compact('encuestas', 'cursos', 'docente'));
-    	}
+    	return view('docente.estadisticas.graficas', compact('encuestas', 'cursos', 'docente'));
+    	
+        // if ($opcion=='ver_pdf') {
+        // 	$data = compact('encuestas', 'cursos', 'docente');
+        // 	return $this->html_to_pdf($data)->stream();
+        // }
 
-        if ($tipo=='exportar') {
-        	return view('docente.estadisticas.exportar',
-    			compact('encuestas', 'cursos', 'docente'));
-        }
+        // if ($opcion=='bajar_pdf') {
+        // 	$data = compact('encuestas', 'cursos', 'docente');
+        // 	$name = $docente->nombre."_".$docente->apellido."_".date('d/m/Y');
+        // 	return $this->html_to_pdf($data)->download($name.".pdf");
+        // }
 
-        if ($tipo=='ver_pdf') {
-        	$data = compact('encuestas', 'cursos', 'docente');
-        	return $this->html_to_pdf($data)->stream();
-        }
+        return $this->debug($encuestas, $cursos, $docente); //SOLO TESTING
 
-        if ($tipo=='bajar_pdf') {
-        	$data = compact('encuestas', 'cursos', 'docente');
-        	$name = $docente->nombre."_".$docente->apellido."_".date('d/m/Y');
-        	return $this->html_to_pdf($data)->download($name.".pdf");
+    }
 
-        }
-
-        if ($tipo=='debug') {
-        	return $this->debug($encuestas, $cursos, $docente);
-        }
-
+    public function exportar($id_docente, $id_encuesta, $id_curso) {
+    	$docente = Docente::find($id_docente);
+    	$encuesta = Encuesta::find($id_encuesta);
+    	$curso = Curso::find($id_curso);
+    	if (!$docente) return "No se encontro el docente de id=".$id_docente;
+    	if (!$encuesta) return "No se encontro la encuesta de id=".$id_encuesta;
+    	if (!$curso) return "No se encontro el curso de id=".$id_curso;
+    	return view('docente.estadisticas.exportar', compact('docente', 'encuesta', 'curso'));
     }
 
     private function html_to_pdf($data) {

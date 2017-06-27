@@ -35,7 +35,8 @@ Route::post('/Realizadas/continuar', 'RealizadaController@continuar');
 Route::get('/Users/borrados/{si_o_no}', 'UserController@borrados');
 Route::get('/Users/completadas/{id}', 'UserController@realizadas');
 Route::get('/Cursos/docente/{id}', 'CursoController@docente');
-Route::get('/Docentes/estadisticas/{id}/{tipo}', 'DocenteController@estadisticas');
+Route::get('/Docentes/graficas/{id_docente}', 'DocenteController@graficas');
+Route::get('/Docentes/exportar/{id_docente}/{id_encuesta}/{id_curso}', 'DocenteController@exportar');
 
 Route::resource('Cursos', 'CursoController');
 Route::resource('Docentes', 'DocenteController');

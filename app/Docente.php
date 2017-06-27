@@ -37,8 +37,6 @@ class Docente extends Model
     	
     	*/
 
-    	$curso = Curso::find($id_curso);
-    	$docente = Docente::find($this->id);
     	$pregunta = Pregunta::find($id_pregunta);
 
     	$numero_respuestas = 0;
@@ -51,6 +49,26 @@ class Docente extends Model
     	}
 
 		return $numero_respuestas;
+
+    }
+
+    public function porcentaje($calificacion, $id_curso, $id_pregunta) {
+    
+    	$pregunta = Pregunta::find($id_pregunta);	
+    	
+    	$total_respuestas = 0;
+    	$respuestas = $pregunta->respuestas()->get();
+
+    	foreach ($respuestas as $item) {
+    		$coincide_curso = $item->realizada->curso_id == $id_curso;
+			$coincide_docente = $item->realizada->docente_id == $this->id;
+		    if ($coincide_curso && $coincide_docente) $total_respuestas+=1;
+    	}
+    	
+    	$total_responden = $this->responden($calificacion, $id_curso, $id_pregunta);
+    	$porcentaje_respuestas = (100/$total_respuestas)*$total_responden;
+
+    	return round($porcentaje_respuestas); //Redondeo del porcentaje
 
     }
 

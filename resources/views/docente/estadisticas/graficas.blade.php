@@ -14,7 +14,7 @@
                 	</h1>
                 </div>
                 <div id="chartparent" class="panel-body">
-	                <ul class="nav nav-tabs">
+	                <!-- <ul class="nav nav-tabs">
 		                <li class="active">
 		                	<a href="/Docentes/estadisticas/{{$docente->id}}/graficas">
 		                	Gráficas</a>
@@ -24,7 +24,7 @@
 		                	Exportar</a>
 		                </li>
 		                <li><a href="#">Enviar</a></li>
-	                </ul>
+	                </ul> -->
 					@foreach ($encuestas as $encuesta)
         				@if ($encuesta->preguntas->count()>0)
 					       	<h3>
@@ -40,7 +40,17 @@
 					       	</strong></p>
 						    @foreach ($cursos as $curso) 
 							    @include('docente.estadisticas.chart_preguntas')
-							    <div id="chart_div_{{$encuesta->id}}{{$curso->id}}"></div>
+							    <div class="grafica" id="chart_div_{{$encuesta->id}}{{$curso->id}}"></div>
+							    <div>
+							    <i class="fa fa-paperclip" aria-hidden="true"></i>
+							    <a href="">
+							    Enviar por e-Mail</a>
+							    </div>
+							    <div>
+							    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+							    <a target="_blank" href="/Docentes/exportar/{{$docente->id}}/{{$encuesta->id}}/{{$curso->id}}">
+							    Exportar a PDF</a>
+							    </div>
 							    <hr>
 						    @endforeach
 					    @endif
