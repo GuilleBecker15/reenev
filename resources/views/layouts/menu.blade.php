@@ -33,6 +33,8 @@
                 <li><a href="{{ route('Realizadas.index')}}">Realizadas</a></li>
                 <li><a href="{{ route('Users.index')}}">Usuarios</a></li>
                 <li><a href="{{ route('Realizada.todos')}}">Todos</a></li>
+                <li><a href="/sendemail">Mail</a></li>
+
                 @endcan
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

@@ -61,3 +61,6 @@ Route::put('/Cursos/{Curso}/Docentes', [ 'uses' => 'CursoController@actualizardo
 Route::get('/Cursos/{Curso}/Docentes/edit', [ 'uses' => 'CursoController@editdocente', 'as' => 'Cursos.Docente.edit']);
 
 Route::put('/Users/{User}/Recuperar', ['uses' => 'UserController@recuperar', 'as' => 'Users.recuperar']);
+
+Route::post('/Mail/{User}',['uses' => 'OrderController@ship', 'as' => 'Users.mail'] );
+Route::get('/sendemail', 'MailController@sendemail');
