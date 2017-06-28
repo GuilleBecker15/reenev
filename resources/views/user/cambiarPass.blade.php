@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Modificar Password - Reenev')
+@section('title', 'Modificar contraseña')
 
 @section ('content')
 	<div class="container">

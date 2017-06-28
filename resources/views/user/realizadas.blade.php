@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title', 'Encuestas completadas')
+@section('title', 'Encuestas completadas por un usuario')
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Encuestas completadas</h1></div>
+                <div class="panel-heading"><h1>Encuestas completadas por el usuario</h1></div>
                 <div class="panel-body">
                 @include('layouts.flashes')
                     <div class="table-responsive">
@@ -13,11 +13,11 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Cuando la hiciste</th>
-                                    <th>De que trataba</th>
-                                    <th>Para quien era</th>
-                                    <th>Que curso dictaba</th>
-                                    <th>En que semestre</th>
+                                    <th>Cuando</th>
+                                    <th>Encuesta</th>
+                                    <th>Docente</th>
+                                    <th>Curso</th>
+                                    <th>Semestre</th>
                                 </tr>
                             </thead>
                             @foreach ($realizadas as $key => $realizada)

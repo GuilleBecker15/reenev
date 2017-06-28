@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title', 'Datos del curso')
+@section('title', 'Editar un curso')
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Datos del curso</h1></div>
+                <div class="panel-heading"><h1>Editar el curso</h1></div>
                 <div class="panel-body">
                     @include('layouts.flashes')
                         <!-- <div class="form-group">

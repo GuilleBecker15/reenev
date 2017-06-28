@@ -14,14 +14,9 @@
                         <span class="sr-only">Acciones</span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ route('Cursos.create') }}"><span class="glyphicon glyphicon-education"></span> Nuevo curso</a></li>
+                        <li><a href="{{ route('Cursos.create') }}"><span class="glyphicon glyphicon-book"></span> Nuevo curso</a></li>
                         <li><a href="{{ route('Docentes.create') }}"><span class="glyphicon glyphicon-user"></span> Nuevo docente</a></li>
                         <li><a href="{{ route('Encuestas.create') }}"><span class="glyphicon glyphicon-stats"></span> Nueva encuesta</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-info-sign"></span> Cursos eliminados</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-info-sign"></span> Docentes eliminados</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-info-sign"></span> Encuestas eliminadas</a></li>
-                        <li><a href="{{ url('Users/borrados', true) }}"><span class="glyphicon glyphicon-info-sign"></span> Usuarios eliminados</a></li>
                     </ul>
                 </span>
             </div>

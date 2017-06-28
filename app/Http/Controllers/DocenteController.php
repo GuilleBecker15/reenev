@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Curso;
 use App\Docente;
+use App\Encuesta;
 use App\Http\Traits\Utilidades;
+use App\Pregunta;
+use App\Realizada;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Validator;
 
@@ -214,15 +219,115 @@ class DocenteController extends Controller
 
         $docente = Docente::find($id);
         $nomApe = $docente->nombre." ".$docente->apellido;
-        //if (se puede borrar)
+        
+        if (Realizada::where('docente_id', $id)->get()->isNotEmpty()) {
+            $request->session()->flash(
+                'message',
+                'No se puede eliminar el docente. Existen encuestas completadas para el');
+            return $this->index();
+        }
+        
         $docente->delete();
 
         $request->session()->flash('message', 'El docente '.$nomApe. ' fue borrado exitosamente');
         return $this->index();
     }
 
-    public function estadisticas() {
-    	return view('docente.estadisticas');
+    public function graficas($id_docente) {
+    
+    	/*
+    
+    	1) Mostrar para este docente, cada encuesta que apunte a el
+    	2) Mostrar para cada encuesta, cada curso a la cual se dirige
+    	3) Mostrar para cada curso, la grafica
+
+    	*/
+
+        $docente = Docente::find($id_docente);
+
+        $realizadas_encuesta_id = Realizada::where('docente_id', $id_docente)->select('realizadas.encuesta_id')->distinct()->get();
+        $realizadas_curso_id = Realizada::where('docente_id', $id_docente)->select('realizadas.curso_id')->distinct()->get();
+        
+        $encuesta_ids = array('');
+        $cursos_ids = array('');
+
+        foreach ($realizadas_encuesta_id as $r) {
+        	array_push($encuesta_ids, $r->encuesta_id);
+        }
+
+        foreach ($realizadas_curso_id as $r) {
+        	array_push($cursos_ids, $r->curso_id);
+        }
+
+        $encuestas = Encuesta::whereIn('id', $encuesta_ids)->get();
+        $cursos = Curso::whereIn('id', $cursos_ids)->get();
+
+    	return view('docente.estadisticas.graficas', compact('encuestas', 'cursos', 'docente'));
+    	
+        // if ($opcion=='ver_pdf') {
+        // 	$data = compact('encuestas', 'cursos', 'docente');
+        // 	return $this->html_to_pdf($data)->stream();
+        // }
+
+        // if ($opcion=='bajar_pdf') {
+        // 	$data = compact('encuestas', 'cursos', 'docente');
+        // 	$name = $docente->nombre."_".$docente->apellido."_".date('d/m/Y');
+        // 	return $this->html_to_pdf($data)->download($name.".pdf");
+        // }
+
+        return $this->debug($encuestas, $cursos, $docente); //SOLO TESTING
+
     }
+
+    public function exportar($id_docente, $id_encuesta, $id_curso) {
+    	$docente = Docente::find($id_docente);
+    	$encuesta = Encuesta::find($id_encuesta);
+    	$curso = Curso::find($id_curso);
+    	if (!$docente) return "No se encontro el docente de id=".$id_docente;
+    	if (!$encuesta) return "No se encontro la encuesta de id=".$id_encuesta;
+    	if (!$curso) return "No se encontro el curso de id=".$id_curso;
+    	return view('docente.estadisticas.exportar', compact('docente', 'encuesta', 'curso'));
+    }
+
+    private function html_to_pdf($data) {
+    	$pdf = \PDF::loadView('docente.estadisticas.html_for_pdf', $data);
+    	return $pdf;
+	}
+
+    private function debug($encuestas, $cursos, $docente) {
+
+    	return view('docente.estadisticas.html_for_pdf',
+    			compact('encuestas', 'cursos', 'docente'));
+
+	    echo "<ul>";
+        foreach ($encuestas as $encuesta) {
+        	echo "<li>Encuesta (".$encuesta->id.") ".$encuesta->asunto."</li>";
+	        echo "<ul>";
+        	foreach ($cursos as $curso) {
+				echo "<li>Curso (".$curso->id.") ".$curso->nombre."</li>";
+		        echo "<ul>";
+		        foreach ($encuesta->preguntas as $pregunta) {
+		        	echo "<li>Pregunta (".$pregunta->id.") ".$pregunta->enunciado."</li>";
+		        	echo "<ul>";
+		        	$no_corresponde = $docente->responden(0, $curso->id, $pregunta->id);
+		        	$muy_mal = $docente->responden(1, $curso->id, $pregunta->id);
+		        	$mal = $docente->responden(2, $curso->id, $pregunta->id);
+		        	$normal = $docente->responden(3, $curso->id, $pregunta->id);
+		        	$bien = $docente->responden(4, $curso->id, $pregunta->id);
+		        	$muy_bien = $docente->responden(5, $curso->id, $pregunta->id);
+		        	echo "<li>No corresponde: ".$no_corresponde." alumnos</li>";
+		        	echo "<li>Muy mal: ".$muy_mal." alumnos</li>";
+		        	echo "<li>Mal: ".$mal." alumnos</li>";
+		        	echo "<li>Normal: ".$normal." alumnos</li>";
+		        	echo "<li>Bien: ".$bien." alumnos</li>";
+		        	echo "<li>Muy bien: ".$muy_bien." alumnos</li>";
+		        	echo "</ul>";
+	        	}
+	        	echo "</ul>";        			
+        	}
+        	echo "</ul>";
+        }
+	    echo "</ul>";
+	}
 
 }

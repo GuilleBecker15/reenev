@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dar de alta una encuesta')
+@section('title', 'Editar una encuesta')
 
 @section('content')
 <div class="container">
@@ -9,7 +9,7 @@
 
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Editar una encuesta</h1></div>
+                <div class="panel-heading"><h1>Editar la encuesta</h1></div>
                 <div class="panel-body">
                 <?php 
                     //dd($old_form_data);

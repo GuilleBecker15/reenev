@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Registrarme - Reenev')
+@section('title', 'Registrarse - Reenev')
 
 @section('content')
 <div class="container">
@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Date de alta en Reenev</h1></div>
+                <div class="panel-heading"><h1>Darse de alta en Reenev</h1></div>
                 <div class="panel-body">
                     <form onsubmit="return validarCampos();" class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}

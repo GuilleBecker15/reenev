@@ -20,7 +20,7 @@
                                     <th>C.I.</th>
                                     <th>Nombre</th>
                                     <th>Apellido</th>
-                                    <th>Cursos</th>
+                                    <th>Cursos que dicta</th>
                                 </tr>
                             </thead>
                             @foreach ($docentes as $key => $docente)
@@ -32,18 +32,30 @@
                                     <td>{{ $docente->nombre }}</td>
                                     <td>{{ $docente->apellido }}</td>
                                     <td>
-                                        <a class="btn btn-primary mianchor" href="/Cursos/docente/{{ $docente->id }}">
-                                        {{ $docente->cursos()->count() }}
+                                        <a href="/Cursos/docente/{{ $docente->id }}">
+                                    	Un total de: {{ $docente->cursos()->count() }}
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-info" href="/Docentes/{{ $docente->id }}/edit">Editar</a>
+                                        <a class="btn btn-default btn-xs"
+                                        href="Docentes/graficas/{{$docente->id}}">
+                                    	Estadísticas
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-info btn-xs"
+                                        href="#">
+                                    	Ver
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary btn-xs" href="/Docentes/{{ $docente->id }}/edit">Editar</a>
                                     </td>
                                     <td>
                                         <form id="{{ $docente->id }}.formulario" class="form-inline form-delete" method="POST" action="{{ route('Docentes.destroy', $docente->id) }}">
                                         <input name="_method" type="hidden" value="DELETE">
                                         {{ csrf_field() }}
-                                        <button id="{{ $docente->id }}.docente" type="submit" class="btn btn-danger borrado_confirm">Borrar</button>
+                                        <button id="{{ $docente->id }}.docente" type="submit" class="btn btn-danger btn-xs borrado_confirm">Borrar</button>
                                         </form>
                                     </td>
                                 </tr>

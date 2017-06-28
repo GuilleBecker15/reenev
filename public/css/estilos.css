@@ -13,6 +13,11 @@ nav {
     box-shadow: 0 0 10px black;
 }
 
+.grafica {
+	padding: 0;
+	border: none;
+}
+
 .mianchor {
     color: white;
 }
