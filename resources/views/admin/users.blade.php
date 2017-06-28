@@ -23,11 +23,8 @@
                                     <th>Fecha de nacimiento</th>
                                     <th>Generacion</th>
                                     <th>C.I.</th>
-                                    <th>eMail</th>
+                                    <th>e-Mail</th>
                                     <th>Tipo</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             @foreach ($users as $key => $user)

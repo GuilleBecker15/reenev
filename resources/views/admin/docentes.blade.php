@@ -16,7 +16,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>eMail</th>
+                                    <th>e-Mail</th>
                                     <th>C.I.</th>
                                     <th>Nombre</th>
                                     <th>Apellido</th>

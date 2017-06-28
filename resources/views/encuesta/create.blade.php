@@ -30,7 +30,7 @@
                             <div class="form-group{{ $errors->has('asunto') ? 'has-error' : '' }}">
                                 <label type="text" name="asunto" class="col-md-4 control-label" for="asunto" value="">Asunto</label>  
                                 <div class="col-md-6">
-                                    <input class="form-control" id="asunto" name="asunto" value="{{ old('asunto') }}" placeholder="" required autofocus >
+                                    <input class="form-control" id="asunto" name="asunto" value="{{ old('asunto') }}" placeholder="Encuesta 2017" required autofocus >
                                     @if ($errors->has('asunto'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('asunto') }}</strong>
@@ -39,7 +39,7 @@
                                 </div>               
                             </div>
                             <div class="form-group{{ $errors->has('descripcion') ? 'has-error' : '' }}">
-                                <label type="text" name="descripcion" class="col-md-4 control-label" for="descripcion" value="">descripcion</label>  
+                                <label type="text" name="descripcion" class="col-md-4 control-label" for="descripcion" value="">Descripción</label>  
                                 <div class="col-md-6">
                                     <input class="form-control" id="descripcion" type="text" name="descripcion" value="{{ old('descripcion') }}" placeholder="Ingrese un descripcion" required>
                                     @if ($errors->has('descripcion'))
@@ -65,7 +65,7 @@
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">
-                                        Aceptar
+                                        Guardar
                                     </button>
                                 </div>
                             </div>

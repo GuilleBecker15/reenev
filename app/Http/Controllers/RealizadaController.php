@@ -297,11 +297,13 @@ class RealizadaController extends Controller
     public function todos(){
         $resultados = array();
         // $todos = Realizada::select('realizadas.*')->join('respuestas','respuestas.realizada_id','=','realizadas.id')->get()->groupBy('realizadas.id');
-        $todos = DB::select(DB::raw("select realizadas.id, realizadas.user_id, users.name1, users.apellido1, realizadas.cuando ,avg(respuestas.calificacion) from realizadas left join respuestas on respuestas.realizada_id = realizadas.id left join users on users.id = realizadas.user_id group by realizadas.id, realizadas.user_id, users.name1, users.apellido1,  realizadas.cuando order by avg(respuestas.calificacion) desc"));
+        // $todos = DB::select(DB::raw("select realizadas.id, realizadas.user_id, users.name1, users.apellido1, realizadas.cuando ,avg(respuestas.calificacion) from realizadas left join respuestas on respuestas.realizada_id = realizadas.id left join users on users.id = realizadas.user_id group by realizadas.id, realizadas.user_id, users.name1, users.apellido1,  realizadas.cuando order by avg(respuestas.calificacion) desc"));
+        $todos = DB::select(DB::raw("select realizadas.encuesta_id, realizadas.id, realizadas.user_id, users.name1, users.apellido1, realizadas.cuando ,avg(respuestas.calificacion) from realizadas left join respuestas on respuestas.realizada_id = realizadas.id left join users on users.id = realizadas.user_id group by realizadas.encuesta_id, realizadas.id, realizadas.user_id, users.name1, users.apellido1,  realizadas.cuando order by avg(respuestas.calificacion) desc"));
         $todos = collect($todos)->map(function($x){ return (array) $x; })->toArray(); 
         // dd($todos);
         // dd($todos);
         foreach ($todos as $key => $estudiante) {
+        	$estudiante['encuesta'] = Encuesta::find($estudiante['encuesta_id']);
             $estudiante['cuando'] = $this->uyDateFormat($estudiante['cuando']);
             // dd($estudiante['cuando']);
             $respuesta = Respuesta::where('realizada_id', $estudiante['id'])->get();
