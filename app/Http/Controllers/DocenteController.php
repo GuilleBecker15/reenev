@@ -165,9 +165,10 @@ class DocenteController extends Controller
      * @param  \App\Docente  $docente
      * @return \Illuminate\Http\Response
      */
-    public function show(Docente $docente)
+    public function show($idDocente)
     {
-        //
+        $docente = Docente::findOrFail($idDocente);
+        return view('docente.show', compact('docente'));
     }
 
     /**
