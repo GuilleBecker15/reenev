@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Docente;
 use App\Curso;
+use Illuminate\Support\Facades\Redirect;
 
 class MailController extends Controller
 {
@@ -35,12 +36,18 @@ class MailController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function sendemail(Request $request, $user_id, $docente_id, $curso_id)
+    public function sendemail(Request $request, $user_id, $docente_id, $curso_id, $urlprevia)
     {   
  
             $user = User::findOrFail($user_id);
             $docente = Docente::findOrFail($docente_id);
             $curso = Curso::findOrFail($curso_id);
+            $a = "http://localhost:8000/Realizadas/4/quienes?idEncuesta=4&idCurso=4&idDocente=6";
+
+            $url = explode('Realizadas', $urlprevia);
+            $url = "/Realizadas".$url[1];
+
+            // dd($url);
 
             $data_toview = array();
             $data_toview['bodymessage'] = "Hola esto es un mensaje para: ".$user->name1;
@@ -53,8 +60,8 @@ class MailController extends Controller
  
             // $email_sender   = env('MAIL_NEW_USERNAME', getenv("MAIL_NEW_USERNAME"));
             // $email_pass     = env('MAIL_NEW_PASSWORD', getenv("MAIL_NEW_PASSWORD"));
-            $email_sender   = env('MAIL_USERNAME', getenv("MAIL_USERNAME"));
-            $email_pass     = env('MAIL_PASSWORD', getenv("MAIL_PASSWORD"));
+            $email_sender   = env('MAIL_NEW_USERNAME', getenv("MAIL_NEW_USERNAME"));
+            $email_pass     = env('MAIL_NEW_PASSWORD', getenv("MAIL_NEW_PASSWORD"));
             // Backup your default mailer
             $backup = \Mail::getSwiftMailer();
  
@@ -84,18 +91,18 @@ class MailController extends Controller
                             ->replyTo($data['sender'], 'Encuestas Tip')
                             ->subject('Encuestas Tip');
  
-                            // echo 'The mail has been sent successfully';
-                            $request->session->flash(
-                                'message', 'Se ha enviado correctamente un mail al alumno '.$user->name1." ".$user->apellido1
-                                );
-                            return redirect()->back();
+                            //$request = new Request;
  
                         });
+                        // dd($urlprevia);
+                        $request->session()->flash('message', 'Se ha enviado correctamente un mail al alumno '.$user->name1." ".$user->apellido1);
+                        return redirect()->back();
  
             }catch(\Swift_TransportException $e){
                 $response = $e->getMessage() ;
                 //echo $response;
-                $request->session->flash(
+                //$request = new Request;
+                $request->session()->flash(
                     'error', 'Ha ocurrido un problema al enviar un mail al alumno '.$user->name1." ".$user->apellido1
                     );
                 return redirect()->back();

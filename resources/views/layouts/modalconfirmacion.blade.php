@@ -13,7 +13,7 @@
                     <a href="#" class="btn btn-success cerrarModal">Cancelar</a>        
                 </div>
                 <div class="col-md-6 text-center">
-                    <a id="aceptarBorrado" class="btn btn-info " href="#">Aceptar</a>
+                    <a id="aceptarBorrado" class="btn btn-info " href="#" autofocus>Aceptar</a>
                 </div>
             </div>
         </div>
