@@ -18,7 +18,7 @@
                 <!-- Authentication Links -->
                 @if (Auth::guest())
                 <li><a href="{{ route('register') }}">
-                <span class="glyphicon glyphicon-new-window"></span>    Registrarme</a></li>
+                <span class="glyphicon glyphicon-new-window"></span>    Registrarse</a></li>
                 <li><a href="{{ route('login') }}">
                 <span class="glyphicon glyphicon-log-in"></span>    Entrar</a></li>
                 @else
@@ -29,6 +29,7 @@
                 @can('es_admin', App\User::class)
                 <li><a href="{{ route('Cursos.index')}}">Cursos</a></li>
                 <li><a href="{{ route('Docentes.index')}}">Docentes</a></li>
+<!-------------------------------------------------------------------------------------------------
                 <li><a href="{{ route('Encuestas.index')}}">Encuestas</a></li>
                 <li><a href="{{ route('Realizadas.index')}}">Realizadas</a></li>
                 <li><a href="{{ route('Users.index')}}">Usuarios</a></li>
@@ -41,6 +42,26 @@
                     </form>
                 </li>
 
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Encuestas <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+	                        <a href="{{ route('Encuestas.index') }}">
+		                        <i class="fa fa-circle-o" aria-hidden="true"></i>
+		                        Disponibles
+	                        </a>
+                        </li>
+                        <li>
+	                        <a href="#">
+	                        	<i class="fa fa-circle" aria-hidden="true"></i>
+	                        	Completadas
+	                        </a>
+                        </li>                        
+                    </ul>
+                </li>
+                <li><a href="{{ route('Users.index') }}">Usuarios</a></li>
+----------------------------------------------------------------- -->
                 @endcan
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title', 'Ver encuesta')
+@section('title', 'Ver una encuesta')
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Informacion de la encuesta</h1></div>
+                <div class="panel-heading"><h1>Ver la encuesta</h1></div>
                 <div class="panel-body">
                     @include('layouts.flashes')
                     <table class="table">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Completar encuesta')
+@section('title', 'Completar una encuesta')
 
 @section('content')
 <div class="container">
@@ -9,7 +9,7 @@
         
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Completar encuesta</h1></div>
+                <div class="panel-heading"><h1>Completar la encuesta</h1></div>
                 <div class="panel-body">
                     @include('layouts.flashes')
                     <form onsubmit="return validarCampos();" class="form-horizontal" role="form" method="POST" action="{{ route('Realizadas.store') }}">

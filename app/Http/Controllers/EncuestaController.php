@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Encuesta;
 use App\Http\Traits\Utilidades;
 use App\User;
+use App\Realizada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +43,7 @@ class EncuestaController extends Controller
                 
         $encuestas = Encuesta::all();
 
-        $h1 = "Encuestas en el sistema";
+        $h1 = "Encuestas disponibles";
         
         $title = "ID, Fecha inicial, Fecha limite, Asunto o Descripcion"; //Para el tooltrip
 
@@ -295,12 +296,23 @@ class EncuestaController extends Controller
         // return view('encuesta.help',['pregunta'=>$pre]);
         
         $encuesta = Encuesta::findOrFail($id);
+//<<<<<<< guilleArreglar19Junio
         //if (Realizada::where('encuesta_id', $id)->get()->isNotEmpty()) {
         //dd($encuesta->realizadas()->get()->isNotEmpty());
-        if($encuesta->realizadas()->get()->isNotEmpty()){
-            $request->session()->flash('error', 'Encuesta no se puede eliminar porque alguien ya la completo');
+        //if($encuesta->realizadas()->get()->isNotEmpty()){
+        //    $request->session()->flash('error', 'Encuesta no se puede eliminar porque alguien ya la completo');
+        //    return $this->index();
+        //}
+//=======
+
+        if (Realizada::where('encuesta_id', $id)->get()->isNotEmpty()) {
+            $request->session()->flash(
+                'message',
+                'No se puede eliminar la encuesta. Ya fue completada por alguien');
             return $this->index();
         }
+
+//>>>>>>> master
         $encuesta->preguntas()->delete();
         $encuesta->delete();
         // parent::delete();
@@ -308,4 +320,16 @@ class EncuestaController extends Controller
         return $this->index();
 
     }
+
+    public function completadas() {
+
+		$realizadas = Realizada::all()->reject(function ($item, $key) {
+			$user = User::find($item->user_id);
+			return !$user;
+		});
+
+    	return view('encuesta.realizadas', compact('realizadas'));
+    
+    }
+
 }

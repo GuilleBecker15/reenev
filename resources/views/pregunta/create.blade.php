@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Agregar pregunta a una encuesta')
+@section('title','Agregar preguntas a una encuesta')
 @section('content')
 
 	<div class="container">
@@ -7,7 +7,7 @@
 			<div class="col-md-8 col-md-offset-2">
 				<div class="panel-default">
 					<div class="panel-heading">
-						<h2>Agregar un pregunta a la encuesta: {{$encuesta->asunto}} : {{$encuesta->id}}</h2>
+						<h2>Agregar preguntas a la encuesta <a href="">{{$encuesta->asunto}}</a></h2>
 					</div>
 					<div class="panel-body">
 						@include('layouts.flashes')

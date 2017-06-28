@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Traits\Utilidades;
 use App\User;
+use App\Realizada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -26,12 +27,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        return $this->borrados(false);
-    }
-
-    public function borrados($si_o_no) 
-    {
-
         $this->authorize('es_admin', User::class);
     
         $routeEntera = Route::getFacadeRoot()->current()->uri(); //No esta en buscar
@@ -44,7 +39,7 @@ class UserController extends Controller
             $route = implode('/', $routeSeparada);
         }
                 
-        $users = User::where('estaBorrado',$si_o_no)->get();
+        $users = User::all();
 
         $h1 = "Usuarios en el sistema";
         
@@ -55,9 +50,7 @@ class UserController extends Controller
         return view(
             'admin.users',
             ['users' => $users, 'route' => $route,
-            'title' => $title, 'c' => $c, 'h1' => $h1]);
-
-    }
+            'title' => $title, 'c' => $c, 'h1' => $h1]);    }
 
     public function buscar(Request $request)
     {
@@ -135,9 +128,9 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::withTrashed()->where('id', $id)->get();
+        $user = User::find($id);
         //$this->authorize('es_admin_o_es_el', $user);
-        return view('user.show', ['user' => $user]);
+        return view('user.show', compact('user'));
     }
 
     public function realizadas($id)
@@ -203,7 +196,9 @@ class UserController extends Controller
             if($validator->fails())
                return view('user.edit', ['user'=>$user])->withErrors($validator, 'name1');
 
-            if(Hash::check($request->get('pass'), $user->password)){
+            if(Hash::check($request->get('pass'), $user->password)
+            	|| $this->authorize('es_admin', $user)){
+                
                 $nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
 
                 $user->name1=$request->get('name1');
@@ -282,7 +277,7 @@ class UserController extends Controller
         $user->supervisor=Auth::user()->id;
         $user->esAdmin=!$user->esAdmin;
         $user->save();
-        return $this->show($user->id);
+        return redirect()->action('UserController@show', ['id' => $id]);
     }
 
     /**
@@ -293,16 +288,22 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        // $this->authorize('es_admin', User::class);
-        $user = User::find($id);
-        $this->authorize('es_admin_y_no_es_el', $user);
-        $this->authorize('es_supervisor', $user);
-        $user->supervisor=Auth::user()->id;
-        //$user->estaBorrado=!$user->estaBorrado;
-        $user->save();
-        $user->delete();
-        $request->session()->flash('message', 'El usuario ha sido eliminada exitosamente');
-        return $this->show($user->id);
+        // // $this->authorize('es_admin', User::class);
+        // $user = User::find($id);
+        // $this->authorize('es_admin_y_no_es_el', $user);
+        // $this->authorize('es_supervisor', $user);
+        // $user->supervisor=Auth::user()->id;
+        // //$user->estaBorrado=!$user->estaBorrado;
+        // if (Realizada::where('user_id', $id)->get()->isNotEmpty()) {
+        //     $request->session()->flash(
+        //         'message',
+        //         'No se puede eliminar al usuario, porque ha completado encuestas');
+        //     return $this->index();
+        // }
+        // $user->save();
+        // $user->delete();
+        // $request->session()->flash('message', 'El usuario ha sido eliminada exitosamente');
+        // return $this->show($user->id);
     }
 
     public function recuperar(Request $request, $id){
