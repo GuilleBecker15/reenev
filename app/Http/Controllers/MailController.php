@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Docente;
 use App\Curso;
+use App\Encuesta;
+use App\Realizada;
 use Illuminate\Support\Facades\Redirect;
 
 class MailController extends Controller
@@ -52,7 +54,7 @@ class MailController extends Controller
             $data_toview = array();
             $data_toview['bodymessage'] = "Hola esto es un mensaje para: ".$user->name1;
             $data_toview['docente'] = $docente->nombre." ".$docente->apellido ;
-            $data_toview['curso'] = $curso->nombre;
+            $data_toview['curso'] = $curso;
  
             // $email_sender   = 'encuestastip@gmail.com';
             // $email_pass     = 'tecnologo2017';
@@ -115,21 +117,45 @@ class MailController extends Controller
  
     }
  
- public function sendemailestadisticas(Request $request, $docente_id, $curso_id)
+ public function sendemailprofes(Request $request, $id_docente)
     {   
+
+        //---------------------------de docente coontroller grafica -------------------
+        $docente = Docente::find($id_docente);
+
+        $realizadas_encuesta_id = Realizada::where('docente_id', $id_docente)->select('realizadas.encuesta_id')->distinct()->get();
+        $realizadas_curso_id = Realizada::where('docente_id', $id_docente)->select('realizadas.curso_id')->distinct()->get();
+        
+        $encuesta_ids = array('');
+        $cursos_ids = array('');
+
+        foreach ($realizadas_encuesta_id as $r) {
+            array_push($encuesta_ids, $r->encuesta_id);
+        }
+
+        foreach ($realizadas_curso_id as $r) {
+            array_push($cursos_ids, $r->curso_id);
+        }
+
+        $encuestas = Encuesta::whereIn('id', $encuesta_ids)->get();
+        $cursos = Curso::whereIn('id', $cursos_ids)->get();
+
+        //-------------------------------------------------------------------------------------------//
+
  
-            $user = User::findOrFail($user_id);
-            $docente = Docente::findOrFail($docente_id);
-            $curso = Curso::findOrFail($curso_id);
+            //$user = User::findOrFail($user_id);
+            //$docente = Docente::findOrFail($docente_id);
+            //$curso = Curso::findOrFail($curso_id);
 
             $data_toview = array();
-            $data_toview['bodymessage'] = "Hola esto es un mensaje para: ".$user->name1;
-            $data_toview['docente'] = $docente->nombre." ".$docente->apellido ;
-            $data_toview['curso'] = $curso->nombre;
+            // $data_toview['bodymessage'] = "Hola esto es un mensaje para: ".$user->name1;
+            $data_toview['docente'] = $docente ;
+            $data_toview['cursos'] = $cursos;
+            $data_toview['encuestas'] = $encuestas;
  
             // $email_sender   = 'encuestastip@gmail.com';
             // $email_pass     = 'tecnologo2017';
-            $email_to       = $user->email;
+            $email_to       = $docente->email;
  
             // $email_sender   = env('MAIL_NEW_USERNAME', getenv("MAIL_NEW_USERNAME"));
             // $email_pass     = env('MAIL_NEW_PASSWORD', getenv("MAIL_NEW_PASSWORD"));
@@ -156,7 +182,7 @@ class MailController extends Controller
                         $data['sender'] = $email_sender;
                         //Sender dan Reply harus sama
  
-                        Mail::send('emails.html', $data_toview, function($message) use ($data)
+                        Mail::send('emails.emailprofes', $data_toview, function($message) use ($data)
                         {
  
                             $message->from($data['sender'], 'Encuestas Tip');
@@ -165,18 +191,18 @@ class MailController extends Controller
                             ->subject('Encuestas Tip');
  
                             // echo 'The mail has been sent successfully';
-                            $request->session->flash(
-                                'message', 'Se ha enviado correctamente un mail al alumno '.$user->name1." ".$user->apellido1
-                                );
-                            return redirect()->back();
  
                         });
  
+                            $request->session()->flash(
+                                'message', 'Se ha enviado correctamente un mail al docente '.$docente->name." ".$docente->apellido
+                                );
+                            return redirect()->back();
             }catch(\Swift_TransportException $e){
                 $response = $e->getMessage() ;
                 //echo $response;
-                $request->session->flash(
-                    'error', 'Ha ocurrido un problema al enviar un mail al alumno '.$user->name1." ".$user->apellido1
+                $request->session()->flash(
+                    'error', 'Ha ocurrido un problema al enviar un mail al docente '.$docente->name." ".$docente->apellido
                     );
                 return redirect()->back();
             }

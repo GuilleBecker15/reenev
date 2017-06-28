@@ -291,7 +291,8 @@ class DocenteController extends Controller
     }
 
     private function html_to_pdf($data) {
-    	$pdf = \PDF::loadView('docente.estadisticas.html_for_pdf', $data);
+        // $data = "nombre del docente";
+    	$pdf = \PDF::loadView('docente.html', $data);
     	return $pdf;
 	}
 

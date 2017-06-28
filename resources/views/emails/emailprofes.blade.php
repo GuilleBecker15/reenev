@@ -1,3 +1,6 @@
+@extends('layouts.app')
+@section('title', 'Graficos estadisticos de un docente')
+@section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -11,17 +14,7 @@
                     </h1>
                 </div>
                 <div id="chartparent" class="panel-body">
-                    <!-- <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a href="/Docentes/estadisticas/{{$docente->id}}/graficas">
-                            Gráficas</a>
-                        </li>
-                        <li>
-                            <a href="/Docentes/estadisticas/{{$docente->id}}/exportar">
-                            Exportar</a>
-                        </li>
-                        <li><a href="#">Enviar</a></li>
-                    </ul> -->
+                 
                     @foreach ($encuestas as $encuesta)
                         @if ($encuesta->preguntas->count()>0)
                             <h3>
@@ -64,3 +57,4 @@
         </div>
     </div>
 </div>
+@endsection
