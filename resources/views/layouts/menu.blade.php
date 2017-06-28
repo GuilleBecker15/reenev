@@ -29,6 +29,20 @@
                 @can('es_admin', App\User::class)
                 <li><a href="{{ route('Cursos.index')}}">Cursos</a></li>
                 <li><a href="{{ route('Docentes.index')}}">Docentes</a></li>
+<!-------------------------------------------------------------------------------------------------
+                <li><a href="{{ route('Encuestas.index')}}">Encuestas</a></li>
+                <li><a href="{{ route('Realizadas.index')}}">Realizadas</a></li>
+                <li><a href="{{ route('Users.index')}}">Usuarios</a></li>
+                <li><a href="{{ route('Realizada.todos')}}">Todos</a></li>
+                <li>
+                    <a href="/sendemail" onclick="event.preventDefault(); document.getElementById('mail-form').submit();">Mail</a>
+                    <form id="mail-form" action="/sendemail" method="get" style="display: none;" accept-charset="utf-8">
+                    <input type="hidden" name="id" value="{{ Auth::user()->id }}">
+                    {{ csrf_field() }}
+                    </form>
+                </li>
+
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Encuestas <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
@@ -47,6 +61,7 @@
                     </ul>
                 </li>
                 <li><a href="{{ route('Users.index') }}">Usuarios</a></li>
+----------------------------------------------------------------- -->
                 @endcan
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

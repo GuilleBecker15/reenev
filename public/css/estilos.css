@@ -13,7 +13,17 @@ nav {
     box-shadow: 0 0 10px black;
 }
 
-.grafica {
+.table>thead>tr>th{
+    text-align: center;
+}
+
+.table>tbody>tr>td {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: middle;
+    border-top: 1px solid #ddd;
+
+  .grafica {
 	padding: 0;
 	border: none;
 }
@@ -98,6 +108,7 @@ nav {
         #activar {
             margin: 40px 60px;
         }
+
 
 .nav > li {
     padding: 0 9px;

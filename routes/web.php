@@ -32,6 +32,12 @@ Route::post('/Users/buscar', 'UserController@buscar');
 Route::post('/hacerAdmin/{id}', 'UserController@hacerAdmin');
 Route::post('/Realizadas/continuar', 'RealizadaController@continuar');
 
+Route::get('/Realizadas/{Encuesta}/show', [ 'uses' => 'RealizadaController@verpormateria', 'as' => 'Realizada.show.materia']);
+Route::get('/Realizadas/{Encuesta}/quienes', [ 'uses' => 'RealizadaController@quienes', 'as' => 'Realizada.quienes']);
+Route::post('/Realizadas/rehacer',['uses'=>'RealizadaController@rehacer','as'=>'Realizada.rehacer']);
+Route::get('/Realizadas/todos',['uses'=>'RealizadaController@todos','as'=>'Realizada.todos']);
+// CAMBIAR LAS RUTAS PARA QUE AL BUSCAR NO DE ERROR:
+
 Route::get('/Users/borrados/{si_o_no}', 'UserController@borrados');
 Route::get('/Users/completadas/{id}', 'UserController@realizadas');
 Route::get('/Cursos/docente/{id}', 'CursoController@docente');
@@ -61,3 +67,6 @@ Route::put('/Cursos/{Curso}/Docentes', [ 'uses' => 'CursoController@actualizardo
 Route::get('/Cursos/{Curso}/Docentes/edit', [ 'uses' => 'CursoController@editdocente', 'as' => 'Cursos.Docente.edit']);
 
 Route::put('/Users/{User}/Recuperar', ['uses' => 'UserController@recuperar', 'as' => 'Users.recuperar']);
+
+
+Route::get('/sendemail', 'MailController@sendemail');

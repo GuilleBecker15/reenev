@@ -138,6 +138,7 @@ class UserController extends Controller
         $user = User::find($id);
         $this->authorize('es_el', $user);
         $realizadas = $user->realizadas()->get();
+        // dd($user->realizadas[0]->docentes);
         return view('user.realizadas', compact('realizadas'));
     }
 

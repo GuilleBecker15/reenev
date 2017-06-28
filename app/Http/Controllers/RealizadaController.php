@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Curso;
 use App\Docente;
 use App\Encuesta;
-use App\Http\Traits\Utilidades;
 use App\Realizada;
 use App\Respuesta;
 use App\User;
+use DB;
+use App\Http\Traits\Utilidades;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MailController;
 
 class RealizadaController extends Controller
 {
@@ -25,7 +27,15 @@ class RealizadaController extends Controller
      */
     public function index()
     {
-        //Hacer?
+        $this->authorize('es_admin', User::class);
+
+        $realizadas = Encuesta::orderBy('inicio', 'desc')->get();
+        // dd($realizadas[0]->realizadas->groupBy('user_id'));
+        foreach ($realizadas as $key => $value) {
+            $value->inicio = $this->uyDateFormat($value->inicio);
+            $value->vence = $this->uyDateFormat($value->vence);
+        }
+        return view('realizada.index',['realizadas' => $realizadas]);
     }
 
     /**
@@ -190,4 +200,163 @@ class RealizadaController extends Controller
     {
         //
     }
+
+    public function verpormateria($id){
+        $this->authorize('es_admin', User::class);
+        $realizadasPorMateria = Realizada::where('encuesta_id', $id)->join('cursos','curso_id', '=','cursos.id')->join('docentes','docente_id', '=', 'docentes.id')->select('realizadas.*','docentes.nombre as nombredocente','docentes.apellido','cursos.*')->orderBy('curso_id')->get()->groupBy('curso_id');
+        // foreach ($realizadaspormateria as $key => $value) {
+        //     dd($value);
+        // }
+        // dd($realizadasPorMateria);
+        return view('realizada.verpormateria',['realizadasPorMateria' => $realizadasPorMateria]);
+    }
+
+    public function quienes(Request $request, $id){
+        $this->authorize('es_admin', User::class);
+        $realizadas = Realizada::where('encuesta_id', $request->get('idEncuesta'))->where('curso_id',$request->get('idCurso'))->where('docente_id',$request->get('idDocente'))->join('users','user_id','=','users.id')->select('realizadas.id as idrealizada', 'realizadas.cuando','realizadas.user_id','users.name1','users.apellido1')->get();
+        foreach ($realizadas as $key => $estudiante) {
+            $estudiante['cuando'] = $this->uyDateFormat($estudiante['cuando']);
+            // dd($estudiante->cuando);
+            $respuesta = Respuesta::where('realizada_id', $estudiante->idrealizada)->get();
+
+                // dd($cantRespuestas);
+                $nocorresponde=0; $muymal=0; $mal=0; $normal=0; $bien=0; $muybien=0;
+
+                foreach ($respuesta as $key => $cadapregunta) {
+                    // dd($cadapregunta->calificacion);
+                    switch ($cadapregunta->calificacion) {
+                        case '0':
+                            $nocorresponde ++;
+                            break;
+                        case '1':
+                            $muymal ++;
+                            break;
+                        case '2':
+                            $mal ++;
+                            break;
+                        case '3':
+                            $normal ++;
+                            break;
+                        case '4':
+                            $bien ++;
+                            break;
+                        case '5':
+                            $muybien ++;
+                            break;
+                        default:
+                            # code...
+                            break;
+                    }
+                }//fin segundo for each
+                //$estudiante->toArray();
+                $estudiante = array_add($estudiante,'nocorresponde',$nocorresponde);
+                $estudiante = array_add($estudiante,'muymal',$muymal);
+                $estudiante = array_add($estudiante,'mal',$mal);
+                $estudiante = array_add($estudiante,'normal',$normal);
+                $estudiante = array_add($estudiante,'bien',$bien);
+                $estudiante = array_add($estudiante,'muybien',$muybien);
+            // dd($estudiante);
+        }//fin primer foreach
+        // dd($realizadas);
+    return view('realizada.quienescompletaron',compact('realizadas',$realizadas));
+    }//fin function quienes
+
+    public function rehacer(Request $request){
+        $this->authorize('es_admin', User::class);
+        $respuestas = Respuesta::where('realizada_id',$request->get('idrealizada'))->get();
+        $realizada = Realizada::where('id',$request->get('idrealizada'))->select('realizadas.*')->get();//->first()->user_id;
+        $user_id = $realizada->first()->user_id;
+        $docente_id = $realizada->first()->docente_id;
+        $curso_id = $realizada->first()->curso_id;
+        // dd();
+        // dd($respuestas);
+
+        /*------Aca seteo a cero (no corresponde) todas las respuestas, no borro nada -------------- */
+        // foreach ($respuestas as $key => $respuesta) {
+        //     // dd($respuesta->calificacion);
+        //     $respuesta->calificacion = 0;
+        //     $respuesta->save();
+        // }
+        /*-------------------------------------------------------------------------------------------*/
+        // dd($respuestas);
+       /* /*-----------Esto borra fisicamente la encuestas realizada y todas las respuestas asociadas-------*/
+        foreach ($respuestas as $key => $respuesta) {
+            $respuesta->forceDelete();
+        }
+        $realizada = Realizada::findOrFail($request->get('idrealizada'));
+        $realizada->forceDelete();
+        // echo("borrado!");
+        /*-------------------------------------------------------------------------------------------*/
+
+       /*envio mail*/ 
+       $controllerMail = new MailController;
+       $controllerMail->sendemail($user_id, $docente_id, $curso_id);
+       /**/
+    }
+
+    public function todos(){
+        $resultados = array();
+        // $todos = Realizada::select('realizadas.*')->join('respuestas','respuestas.realizada_id','=','realizadas.id')->get()->groupBy('realizadas.id');
+        $todos = DB::select(DB::raw("select realizadas.id, realizadas.user_id, users.name1, users.apellido1, realizadas.cuando ,avg(respuestas.calificacion) from realizadas left join respuestas on respuestas.realizada_id = realizadas.id left join users on users.id = realizadas.user_id group by realizadas.id, realizadas.user_id, users.name1, users.apellido1,  realizadas.cuando order by avg(respuestas.calificacion) desc"));
+        $todos = collect($todos)->map(function($x){ return (array) $x; })->toArray(); 
+        // dd($todos);
+        // dd($todos);
+        foreach ($todos as $key => $estudiante) {
+            $estudiante['cuando'] = $this->uyDateFormat($estudiante['cuando']);
+            // dd($estudiante['cuando']);
+            $respuesta = Respuesta::where('realizada_id', $estudiante['id'])->get();
+
+                // dd($cantRespuestas);
+                $nocorresponde=0; $muymal=0; $mal=0; $normal=0; $bien=0; $muybien=0;
+
+                foreach ($respuesta as $key => $cadapregunta) {
+                    // dd($cadapregunta->calificacion);
+                    switch ($cadapregunta->calificacion) {
+                        case '0':
+                            $nocorresponde ++;
+                            break;
+                        case '1':
+                            $muymal ++;
+                            break;
+                        case '2':
+                            $mal ++;
+                            break;
+                        case '3':
+                            $normal ++;
+                            break;
+                        case '4':
+                            $bien ++;
+                            break;
+                        case '5':
+                            $muybien ++;
+                            break;
+                        default:
+                            # code...
+                            break;
+                    }
+                }//fin segundo for each
+                // $estudiante = collect($estudiante)->map(function($x){ return (array) $x; })->toArray(); 
+                // $data = array();
+                // $data = array_map(function($estudiante){
+                //     return (array) $estudiante;
+                // }, $estudiante);
+                // dd($data);
+                // dd(gettype($estudiante));
+                $estudiante = array_add($estudiante,'nocorresponde',$nocorresponde);
+                $estudiante = array_add($estudiante,'muymal',$muymal);
+                $estudiante = array_add($estudiante,'mal',$mal);
+                $estudiante = array_add($estudiante,'normal',$normal);
+                $estudiante = array_add($estudiante,'bien',$bien);
+                $estudiante = array_add($estudiante,'muybien',$muybien);
+                // var_dump($estudiante);
+                $resultados = array_prepend($resultados,$estudiante);
+            // dd($estudiante);
+        }
+        // $resultado = array_value(array_sort($resultado,function ($value){
+        //     return $value['avg(respuestas.calificacion)'];
+        // }));
+        // dd($resultados);
+        return view('realizada.todos', ['resultados'=>$resultados]);
+    }
+
 }
