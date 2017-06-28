@@ -72,4 +72,29 @@ class Docente extends Model
 
     }
 
+    public function participantes($id_curso, $id_pregunta) {
+
+    	/*
+
+    	Se asume que cualquier pregunta que pertenezca a la misma encuesta
+    	tiene el mismo numero de respuestas sin importar la calificacion.
+
+    	*/
+    
+    	$pregunta = Pregunta::find($id_pregunta);	
+    	
+    	$total_respuestas = 0;
+    	$respuestas = $pregunta->respuestas()->get();
+
+    	foreach ($respuestas as $item) {
+    		$coincide_curso = $item->realizada->curso_id == $id_curso;
+			$coincide_docente = $item->realizada->docente_id == $this->id;
+		    if ($coincide_curso && $coincide_docente) $total_respuestas+=1;
+    	}
+    	
+
+    	return $total_respuestas;
+
+    }
+
 }

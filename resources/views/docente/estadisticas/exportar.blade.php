@@ -1,24 +1,44 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.2/jspdf.plugin.autotable.js"></script>
-    <title></title>
+    <title>Exportar a PDF</title>
 </head>
-<body>
+
+<body style="display: none">
+
+	<!-- Informacion que va a ser escrita (excepto las tablas) -->
+	@include('docente.estadisticas.pdf_informacion')        
+    
     <script type="text/javascript">
+
+    	var estilo = {
+	        headerStyles: {
+	            fillColor: [30, 144, 255],
+	        },
+    	};
 
 	    var doc = new jsPDF('p', 'pt');
 
-	    doc.setTextColor(30, 144, 255);
-	    doc.setFontSize(20);
-	    doc.text('{{$encuesta->asunto}}', 40, 300);
-	    doc.setFontSize(10);
-	    doc.setTextColor(100);
-	    doc.text('{{$encuesta->descripcion}}', 60, 325);
-	    doc.setTextColor(0);
-	    doc.setFontSize(15);
-		doc.text('Estadisticas para el docente: '+'{{$docente->nombre}} {{$docente->apellido}}', 40, 375);
+    	var specialElementHandlers = {
+    		'DIV to be rendered out': function (element, renderer) {
+    			return true;
+    		}
+    	};
+
+    	doc.fromHTML($('#informacion').get(0), 39, 240, {
+    		'width': 240, 'elementHandlers': specialElementHandlers
+    	});
+		
+		doc.setDrawColor(112, 128, 144); // draw red lines
+		doc.line(240+39+39, 642, 240+39+39, 264); // vertical line
+
+    	doc.addPage();
+
+    	// Tabla de referencias
 
 	    var columns_referencia = ["Puntaje", "Significado"];
 		var rows_referencia = [
@@ -28,8 +48,10 @@
 		    [3,"Normal"],
 		    [4,"Bien"],
 		    [5,"Muy bien"], ];
-		doc.autoTable(columns_referencia, rows_referencia, {startY: 350, showHeader: 'firstPage'});
-		doc.addPage();
+		doc.autoTable(columns_referencia, rows_referencia, estilo);
+   		doc.addPage();
+
+		// Tabla de numero de respuestas
 	
 		var columns_numeros = ["{{$curso->nombre}}", "0", "1", "2", "3", "4", "5"];
 		var rows_numeros = [
@@ -43,8 +65,10 @@
 				     "{{$docente->responden(5, $curso->id, $pregunta->id)}}", ] ,
 				@endforeach
 			];
-		doc.autoTable(columns_numeros, rows_numeros);
+		doc.autoTable(columns_numeros, rows_numeros, estilo);
 		doc.addPage();
+
+		// Tabla de porcentaje de respuestas
 
 		var columns_porcentajes = ["{{$curso->nombre}}", "0", "1", "2", "3", "4", "5"];
 		var rows_porcentajes = [
@@ -58,7 +82,7 @@
 				     "{{$docente->porcentaje(5, $curso->id, $pregunta->id)}}%", ] ,
 				@endforeach
 			];
-		doc.autoTable(columns_porcentajes, rows_porcentajes);
+		doc.autoTable(columns_porcentajes, rows_porcentajes, estilo);
 	
 		var hoy = new Date();
 		var year = hoy.getFullYear();
@@ -72,7 +96,9 @@
 		var marca_tiempo = year+"-"+month+"-"+day+"_"+hours+"h"+minutes+"m"+seconds+"s";
 	
 		doc.save(semestre_curso+"_"+nombre_apellido+"_"+marca_tiempo+'.pdf');
-    
+
     </script>
+
 </body>
+
 </html>
