@@ -141,6 +141,7 @@ class MailController extends Controller
                 $data_toview['semestre'] = "segundo";
             }
             
+            
             // $email_to       = "carlosfrostte@gmail.com";
             $email_to       = $docente->email;
  

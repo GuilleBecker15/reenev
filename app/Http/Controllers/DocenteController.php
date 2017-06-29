@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Validator;
+use Carbon\Carbon;
 
 class DocenteController extends Controller
 {
@@ -281,14 +282,39 @@ class DocenteController extends Controller
     }
 
     public function exportar($id_docente, $id_encuesta, $id_curso) {
-    	$docente = Docente::find($id_docente);
-    	$encuesta = Encuesta::find($id_encuesta);
-    	$curso = Curso::find($id_curso);
+    	// $docente = Docente::find($id_docente);
+    	// $encuesta = Encuesta::find($id_encuesta);
+    	// $curso = Curso::find($id_curso);
         // dd($encuesta->preguntas);
-    	if (!$docente) return "No se encontro el docente de id=".$id_docente;
-    	if (!$encuesta) return "No se encontro la encuesta de id=".$id_encuesta;
-    	if (!$curso) return "No se encontro el curso de id=".$id_curso;
-    	return view('docente.estadisticas.exportar', compact('docente', 'encuesta', 'curso'));
+    	// if (!$docente) return "No se encontro el docente de id=".$id_docente;
+    	// if (!$encuesta) return "No se encontro la encuesta de id=".$id_encuesta;
+    	// if (!$curso) return "No se encontro el curso de id=".$id_curso;
+        // dd($as);
+        $docente = Docente::find($id_docente);
+            $encuesta = Encuesta::find($id_encuesta);
+            $curso = Curso::find($id_curso);
+            $cantidad = $encuesta->realizadas->where('curso_id',$id_curso)->where('docente_id',$id_docente)->count();
+            if (!$docente)  return "No se encontro el docente de id=".$id_docente;
+            if (!$encuesta) return "No se encontro la encuesta de id=".$id_encuesta;
+            if (!$curso)    return "No se encontro el curso de id=".$id_curso;
+
+            $data_toview                = array();
+            $data_toview['docente']     = $docente;
+            $data_toview['encuesta']    = $encuesta;
+            $data_toview['curso']       = $curso;
+            $data_toview['anio']        = substr($encuesta->vence, 0, strpos($encuesta->vence, "-"));
+            $data_toview['cantidad']    = $cantidad;
+            if($curso->semestre % 2 == 0){
+                $data_toview['semestre'] = "primer";
+            }else{
+                $data_toview['semestre'] = "segundo";
+            }
+            $as = str_replace(" ","_",Carbon::now()->toDateTimeString());
+            $pdf = \PDF::loadView('emails.pdfprofes', $data_toview);
+            return $pdf->download($curso->semestre.'-'.$curso->nombre.'-'.$docente->nombre.'-'.$docente->apellido.'-'.$as.'.pdf');
+            //return redirect()->back();
+
+    	// return view('docente.estadisticas.exportar', compact('docente', 'encuesta', 'curso'));
     }
 
     private function html_to_pdf($data) {
