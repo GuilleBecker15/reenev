@@ -70,3 +70,4 @@ Route::put('/Users/{User}/Recuperar', ['uses' => 'UserController@recuperar', 'as
 
 
 Route::get('/sendemail', 'MailController@sendemail');
+Route::get('/sendemailprofes/{idDocente}', 'MailController@sendemailprofes');

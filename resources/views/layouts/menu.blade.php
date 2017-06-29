@@ -29,7 +29,7 @@
                 @can('es_admin', App\User::class)
                 <li><a href="{{ route('Cursos.index')}}">Cursos</a></li>
                 <li><a href="{{ route('Docentes.index')}}">Docentes</a></li>
-<!-------------------------------------------------------------------------------------------------
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 <li><a href="{{ route('Encuestas.index')}}">Encuestas</a></li>
                 <li><a href="{{ route('Realizadas.index')}}">Realizadas</a></li>
                 <li><a href="{{ route('Users.index')}}">Usuarios</a></li>
@@ -61,7 +61,7 @@
                     </ul>
                 </li>
                 <li><a href="{{ route('Users.index') }}">Usuarios</a></li>
------------------------------------------------------------------ -->
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                 @endcan
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

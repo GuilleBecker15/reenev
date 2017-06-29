@@ -265,9 +265,15 @@ class RealizadaController extends Controller
         $this->authorize('es_admin', User::class);
         $respuestas = Respuesta::where('realizada_id',$request->get('idrealizada'))->get();
         $realizada = Realizada::where('id',$request->get('idrealizada'))->select('realizadas.*')->get();//->first()->user_id;
+        //var_dump($realizada->first()->user_id);
+        // dd(url()->previous());
         $user_id = $realizada->first()->user_id;
         $docente_id = $realizada->first()->docente_id;
         $curso_id = $realizada->first()->curso_id;
+        $urlprevia = url()->previous();
+
+        // $a = [$user_id, $docente_id, $curso_id];
+        // dd($a);
         // dd();
         // dd($respuestas);
 
@@ -290,7 +296,7 @@ class RealizadaController extends Controller
 
        /*envio mail*/ 
        $controllerMail = new MailController;
-       $controllerMail->sendemail($user_id, $docente_id, $curso_id);
+       return $controllerMail->sendemail($request, $user_id, $docente_id, $curso_id, $urlprevia);
        /**/
     }
 

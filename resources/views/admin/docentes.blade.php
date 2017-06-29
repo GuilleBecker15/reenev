@@ -44,7 +44,7 @@
                                     </td>
                                     <td>
                                         <a class="btn btn-info btn-xs"
-                                        href="#">
+                                        href="{{ route('Docentes.show', $docente->id) }}">
                                     	Ver
                                         </a>
                                     </td>
