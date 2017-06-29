@@ -13,6 +13,7 @@ use App\Curso;
 use App\Encuesta;
 use App\Realizada;
 use Illuminate\Support\Facades\Redirect;
+use \PDF;
 
 class MailController extends Controller
 {
@@ -120,6 +121,16 @@ class MailController extends Controller
  public function sendemailprofes(Request $request, $id_docente)
     {   
 
+            $user = User::findOrFail(1);
+            $docente = Docente::findOrFail(51);
+            $curso = Curso::findOrFail(1);
+            $data_toview = array();
+            $data_toview['bodymessage'] = "Hola esto es un mensaje para: ".$user->name1;
+            $data_toview['docente'] = $docente->nombre." ".$docente->apellido ;
+            $data_toview['curso'] = $curso;
+
+                // $pdf = \PDF::loadView('emails.html', $data_toview);
+                // dd($pdf);
         //---------------------------de docente coontroller grafica -------------------
         $docente = Docente::find($id_docente);
 
@@ -147,20 +158,20 @@ class MailController extends Controller
             //$docente = Docente::findOrFail($docente_id);
             //$curso = Curso::findOrFail($curso_id);
 
-            $data_toview = array();
-            // $data_toview['bodymessage'] = "Hola esto es un mensaje para: ".$user->name1;
-            $data_toview['docente'] = $docente ;
-            $data_toview['cursos'] = $cursos;
-            $data_toview['encuestas'] = $encuestas;
+            // $data_toview = array();
+            // // $data_toview['bodymessage'] = "Hola esto es un mensaje para: ".$user->name1;
+            // $data_toview['docente'] = $docente ;
+            // $data_toview['curso'] = $cursos[0];
+            // $data_toview['encuestas'] = $encuestas;
  
             // $email_sender   = 'encuestastip@gmail.com';
             // $email_pass     = 'tecnologo2017';
             $email_to       = $docente->email;
  
-            // $email_sender   = env('MAIL_NEW_USERNAME', getenv("MAIL_NEW_USERNAME"));
-            // $email_pass     = env('MAIL_NEW_PASSWORD', getenv("MAIL_NEW_PASSWORD"));
-            $email_sender   = env('MAIL_USERNAME', getenv("MAIL_USERNAME"));
-            $email_pass     = env('MAIL_PASSWORD', getenv("MAIL_PASSWORD"));
+            $email_sender   = env('MAIL_NEW_USERNAME', getenv("MAIL_NEW_USERNAME"));
+            $email_pass     = env('MAIL_NEW_PASSWORD', getenv("MAIL_NEW_PASSWORD"));
+            // $email_sender   = env('MAIL_USERNAME', getenv("MAIL_USERNAME"));
+            // $email_pass     = env('MAIL_PASSWORD', getenv("MAIL_PASSWORD"));
             // Backup your default mailer
             $backup = \Mail::getSwiftMailer();
  
@@ -182,14 +193,15 @@ class MailController extends Controller
                         $data['sender'] = $email_sender;
                         //Sender dan Reply harus sama
  
-                        Mail::send('emails.emailprofes', $data_toview, function($message) use ($data)
+                        Mail::send('emails.html', $data_toview, function($message) use ($data, $data_toview)
                         {
  
+                            $pdf = \PDF::loadView('emails.prueba', $data_toview);
                             $message->from($data['sender'], 'Encuestas Tip');
                             $message->to($data['emailto'])
                             ->replyTo($data['sender'], 'Encuestas Tip')
                             ->subject('Encuestas Tip');
- 
+                            $message->attachData($pdf->output(), 'filename.pdf');
                             // echo 'The mail has been sent successfully';
  
                         });
