@@ -30,7 +30,7 @@
                                 </div>               
                             </div>
                             <div class="form-group{{ $errors->has('descripcion') ? 'has-error' : '' }}">
-                                <label type="text" name="descripcion" class="col-md-4 control-label" for="descripcion" value="">descripcion</label>  
+                                <label type="text" name="descripcion" class="col-md-4 control-label" for="descripcion" value="">Descripción</label>  
                                 <div class="col-md-6">
                                     <input class="form-control" id="descripcion" type="text" name="descripcion" value="{{ $encuesta->descripcion }}" placeholder="Ingrese un descripcion" required>
                                     @if ($errors->has('descripcion'))

@@ -22,7 +22,7 @@
                             <label for="email" class="col-md-4 control-label">Correo</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="{{ $docente->email }}" required autofocus>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ $docente->email }}" required autofocus>
 
                                 @if ($errors->has('email'))
                                 <span class="help-block">
@@ -36,7 +36,7 @@
                             <label for="ci" class="col-md-4 control-label">Cedula</label>
 
                             <div class="col-md-6">
-                                <input id="ci" type="cedula" class="form-control" name="ci" value="{{ old('ci') }}" placeholder="1.234.567-8" required>
+                                <input id="ci" type="cedula" class="form-control" name="ci" value="{{ $docente->ci }}" required>
 
                                 @if ($errors->has('ci'))
                                 <span class="help-block">
@@ -50,7 +50,7 @@
                             <label for="nombre" class="col-md-4 control-label">Nombre</label>
 
                             <div class="col-md-6">
-                                <input id="nombre" type="text" class="form-control" name="nombre" value="{{ old('nombre') }}" placeholder="José" required>
+                                <input id="nombre" type="text" class="form-control" name="nombre" value="{{ $docente->nombre }}" required>
 
                                 @if ($errors->has('nombre'))
                                 <span class="help-block">
@@ -64,7 +64,7 @@
                             <label for="apellido" class="col-md-4 control-label">Apellido</label>
 
                             <div class="col-md-6">
-                                <input id="apellido" type="text" class="form-control" name="apellido" value="{{ old('apellido') }}" placeholder="Rodriguez" required>
+                                <input id="apellido" type="text" class="form-control" name="apellido" value="{{ $docente->apellido }}" required>
 
                                 @if ($errors->has('apellido'))
                                 <span class="help-block">
