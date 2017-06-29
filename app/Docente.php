@@ -68,7 +68,13 @@ class Docente extends Model
     	$total_responden = $this->responden($calificacion, $id_curso, $id_pregunta);
     	$porcentaje_respuestas = (100/$total_respuestas)*$total_responden;
 
-    	return round($porcentaje_respuestas); //Redondeo del porcentaje
+        $porcentaje_respuestas = round($porcentaje_respuestas);
+        $resul = "";
+        if($porcentaje_respuestas != 0){
+            $resul = $porcentaje_respuestas."%";
+        }
+
+    	return  $resul;//Redondeo del porcentaje
 
     }
 

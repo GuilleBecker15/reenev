@@ -95,9 +95,10 @@
 		var nombre_apellido = "{{$docente->nombre}}-{{$docente->apellido}}";
 		var marca_tiempo = year+"-"+month+"-"+day+"_"+hours+"h"+minutes+"m"+seconds+"s";
 	
-		doc.save(semestre_curso+"_"+nombre_apellido+"_"+marca_tiempo+'.pdf');
-
-    </script>
+		var algo = doc.save(semestre_curso+"_"+nombre_apellido+"_"+marca_tiempo+'.pdf');
+		console.log(algo);
+		// window.close();	
+    <!-- </script> -->
 
 </body>
 

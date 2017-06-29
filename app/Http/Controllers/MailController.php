@@ -45,7 +45,7 @@ class MailController extends Controller
             $user = User::findOrFail($user_id);
             $docente = Docente::findOrFail($docente_id);
             $curso = Curso::findOrFail($curso_id);
-            $a = "http://localhost:8000/Realizadas/4/quienes?idEncuesta=4&idCurso=4&idDocente=6";
+            // $a = "http://localhost:8000/Realizadas/4/quienes?idEncuesta=4&idCurso=4&idDocente=6";
 
             $url = explode('Realizadas', $urlprevia);
             $url = "/Realizadas".$url[1];
@@ -118,54 +118,30 @@ class MailController extends Controller
  
     }
  
- public function sendemailprofes(Request $request, $id_docente)
+ public function sendemailprofes(Request $request, $id_docente, $id_encuesta, $id_curso)
     {   
 
-            $user = User::findOrFail(1);
-            $docente = Docente::findOrFail(51);
-            $curso = Curso::findOrFail(1);
-            $data_toview = array();
-            $data_toview['bodymessage'] = "Hola esto es un mensaje para: ".$user->name1;
-            $data_toview['docente'] = $docente->nombre." ".$docente->apellido ;
-            $data_toview['curso'] = $curso;
+            $docente = Docente::find($id_docente);
+            $encuesta = Encuesta::find($id_encuesta);
+            $curso = Curso::find($id_curso);
+            $cantidad = $encuesta->realizadas->where('curso_id',$id_curso)->where('docente_id',$id_docente)->count();
+            if (!$docente)  return "No se encontro el docente de id=".$id_docente;
+            if (!$encuesta) return "No se encontro la encuesta de id=".$id_encuesta;
+            if (!$curso)    return "No se encontro el curso de id=".$id_curso;
 
-                // $pdf = \PDF::loadView('emails.html', $data_toview);
-                // dd($pdf);
-        //---------------------------de docente coontroller grafica -------------------
-        $docente = Docente::find($id_docente);
-
-        $realizadas_encuesta_id = Realizada::where('docente_id', $id_docente)->select('realizadas.encuesta_id')->distinct()->get();
-        $realizadas_curso_id = Realizada::where('docente_id', $id_docente)->select('realizadas.curso_id')->distinct()->get();
-        
-        $encuesta_ids = array('');
-        $cursos_ids = array('');
-
-        foreach ($realizadas_encuesta_id as $r) {
-            array_push($encuesta_ids, $r->encuesta_id);
-        }
-
-        foreach ($realizadas_curso_id as $r) {
-            array_push($cursos_ids, $r->curso_id);
-        }
-
-        $encuestas = Encuesta::whereIn('id', $encuesta_ids)->get();
-        $cursos = Curso::whereIn('id', $cursos_ids)->get();
-
-        //-------------------------------------------------------------------------------------------//
-
- 
-            //$user = User::findOrFail($user_id);
-            //$docente = Docente::findOrFail($docente_id);
-            //$curso = Curso::findOrFail($curso_id);
-
-            // $data_toview = array();
-            // // $data_toview['bodymessage'] = "Hola esto es un mensaje para: ".$user->name1;
-            // $data_toview['docente'] = $docente ;
-            // $data_toview['curso'] = $cursos[0];
-            // $data_toview['encuestas'] = $encuestas;
- 
-            // $email_sender   = 'encuestastip@gmail.com';
-            // $email_pass     = 'tecnologo2017';
+            $data_toview                = array();
+            $data_toview['docente']     = $docente;
+            $data_toview['encuesta']    = $encuesta;
+            $data_toview['curso']       = $curso;
+            $data_toview['anio']        = substr($encuesta->vence, 0, strpos($encuesta->vence, "-"));
+            $data_toview['cantidad']    = $cantidad;
+            if($curso->semestre % 2 == 0){
+                $data_toview['semestre'] = "primer";
+            }else{
+                $data_toview['semestre'] = "segundo";
+            }
+            
+            // $email_to       = "carlosfrostte@gmail.com";
             $email_to       = $docente->email;
  
             $email_sender   = env('MAIL_NEW_USERNAME', getenv("MAIL_NEW_USERNAME"));
@@ -193,10 +169,10 @@ class MailController extends Controller
                         $data['sender'] = $email_sender;
                         //Sender dan Reply harus sama
  
-                        Mail::send('emails.html', $data_toview, function($message) use ($data, $data_toview)
+                        Mail::send('emails.emailprofes', $data_toview, function($message) use ($data, $data_toview)
                         {
  
-                            $pdf = \PDF::loadView('emails.prueba', $data_toview);
+                            $pdf = \PDF::loadView('emails.pdfprofes', $data_toview);
                             $message->from($data['sender'], 'Encuestas Tip');
                             $message->to($data['emailto'])
                             ->replyTo($data['sender'], 'Encuestas Tip')

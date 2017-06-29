@@ -284,6 +284,7 @@ class DocenteController extends Controller
     	$docente = Docente::find($id_docente);
     	$encuesta = Encuesta::find($id_encuesta);
     	$curso = Curso::find($id_curso);
+        // dd($encuesta->preguntas);
     	if (!$docente) return "No se encontro el docente de id=".$id_docente;
     	if (!$encuesta) return "No se encontro la encuesta de id=".$id_encuesta;
     	if (!$curso) return "No se encontro el curso de id=".$id_curso;
