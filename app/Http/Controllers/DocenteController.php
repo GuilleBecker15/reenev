@@ -165,9 +165,10 @@ class DocenteController extends Controller
      * @param  \App\Docente  $docente
      * @return \Illuminate\Http\Response
      */
-    public function show(Docente $docente)
+    public function show($idDocente)
     {
-        //
+        $docente = Docente::findOrFail($idDocente);
+        return view('docente.show', compact('docente'));
     }
 
     /**
@@ -290,7 +291,8 @@ class DocenteController extends Controller
     }
 
     private function html_to_pdf($data) {
-    	$pdf = \PDF::loadView('docente.estadisticas.html_for_pdf', $data);
+        // $data = "nombre del docente";
+    	$pdf = \PDF::loadView('docente.html', $data);
     	return $pdf;
 	}
 

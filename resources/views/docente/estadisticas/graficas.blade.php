@@ -43,7 +43,7 @@
 							    <div class="grafica" id="chart_div_{{$encuesta->id}}{{$curso->id}}"></div>
 							    <div>
 							    <i class="fa fa-paperclip" aria-hidden="true"></i>
-							    <a href="">
+							    <a href="/sendemailprofes/{{$docente->id}}">
 							    Enviar por e-Mail</a>
 							    </div>
 							    <div>

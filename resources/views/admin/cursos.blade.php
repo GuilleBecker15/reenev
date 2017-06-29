@@ -35,10 +35,7 @@
                                     	@endif
                                         @foreach($curso->docentes as $docente)
                                             <tbody>- 
-                                                <tr><a href="">
-                                                	{{ $docente->nombre }}
-                                                	{{ $docente->apellido }} <br>   
-                                                </a></tr>
+                                                <tr><a href="{{ route('Docentes.show', $docente->id) }}">{{ $docente->nombre }} {{ $docente->apellido }} <br></a></tr>
                                             </tbody>
                                         @endforeach
                                     </table>
