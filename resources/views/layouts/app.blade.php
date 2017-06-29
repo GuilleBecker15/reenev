@@ -25,6 +25,7 @@
     <div id="app" class="app">
         @include('layouts.menu')
         @yield('content')
+        @include('layouts.modalconfirmacion')
     </div>
     <!-- Scripts -->
     <!-- <script src="{{ asset('js/app.js') }}"></script> -->

@@ -51,7 +51,7 @@
                                     <td>
                                         {{ Form::open(['method' => 'GET', 'route' => ['Cursos.Docente.edit', $curso->id]]) }}
                                         {{ Form::hidden('id', $curso->id) }}
-                                        {{ Form::submit('Agregar/quitar docente', ['class' => 'btn btn-xs btn-default']) }}
+                                        {{ Form::submit('Agregar/quitar docente', ['class' => 'btn btn-xs btn-warning']) }}
                                         {{Form::close()}}
                                     </td>
                                 </tr>

@@ -48,7 +48,7 @@
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <button id="modificar" type="submit" class="btn btn-primary">Agregar</button>
+                            <button id="modificar" type="submit" class="btn btn-success">Agregar</button>
                         </div>
                     </div>
                 </form>
