@@ -145,8 +145,8 @@ class MailController extends Controller
             // $email_to       = "carlosfrostte@gmail.com";
             $email_to       = $docente->email;
  
-            $email_sender   = env('MAIL_NEW_USERNAME', getenv("MAIL_NEW_USERNAME"));
-            $email_pass     = env('MAIL_NEW_PASSWORD', getenv("MAIL_NEW_PASSWORD"));
+            $email_sender   = env('MAIL_USERNAME', getenv("MAIL_USERNAME"));
+            $email_pass     = env('MAIL_PASSWORD', getenv("MAIL_PASSWORD"));
             // $email_sender   = env('MAIL_USERNAME', getenv("MAIL_USERNAME"));
             // $email_pass     = env('MAIL_PASSWORD', getenv("MAIL_PASSWORD"));
             // Backup your default mailer
