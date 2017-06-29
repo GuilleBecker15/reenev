@@ -10,6 +10,7 @@
 					@include('layouts.flashes')
 				</div>
 				<div class="panel-body">
+					@if ($preguntas->count())
 					<div class="table-responsive">
 						<table class="table">
 							<thead>
@@ -41,13 +42,9 @@
 							</tbody>
 						</table>
 					</div>
+					@endif
 					<form id="formAltaPregunta" class="form-horizontal" role="form" action="{{ route('Encuestas.Preguntas.store', $encuesta->id) }}" method="POST">
 						{{ csrf_field() }}
-						<div class="form-group text-center">
-							<div class="col-md-12">
-								<label type="text" name="pregunta" for="pregunta">Ingrese una pregunta para la encuesta</label>
-							</div>
-						</div>
 						<div class="form-group">
 							<div class="col-md-12">
 								<input type="text" class="form-control" id="enunciado" name="enunciado" placeholder="¿Que pregunta desea formular?" value="{{ old('enunciado') }}" required autofocus>
@@ -70,29 +67,4 @@
 	</div>
 </div>
 @include('layouts.modalconfirmacion')
-<script>
-	let borrado                 = document.getElementsByClassName('borrado_confirm');
-	let ventana_confirmacion    = document.getElementsByClassName('modalmio')[0];
-	let boton_cerrar            = document.getElementsByClassName('cerrarModal');
-	let aceptar             = document.getElementById('aceptarBorrado');
-	let idForm;
-	for (let i = 0, l = boton_cerrar.length; i < l; i++) {
-		boton_cerrar[i].addEventListener('click', function (evt){
-			ventana.classList.remove('activo');
-		});
-	}
-	for (let i = 0, l = borrado.length; i < l; i++) {
-		borrado[i].addEventListener('click', function(evt){
-			evt.preventDefault();
-			ventana_confirmacion.classList.add('activo');
-			idForm = borrado[i].parentElement;                                  
-		});
-	}
-	aceptar.addEventListener('click',function(evt) {
-		idForm.submit();
-		ventana_confirmacion.classList.remove('activo');
-		waitingDialog.show('Por favor espere', {dialogSize: 'sm', progressType: 'success'});
-		setTimeout(function () {waitingDialog.hide();}, 15000 );
-	});
-</script>
 @endsection

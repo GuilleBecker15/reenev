@@ -23,12 +23,13 @@
 							</caption>
 							<thead>
 								<tr>
-									<td colspan="2"><i>Datos de la encuesta</i></td>
-									<td colspan="1"><i>Datos del alumno</i></td>
-									<td colspan="6"><i>Total de respuestas</i></td>
+									<td colspan="3"><center>Datos de la encuesta</center></td>
+									<td colspan="1">Datos del alumno</td>
+									<td colspan="6"><center>Total de respuestas</center></td>
 								</tr>
 								<tr >
-									<th>ID - Asunto</th>
+									<th>ID</th>
+									<th>Asunto</th>
 									<th>Fecha</th>
 									<th>Apellido</th>
 									<th>N/C</th>
@@ -42,10 +43,8 @@
 							@foreach ($resultados as $key => $estudiante)
 							<tbody>
 								<tr>
-									<td>
-									{{ $estudiante['encuesta_id'] }}
-									-
-									{{ $estudiante['encuesta']['asunto'] }}
+									<td>{{ $estudiante['encuesta_id'] }}</td>
+									<td>{{ $estudiante['encuesta']['asunto'] }}</td>
 									</td>
 									<td>{{ $estudiante['cuando'] }}</td>
 									<td>{{ $estudiante['apellido1'] }}</td>
@@ -72,29 +71,4 @@
 	</div>
 </div>
 @include('layouts.modalconfirmacion')
-<script>
-	let borrado					= document.getElementsByClassName('borrado_confirm');
-	let ventana_confirmacion 	= document.getElementsByClassName('modalmio')[0];
-	let boton_cerrar			= document.getElementsByClassName('cerrarModal');
-	let aceptar				= document.getElementById('aceptarBorrado');
-	let idForm;
-	for (let i = 0, l = boton_cerrar.length; i < l; i++){
-		boton_cerrar[i].addEventListener('click', function (evt){
-			ventana.classList.remove('activo');
-		});
-	}
-	for (let i = 0, l = borrado.length; i < l; i++){
-		borrado[i].addEventListener('click', function(evt){
-			evt.preventDefault();
-			ventana_confirmacion.classList.add('activo');
-			idForm = borrado[i].parentElement;									
-		});
-	}
-	aceptar.addEventListener('click',function(evt){
-		idForm.submit();
-		ventana_confirmacion.classList.remove('activo');
-		waitingDialog.show('Por favor espere', {dialogSize: 'sm', progressType: 'success'});
-		setTimeout(function () {waitingDialog.hide();}, 15000 );
-	});
-</script>
 @endsection

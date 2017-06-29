@@ -16,7 +16,7 @@
 				  <li><a href="{{ route('Realizada.todos')}}">Participantes</a></li>
 				</ul>
 				<br>
-                <!-- @include('admin.toolbar') -->
+                @include('admin.toolbar')
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -61,30 +61,4 @@
         </div>
     </div>
 </div>
-@include('layouts.modalconfirmacion')
-<script>
-    let borrado                 = document.getElementsByClassName('borrado_confirm');
-    let ventana_confirmacion    = document.getElementsByClassName('modalmio')[0];
-    let boton_cerrar            = document.getElementsByClassName('cerrarModal');
-    let aceptar             = document.getElementById('aceptarBorrado');
-    let idForm;
-    for (let i = 0, l = boton_cerrar.length; i < l; i++) {
-        boton_cerrar[i].addEventListener('click', function (evt){
-            ventana.classList.remove('activo');
-        });
-    }
-    for (let i = 0, l = borrado.length; i < l; i++) {
-        borrado[i].addEventListener('click', function(evt){
-            evt.preventDefault();
-            ventana_confirmacion.classList.add('activo');
-            idForm = borrado[i].parentElement;                                  
-        });
-    }
-    aceptar.addEventListener('click',function(evt) {
-        idForm.submit();
-        ventana_confirmacion.classList.remove('activo');
-        waitingDialog.show('Por favor espere', {dialogSize: 'sm', progressType: 'success'});
-        setTimeout(function () {waitingDialog.hide();}, 15000 );
-    });
-</script>
 @endsection
