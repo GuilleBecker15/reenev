@@ -13,7 +13,13 @@ nav {
     box-shadow: 0 0 10px black;
 }
 
-/*.table>thead>tr>th{
+
+tbody {
+    text-align: center;
+}
+
+.table>thead>tr>th{
+
     text-align: center;
 }
 
