@@ -160,7 +160,7 @@ class EncuestaController extends Controller
         // );
 
         $validator = Validator::make($request->all(), [
-        	'vence' => 'required|date|after:today',
+        	'hidden_vence' => 'required|date|after:today',
         	'asunto' => 'required|string|max:50',
             'descripcion' => 'required|string|max:100',
         	]);
@@ -180,7 +180,8 @@ class EncuestaController extends Controller
             'asunto'=>$request->get('asunto'),
             'descripcion'=>$request->get('descripcion'),
             'inicio'=>$inicio,
-            'vence'=>$vence,
+            // 'vence'=>$vence,
+            'vence'=>$request->get('hidden_vence')
         ];
 
         $ultima_encuesta = Encuesta::all()->sortBy('updated_at')->last();

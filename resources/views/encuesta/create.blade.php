@@ -47,7 +47,8 @@
 						<div class="form-group{{ $errors->has('vence') ? ' has-error' : '' }}">
 							<label for="vence" class="col-md-4 control-label">Fecha límite</label>
 							<div class="col-md-6">
-								<input id="vence" type="fecha" class="form-control" name="vence" value="{{ old('vence') }}" placeholder="dd/mm/aaaa" required autofocus>
+								<input id="vence" type="fecha" class="form-control" name="vence" value="" placeholder="dd/mm/aaaa" required autofocus>
+								<input hidden type="text" id="hidden_vence" name="hidden_vence">
 								@if ($errors->has('vence'))
 								<span class="help-block">
 									<strong>{{ $errors->first('vence') }}</strong>
@@ -57,7 +58,7 @@
 						</div> 
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">
+								<button id="btn-guardar" type="submit" class="btn btn-primary">
 									Guardar
 								</button>
 							</div>

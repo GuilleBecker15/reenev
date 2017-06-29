@@ -35,6 +35,7 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="{{ asset('/js/funciones.js') }}"></script>
+    <script src="{{ asset('/bootstrap-datepicker-dist/js/bootstrap-datepicker.min.js') }}"></script>
     
 </body>
 </html>
