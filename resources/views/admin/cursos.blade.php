@@ -6,8 +6,15 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-
-                    <h1>{{ $h1 }}</h1>
+                	@if (isset($docente))
+	                    <h1>
+	                    	{{ $h1 }}
+	                    	<a href="{{ route('Docentes.show', $docente->id) }}">
+	                    	{{$docente->id}}</a>
+	                    </h1>
+                    @else
+                    	<h1>{{ $h1 }}</h1>
+                    @endif
                 @include('layouts.flashes')
                 </div>
                 <div class="panel-body">

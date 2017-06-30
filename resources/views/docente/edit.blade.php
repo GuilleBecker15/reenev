@@ -76,8 +76,10 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
+                            	<a class="btn btn-default" href="{{ route('Docentes.index') }}">
+								Volver</a>
                                 <button type="submit" class="btn btn-primary">
-                                    Guardar
+                                    Modificar
                                 </button>
                             </div>
                         </div>

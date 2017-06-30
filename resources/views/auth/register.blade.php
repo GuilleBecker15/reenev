@@ -31,7 +31,7 @@
                             <label for="name2" class="col-md-4 control-label">Segundo Nombre</label>
 
                             <div class="col-md-6">
-                                <input id="name2" type="text" class="form-control" name="name2" value="{{ old('name2') }}" placeholder="José" required>
+                                <input id="name2" type="text" class="form-control" name="name2" value="{{ old('name2') }}" placeholder="José">
 
                                 @if ($errors->has('name2'))
                                 <span class="help-block">
@@ -60,7 +60,7 @@
 
                             <div class="col-md-6">
 
-                                <input id="apellido2" type="text" class="form-control" name="apellido2" value="{{ old('apellido2') }}" placeholder="Rodriguez" required>
+                                <input id="apellido2" type="text" class="form-control" name="apellido2" value="{{ old('apellido2') }}" placeholder="Rodriguez">
 
                                 @if ($errors->has('apellido2'))
                                 <span class="help-block">
@@ -85,7 +85,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('generacion') ? ' has-error' : '' }}">
-                            <label for="generacion" class="col-md-4 control-label">Generacion</label>
+                            <label for="generacion" class="col-md-4 control-label">Año de ingreso</label>
 
                             <div class="col-md-6">
                                 <select id="generacion" name=generacion class="form-control" required>
@@ -100,7 +100,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('ci') ? ' has-error' : '' }}">
-                            <label for="ci" class="col-md-4 control-label">Cedula</label>
+                            <label for="ci" class="col-md-4 control-label">Cédula de indentidad</label>
 
                             <div class="col-md-6">
                                 <input id="ci" type="cedula" class="form-control" name="ci" value="{{ old('ci') }}" placeholder="0.000.000-0" required>
@@ -114,7 +114,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">Correo</label>
+                            <label for="email" class="col-md-4 control-label">Correo electrónico</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="ejemplo@mail.com" required>

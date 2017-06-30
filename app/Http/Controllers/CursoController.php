@@ -112,7 +112,8 @@ class CursoController extends Controller
 
     public function docente($id) {
         $this->authorize('es_admin', User::class);
-        $h1 = "Cursos del docente ".$id;
+        $docente = Docente::find($id);
+        $h1 = "Cursos del docente ";
         $routeEntera = Route::getFacadeRoot()->current()->uri(); //No esta en buscar
         $routeSeparada = explode('/', $routeEntera,-2);
         $route = implode('/', $routeSeparada);
@@ -127,7 +128,7 @@ class CursoController extends Controller
         return view(
             'admin.cursos',
             ['cursos' => $cursos, 'route' => $route,
-            'title' => $title, 'c' => $c, 'h1' => $h1]);
+            'title' => $title, 'c' => $c, 'h1' => $h1, 'docente' => $docente]);
     }
 
     /**

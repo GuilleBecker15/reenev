@@ -68,6 +68,7 @@ tbody {
 }
 
 .modalmio .ventana {
+	border: solid 1px dimgray;
     position: fixed;
     left: calc(50% - 250px);
     top: -350px;
@@ -75,10 +76,10 @@ tbody {
 
     width: 90%;
     max-width: 500px;
-    padding: 26px 5px;
+    padding: 10px;
 
-    background: #8dbffe;
-    border-radius: 6px;
+    background: gainsboro;
+    border-radius: 0.5em;
 
     transition: top .5s;
 }
@@ -88,28 +89,34 @@ tbody {
 }
 
 .modalmio .cuerpo {
+	margin-top: 25px;
+	margin-bottom: 15px;
     padding: 1em;
     background: white;
-    border-radius: 6px;
+    border-radius: 0.5em;
 }
 
 .modalmio .boton-cerrar {
     display: inline-block;
 
     position: absolute;
-    right: 5px; top: 5px;
+    right: 10px; top: 10px;
 
-    font-family:    sans-serif;
-    font-weight:    bold;
-    font-size:      12px;
-    text-align:     center;
-    text-decoration:none;
+    /*font-family:    sans-serif;*/
+    /*font-weight:    bold;*/
+    /*font-size:      12px;*/
+    /*text-align:     center;*/
+    /*text-decoration:none;*/
 
-    background: red;
-    color: white;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
+    /*background: red;*/
+    color: black;
+    /*width: 16px;*/
+    /*height: 16px;*/
+    /*border-radius: 50%;*/
+}
+
+.modalmio .boton-cerrar :hover {
+	color: dimgray;
 }
 
 #activar {

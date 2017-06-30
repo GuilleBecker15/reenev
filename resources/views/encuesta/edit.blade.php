@@ -54,6 +54,8 @@
 						</div> 
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
+								<a class="btn btn-default" href="{{ route('Encuestas.show', $encuesta->id) }}">
+								Volver</a>
 								<button id="btn-guardar" type="submit" class="btn btn-primary">
 									Modificar
 								</button>

@@ -6,7 +6,7 @@
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h1>Agregar preguntas a la encuesta <a href="">{{$encuesta->id}}</a></h1>
+					<h1>Agregar preguntas a la encuesta</h1>
 					@include('layouts.flashes')
 				</div>
 				<div class="panel-body">
@@ -47,7 +47,7 @@
 						{{ csrf_field() }}
 						<div class="form-group">
 							<div class="col-md-12">
-								<input type="text" class="form-control" id="enunciado" name="enunciado" placeholder="¿Que pregunta desea formular?" value="{{ old('enunciado') }}" required autofocus>
+								<input type="text" class="form-control" id="enunciado" name="enunciado" placeholder="Pregunta para '{{$encuesta->asunto}}'" value="{{ old('enunciado') }}" required autofocus>
 							</div>
 							@if ($errors->has('enunciado'))
 							<span class="help-block">
@@ -57,7 +57,9 @@
 						</div> 
 						<div class="form-group">
 							<div class="col-md-12 text-center">
-								<button class="btn btn-success" type="submit">Agregar Pregunta</button>
+								<a class="btn btn-default" href="{{ route('Encuestas.show', $encuesta->id) }}">
+								Volver</a>
+								<button class="btn btn-success" type="submit">Agregar</button>
 							</div>
 						</div>
 					</form>

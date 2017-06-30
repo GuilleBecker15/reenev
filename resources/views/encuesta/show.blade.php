@@ -5,7 +5,12 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Ver la encuesta</h1></div>
+                <div class="panel-heading">
+                	<h1>
+                		<span class="glyphicon glyphicon-stats"></span>
+                		Encuesta
+                	</h1>
+                </div>
                 <div class="panel-body">
                     @include('layouts.flashes')
                     <table class="table">
@@ -67,6 +72,9 @@
                             </tr>
                         </tbody>
                     </table>
+                    <hr>
+                    <a class="btn btn-default" href="{{ route('Encuestas.index') }}">
+					<span class="glyphicon glyphicon-arrow-left"></span></a>
                 </div>
             </div>
         </div>

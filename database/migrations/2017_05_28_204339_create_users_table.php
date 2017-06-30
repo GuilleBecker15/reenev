@@ -18,9 +18,9 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->integer('supervisor')->default(0);
             $table->string('name1');
-            $table->string('name2');
+            $table->string('name2')->nullable();
             $table->string('apellido1');
-            $table->string('apellido2');
+            $table->string('apellido2')->nullable();
             $table->date('nacimiento');
             $table->string('generacion');
             $table->string('ci')->unique();

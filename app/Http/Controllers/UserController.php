@@ -184,9 +184,9 @@ class UserController extends Controller
             ];
             $validator=Validator::make($request->all(),[
                 'name1' => 'required|string|max:255',
-                'name2' => 'required|string|max:255',
+                'name2' => 'nullable|string|max:255',
                 'apellido1' => 'required|string|max:255',
-                'apellido2' => 'required|string|max:255',
+                'apellido2' => 'nullable|string|max:255',
                 'nacimiento' => 'required|string', 
                 'generacion' => 'required|integer',
                 'ci' => Rule::unique('users')->ignore($user->id ),
@@ -200,11 +200,14 @@ class UserController extends Controller
             	|| $this->authorize('es_admin', $user)){
                 
                 $nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
+            	
+            	if ($request->get('name2')=='') $user->name2="-";
+            	else $user->name2=$request->get('name2');
+            	if ($request->get('apellido2')=='') $user->apellido2="-";
+            	else $user->apellido2=$request->get('apellido2');
 
                 $user->name1=$request->get('name1');
-                $user->name2=$request->get('name2');
                 $user->apellido1=$request->get('apellido1');
-                $user->apellido2=$request->get('apellido2');
                 $user->nacimiento= $nacimiento;
                 $user->generacion=$request->get('generacion');
                 $user->ci=$request->get('ci');

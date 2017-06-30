@@ -53,9 +53,9 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name1' => 'required|string|max:255',
-            'name2' => 'required|string|max:255',
+            'name2' => 'nullable|string|max:255',
             'apellido1' => 'required|string|max:255',
-            'apellido2' => 'required|string|max:255',
+            'apellido2' => 'nullable|string|max:255',
             'nacimiento' => 'required|string|before:'.Carbon::now()->toDateString(), 
             'generacion' => 'required|integer',
             'ci' => 'required|string|max:255|unique:users',
@@ -74,12 +74,17 @@ class RegisterController extends Controller
     {
         
         $nacimiento = $this->sqlDateFormat($data['nacimiento']);
+        $name2 = '-';
+        $apellido2 = '-';
+
+    	if ($data['name2']!='') $user->name2=$data['name2'];
+    	if ($data['apellido2']!='') $user->apellido2=$data['apellido2'];
 
         return User::create([
             'name1' => $data['name1'],
-            'name2' => $data['name2'],
+            'name2' => $name2,
             'apellido1' => $data['apellido1'],
-            'apellido2' => $data['apellido2'],
+            'apellido2' => $apellido2,
             'nacimiento' => $nacimiento,
             'generacion' => $data['generacion'],
             'ci' => $data['ci'],

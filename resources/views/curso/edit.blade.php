@@ -108,6 +108,8 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 ">
+                            	<a class="btn btn-default" href="{{ route('Cursos.index') }}">
+								Volver</a>
                                 <button id="modificar" type="submit" class="btn btn-primary btn-modificar">
                                     Modifcar
                                 </button>

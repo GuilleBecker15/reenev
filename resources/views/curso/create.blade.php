@@ -18,7 +18,7 @@
                             
                                 <select id="comboDocentesParaCrearCurso" name="docente_id" type="text" class="form-control">
                                   
-                                  <option value="nadie">- Docente Anonimo -</option>
+                                  <option value="nadie">- Docente Anónimo -</option>
                                   
                                   @foreach ($docentes as $key => $d)
                                       <option value="{{ $d->id }}">

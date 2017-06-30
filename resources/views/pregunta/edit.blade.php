@@ -25,6 +25,7 @@
 						</div> -->
 						<div class="form-group{{ $errors->has('enunciado') ? ' has-error' : '' }}">
 							<div class="col-md-12">
+								<p><i>Pregunta para la encuesta '{{$encuesta->asunto}}'</i></p>
 								<input id="enunciado" type="text" class="form-control" name="enunciado" value="{{ $pregunta->enunciado }}" required autofocus>
 								@if ($errors->has('enunciado'))
 								<span class="help-block">
@@ -35,6 +36,8 @@
 						</div>
 						<div class="form-group">
 							<div class="col-md-12 text-center">
+								<a class="btn btn-default" href="/Encuestas/{{$encuesta->id}}/Preguntas/create">
+								Volver</a>
 								<button class="btn btn-primary" type="submit">Modificar</button>
 							</div>
 						</div>

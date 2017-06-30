@@ -53,6 +53,9 @@
                     </div>
                 </form>
                 @endif
+                <hr>
+                <a class="btn btn-default" href="{{ route('Cursos.index') }}">
+                <span class="glyphicon glyphicon-arrow-left"></span></a>
             </div>
         </div>
     </div>

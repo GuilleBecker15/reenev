@@ -26,7 +26,7 @@ $('document').ready( function() {
 		var valor = combo.getAttribute('value');
 	
 		var hoy = new Date();
-		var html = ""; //Luego se concatenara
+		var html = "<option value='0'>- Sin generación -</option>"; //Luego se concatenara
 		var selected = false;
 
 		if (isNaN(valor)) valor = 2008; //No es lo mismo que "i"

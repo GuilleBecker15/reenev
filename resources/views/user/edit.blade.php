@@ -82,7 +82,7 @@
                     <div class="form-group{{ $errors->has('name2') ? ' has-error' : '' }}">
                         <label for="name2" class="col-md-4 control-label">Segundo Nombre</label>
                         <div class="col-md-6">
-                            <input disabled id="name2" type="text" class="form-control" name="name2" value="{{ $user->name2 }}" required>
+                            <input disabled id="name2" type="text" class="form-control" name="name2" value="{{ $user->name2 }}">
                             @if ($errors->has('name2'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('name2') }}</strong>
@@ -105,7 +105,7 @@
                         <label for="apellido2" class="col-md-4 control-label">Segundo apellido</label>
 
                         <div class="col-md-6">
-                            <input disabled id="apellido2" type="text" class="form-control" name="apellido2" value="{{ $user->apellido2 }}" required>
+                            <input disabled id="apellido2" type="text" class="form-control" name="apellido2" value="{{ $user->apellido2 }}">
 
                             @if ($errors->has('apellido2'))
                             <span class="help-block">
@@ -126,7 +126,7 @@
                         </div>
                     </div>
                     <div class="form-group{{ $errors->has('generacion') ? ' has-error' : '' }}">
-                        <label for="generacion" class="col-md-4 control-label">Generacion</label>
+                        <label for="generacion" class="col-md-4 control-label">Año de ingreso</label>
                         <div class="col-md-6">
                             <select disabled id="generacion" type="text" class="form-control" name="generacion" value="{{ $user->generacion }}" required></select>
                             @if ($errors->has('generacion'))
@@ -137,7 +137,7 @@
                         </div>
                     </div>
                     <div class="form-group{{ $errors->has('ci') ? ' has-error' : '' }}">
-                        <label for="ci" class="col-md-4 control-label">Cedula</label>
+                        <label for="ci" class="col-md-4 control-label">Cédula de identidad</label>
                         <div class="col-md-6">
                             <input disabled id="ci" type="cedula" class="form-control" name="ci" value="{{ $user->ci }}" required >
                             @if ($errors->has('ci'))
@@ -148,7 +148,7 @@
                         </div>
                     </div>
                     <div id="divaniadir" class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">Correo</label>
+                            <label for="email" class="col-md-4 control-label">Correo electrónico</label>
                         <div class="col-md-6">
                             <input disabled id="email" type="email" class="form-control" name="email" value="{{ $user->email }}" required>
                             @if ($errors->has('email'))
@@ -174,7 +174,7 @@
                     @endcannot
                     
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4 ">
+                            <div class="col-md-8 col-md-offset-2">
                                 <button disabled id="cambiarPass" type="button" class="btn btn-primary btn-cambiarPass" onClick="location.href='{{ route('cambiarPass', $user->id) }}'">
                                     Cambiar contraseña
                                 </button>
@@ -183,6 +183,10 @@
                                 </button>
                             </div>
                         </div>
+                        @can('es_admin', App\User::class)
+                        <hr>
+                        <a class="btn btn-default" href="{{ route('Users.show', $user->id) }}">Volver al resumen</a>
+                        @endcan
                     </div>
                 </form>
             </div>
