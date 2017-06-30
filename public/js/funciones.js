@@ -13,6 +13,11 @@ let idPregunta = 0;
 /*FORMATEO DE CAMPOS DEL DOCUMENTO*/
 
 $('document').ready( function() {
+
+	$('.datepicker').datepicker({
+	    format: 'yyyy-mm-dd',
+	    language: 'es',
+	});
 	
 	var combo = document.getElementById('generacion');
 	
@@ -112,15 +117,6 @@ $('document').ready( function() {
 		var nueva_consulta = procesarCampo(consulta);
 		$("#q").val(nueva_consulta);
 	});
-
-	$("#btn-guardar").click(function (e) {
-		// e.preventDefault();
-		var vence = $("#vence").val();
-		var nuevo_vence = procesarCampo(vence);
-		$("#hidden_vence").val(nuevo_vence);
-	});
-
-	$('.datepicker').datepicker();
 
 	// ---------------------------//
 	var id = document.getElementById('habilitar');

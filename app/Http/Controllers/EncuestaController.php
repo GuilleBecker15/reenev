@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
-
+use Illuminate\Validation\Rule;
 use Carbon\Carbon;
 use App\Pregunta;
 use Validator;
@@ -147,12 +147,12 @@ class EncuestaController extends Controller
         $this->authorize('es_admin', User::class);
 
         $inicio = Carbon::now()->toDateString();  // 1975-12-25
-        $arreglo = explode("/", $request->get('vence'));
+        // $arreglo = explode("/", $request->get('vence'));
 
         // dd(strtotime(Carbon::createFromDate($arreglo[2], $arreglo[1], $arreglo[0])));
 
-        $vence = Carbon::createFromDate($arreglo[2], $arreglo[1], $arreglo[0])->toDateString();
-        $messages = [ 'after' => 'La fecha limite debe ser posterior al dia de hoy'];
+        // $vence = Carbon::createFromDate($arreglo[2], $arreglo[1], $arreglo[0])->toDateString();
+        // $messages = [ 'after' => 'La fecha limite debe ser posterior al dia de hoy'];
 
         // $validator = Validator::make($request->all(),[
         //         'vence' => 'required',
@@ -160,7 +160,7 @@ class EncuestaController extends Controller
         // );
 
         $validator = Validator::make($request->all(), [
-        	'hidden_vence' => 'required|date|after:today',
+        	'vence' => 'required|date|after:today',
         	'asunto' => 'required|string|max:50',
             'descripcion' => 'required|string|max:100',
         	]);
@@ -181,7 +181,7 @@ class EncuestaController extends Controller
             'descripcion'=>$request->get('descripcion'),
             'inicio'=>$inicio,
             // 'vence'=>$vence,
-            'vence'=>$request->get('hidden_vence')
+            'vence'=>$request->get('vence')
         ];
 
         $ultima_encuesta = Encuesta::all()->sortBy('updated_at')->last();
@@ -239,8 +239,7 @@ class EncuestaController extends Controller
         $this->authorize('es_admin', User::class);
         //return view('encuesta.edit', compact($encuesta));
         $encuesta = Encuesta::findOrFail($id);
-        $encuesta->vence = $this->uyDateFormat($encuesta->vence);
-
+        //$encuesta->vence = $this->uyDateFormat($encuesta->vence);
         
         // return View::make('encuesta.edit', ['id'=>$encuesta->id])->with('encuesta', $encuesta);        
         return view('encuesta.edit', ['id'=>$encuesta->id])->with('encuesta', $encuesta);        
@@ -260,36 +259,49 @@ class EncuestaController extends Controller
 
         $encuesta = Encuesta::findOrFail($id);
 
-
-        $inicio = Carbon::now()->toDateString();  // 1975-12-25
-        $arreglo = explode("/", $request->get('vence'));
-        $vence = Carbon::createFromDate($arreglo[2], $arreglo[1], $arreglo[0])->toDateString();
+        // $inicio = Carbon::now()->toDateString();  // 1975-12-25
+        // $arreglo = explode("/", $request->get('vence'));
+        // $vence = Carbon::createFromDate($arreglo[2], $arreglo[1], $arreglo[0])->toDateString();
         
+		$validator = Validator::make($request->all(),
+            [
+        	'vence' => 'required|date|after:inicio',
+            'asunto' => ['required', 'string', 'max:50',
+            Rule::unique('encuestas')->ignore($encuesta->id),],
+            'descripcion' => ['required', 'string', 'max:100',
+            Rule::unique('encuestas')->ignore($encuesta->id),],
+            ]);
 
+        if ($validator->fails()) {
 
-        $messages = [ 'after' => 'La fecha limite debe ser posterior al dia de hoy'];
-        $validator = Validator::make($request->all(),[
-                'vence' => 'required',
-           ],$messages
-        );        
-        if($inicio >= $vence){
-            $validator->errors()->add('vence', 'La fecha limite debe ser posterior al dia de hoy');
-            //dd(old());
-            $encuesta->vence = $this->uyDateFormat($encuesta->vence);
-            return view('encuesta.edit',['id'=>$encuesta->id])->with('encuesta', $encuesta)->withErrors($validator, 'vence')->withOldFormData(Input::all());
+            return redirect('Encuestas/'.$id.'/edit')->withErrors($validator)->withInput();
+
         }
 
+        // $messages = [ 'after' => 'La fecha limite debe ser posterior al dia de hoy'];
+        // $validator = Validator::make($request->all(),[
+        //         'vence' => 'required',
+        //    ],$messages
+        // );        
+        // if($inicio >= $vence){
+        //     $validator->errors()->add('vence', 'La fecha limite debe ser posterior al dia de hoy');
+        //     //dd(old());
+        //     $encuesta->vence = $this->uyDateFormat($encuesta->vence);
+        //     return view('encuesta.edit',['id'=>$encuesta->id])->with('encuesta', $encuesta)->withErrors($validator, 'vence')->withOldFormData(Input::all());
+        // }
 
-        if($validator->fails()){
-            // return view('encuesta.edit', ['id'=>$encuesta->id])->withErrors($validator, 'vence');
-            //dd($validator->errors());
-            return $this->edit($id)->withErrors($validator,'vence');
-        }
+
+        // if($validator->fails()){
+        //     // return view('encuesta.edit', ['id'=>$encuesta->id])->withErrors($validator, 'vence');
+        //     //dd($validator->errors());
+        //     return $this->edit($id)->withErrors($validator,'vence');
+        // }
 
 
         $encuesta->asunto = $request->get('asunto');
         $encuesta->descripcion = $request->get('descripcion');
-        $encuesta->vence = $vence;
+        // $encuesta->vence = $vence;
+        $encuesta->vence = $request->get('vence');
         $encuesta->save();
 
         $request->session()->flash('message','Encuesta actualizada exitosamente');

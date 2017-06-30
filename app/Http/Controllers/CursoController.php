@@ -165,8 +165,11 @@ class CursoController extends Controller
         $docente_id = $request->get('docente_id');
         $docente = Docente::find($docente_id);
 
-        if ($validator->fails())
+        if ($validator->fails()) {
+
             return redirect('Cursos/create')->withErrors($validator)->withInput();
+
+        }
 
         if (!$docente) {
 
@@ -243,12 +246,18 @@ class CursoController extends Controller
         $curso->nombre = $request->get('nombre');
         $curso->abreviatura = $request->get('abreviatura');
 
-        if ($validator->fails()) {
+        // if ($validator->fails()) {
 
-            $request->session()->flash('message', 'Ocurrieron errores al actualizar');
-            //$docentes = Docente::all()->whereNotIn('id', [$docente->id]);
-            return view('curso.edit',
-                compact('curso','docente','docentes'))->withErrors($validator);
+        //     $request->session()->flash('message', 'Ocurrieron errores al actualizar');
+        //     //$docentes = Docente::all()->whereNotIn('id', [$docente->id]);
+        //     return view('curso.edit',
+        //         compact('curso','docente','docentes'))->withErrors($validator);
+
+        // }
+
+		if ($validator->fails()) {
+
+            return redirect('Cursos/'.$id.'/edit')->withErrors($validator)->withInput();
 
         }
 

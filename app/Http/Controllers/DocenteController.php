@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Validator;
 use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 
 class DocenteController extends Controller
 {
@@ -196,6 +197,24 @@ class DocenteController extends Controller
     public function update(Request $request, $id)
     {
         $docente = Docente::findOrFail($id);
+
+        $validator = Validator::make($request->all(),
+            [
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'email' => ['required', 'string', 'max:255',
+            Rule::unique('users')->ignore($docente->id),
+            Rule::unique('docentes')->ignore($docente->id)],
+            'ci' => ['required', 'string', 'max:25',
+            Rule::unique('users')->ignore($docente->id),
+            Rule::unique('docentes')->ignore($docente->id)],
+            ]);
+
+        if ($validator->fails()) {
+
+            return redirect('Docentes/'.$id.'/edit')->withErrors($validator)->withInput();
+
+        }
 
         $docente->email=$request->get('email');
         $docente->ci=$request->get('ci');

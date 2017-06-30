@@ -7,7 +7,7 @@
 				<span class="glyphicon glyphicon-menu-hamburger"></span>
 			</button>
 			<!-- Branding Image -->
-			<a class="navbar-brand" href="{{ url('/') }}"><span class="glyphicon glyphicon-home"></span></a>
+			<a class="navbar-brand" href="{{ url('/') }}"><i class="fa fa-home" aria-hidden="true"></i></a>
 		</div>
 		<div class="collapse navbar-collapse" id="app-navbar-collapse">
 			<!-- Left Side Of Navbar -->
@@ -41,7 +41,8 @@
 				@endcan
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-						<span class="hidden-xs glyphicon glyphicon-off"></span>
+						<!-- <span class="hidden-xs glyphicon glyphicon-off"></span> -->
+						<i class="fa fa-user-circle" aria-hidden="true"></i>
 						<span class="visible-xs" style="font-weight: bold;"> {{Auth::user()->name1}} </span>
 					</a>
 					<ul class="dropdown-menu" role="menu">
