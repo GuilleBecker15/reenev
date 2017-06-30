@@ -51,6 +51,13 @@
 							    <a target="_blank" href="/Docentes/exportar/{{$docente->id}}/{{$encuesta->id}}/{{$curso->id}}">
 							    Exportar a PDF</a>
 							    </div>
+								<div id="formcopias">
+								    <form action="/prueba/{{$docente->id}}/{{$encuesta->id}}/{{$curso->id}}" method="get">
+								    	<label>Si desea realizar una copia del email ingrese cada una de los destinatarios separedos por un espacio</label>
+								    	<input id="copias" name="copias" placeholder="ejemplo@ejemplo.com example@example.com">
+										<button type="submit" class="btn btn-primary">Aceptar</button>
+								    </form>
+							    </div>
 							    <hr>
 						    @endforeach
 					    @endif
