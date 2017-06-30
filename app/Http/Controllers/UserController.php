@@ -179,6 +179,20 @@ class UserController extends Controller
             
         $this->authorize('es_admin_o_es_el', $user);
 
+		$nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
+
+		if ($request->get('name2')=='') $user->name2="-";
+		else $user->name2=$request->get('name2');
+		if ($request->get('apellido2')=='') $user->apellido2="-";
+		else $user->apellido2=$request->get('apellido2');
+
+		$user->name1=$request->get('name1');
+		$user->apellido1=$request->get('apellido1');
+		$user->nacimiento= $nacimiento;
+		$user->generacion=$request->get('generacion');
+		$user->ci=$request->get('ci');
+		$user->email=$request->get('email');
+
         $message = [
                 'same' => 'Las contraseñas deben coincidir.'
             ];
@@ -197,22 +211,8 @@ class UserController extends Controller
                return view('user.edit', ['user'=>$user])->withErrors($validator, 'name1');
 
             if(Hash::check($request->get('pass'), $user->password)
-            	|| $this->authorize('es_admin', $user)){
+            	|| Auth::user()->esAdmin){
                 
-                $nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
-            	
-            	if ($request->get('name2')=='') $user->name2="-";
-            	else $user->name2=$request->get('name2');
-            	if ($request->get('apellido2')=='') $user->apellido2="-";
-            	else $user->apellido2=$request->get('apellido2');
-
-                $user->name1=$request->get('name1');
-                $user->apellido1=$request->get('apellido1');
-                $user->nacimiento= $nacimiento;
-                $user->generacion=$request->get('generacion');
-                $user->ci=$request->get('ci');
-                $user->email=$request->get('email');
-
                 $user->save();
                 
                 $request->session()->flash('message', 'Usuario actualizado con exito!');
@@ -228,47 +228,16 @@ class UserController extends Controller
                 $datos->name2 = $request->get('name2');
                 $datos->apellido1 = $request->get('apellido1');
                 $datos->apellido2 = $request->get('apellido2');
-                $datos->nacimiento = $request->get('nacimiento');
+                $datos->nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
                 $datos->generacion = $request->get('generacion');
                 $datos->ci = $request->get('ci');
                 $datos->email = $request->get('email');
                 session(['habilitar' => 'si', 'datos' => $datos]);
-                $validator->errors()->add('pass', 'La contraseña actual es incorrecta');
+                $validator->errors()->add('pass', 'La contraseña actual es incorrectaaa');
                 return view('user.edit', ['user'=>$user])->withErrors($validator,'pass');
             }
 
-        
-
         return $this->edit($user->id);
-// =======
-//         if (Auth::user()->id==$id) {
-
-//             $user = User::find($id);
-
-//             // if($user->password == bcrypt($request->get('confirmarPass'))){
-//             if(Hash::check($request->get('confirmarPass'), $user->password)){
-
-//                 $nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
-
-//                 $user->name1=$request->get('name1');
-//                 $user->name2=$request->get('name2');
-//                 $user->apellido1=$request->get('apellido1');
-//                 $user->apellido2=$request->get('apellido2');
-//                 $user->nacimiento= $nacimiento;
-//                 $user->generacion=$request->get('generacion');
-//                 $user->ci=$request->get('ci');
-//                 $user->email=$request->get('email');
-
-//                 $user->save();
-
-//                 //return $this->edit($user->id);
-//                 $request->session()->flash('message', 'Perfil modificado con exito');
-//                 return redirect()->back();
-//             }
-                        
-//             return redirect()->back()->withErrors('error', 'la contraseña introducida no coincide');
-//         }
-// >>>>>>> master
 
     }
 
