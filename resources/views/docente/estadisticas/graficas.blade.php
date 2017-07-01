@@ -126,14 +126,20 @@
 	let form = document.getElementsByClassName("formulario");
 	let divform = document.getElementsByClassName("formcopias");
 	// let formulario = 
-	for (let i = 0; i < form.length; i++) {
-		form[i].addEventListener('submit', function (evt){
+	let iterador = 0;
+	while ( iterador < form.length ) {
+		form[iterador].addEventListener('submit', function (evt){
+			console.log("variable v: " + iterador); 
+			console.log(form); 
+			console.log(evt); 
+			console.log(evt.target); 
 			evt.preventDefault();
-			console.log(validarMail());
-			if(validarMail()){
-				form[i].submit();
+			console.log(validarMail(evt.target));
+			// let v = form[i]/*.getElementsByTagName('input').value.trim().split(" ")*/;
+			if(validarMail(evt.target)){
+				// form[iterador].submit();
 			}else{
-				divform[i].classList.add('has-error');
+				evt.target.parentElement.classList.add('has-error');
 				// let btnAceptar = document.getElementById('btnAceptar');
 				let span = document.createElement('span');
 				let strong = document.createElement('strong');
@@ -141,16 +147,21 @@
 				span.classList.add('help-block');
 				span.appendChild(strong);
 				strong.appendChild(texto);
-				form[i].insertBefore(span, form[i].childNodes[5]);
+				evt.target.insertBefore(span, evt.target.childNodes[5]);
 				// divform.appendChild(span);
 			}
 		});
+		iterador++;
 	}
 
-	function validarMail(){
-		let form = document.getElementById('formcopias');
-		let input= document.getElementById('copias');
-		let texto = input.value.trim().split(" ");
+	function validarMail(form){
+		// let form = document.getElementById('formcopias');
+		// form[0].getElementsByTagName('input')
+		console.log("dentr de validar");
+		console.log(form);
+		console.log("-----------");
+		let input= form.getElementsByTagName('input');
+		let texto = input[0].value.trim().split(" ");
 		let valido = true;
 		let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		for (let i = 0; i < texto.length; i++){
