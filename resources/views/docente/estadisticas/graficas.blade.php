@@ -86,7 +86,7 @@
 	.formcopias {
 		opacity: 	0;
 		visibility: hidden;
-		/*display: none;*/
+		display: none;
 		transition: opacity .6s, visibility .6s;
 
 	}
@@ -94,8 +94,13 @@
 	.formcopias.activo {
 		opacity: 	1;
 		visibility: visible;
+		
 	}
 	
+	.formcopias.display {
+		display: block;
+	}
+
 	.errormail {
 
 	}
@@ -116,11 +121,16 @@
 				break;
 			}
 		}
-		if(existe == 's')
-			form.classList.remove('activo');
-		else
-			form.classList.add('activo');
-			setTimeout(c => form.classList.add('visible'), 10);
+		if(existe == 's'){
+			form.classList.remove('activo')
+			setTimeout(c => form.classList.remove('display'),601);
+			// form.classList.remove('activo');
+		}
+		else{
+			form.classList.add('display')
+			// form.classList.add('activo');
+			setTimeout(c => form.classList.add('activo'), 10);
+		}
 	}
 
 	let form = document.getElementsByClassName("formulario");
@@ -135,9 +145,8 @@
 			console.log(evt.target); 
 			evt.preventDefault();
 			console.log(validarMail(evt.target));
-			// let v = form[i]/*.getElementsByTagName('input').value.trim().split(" ")*/;
 			if(validarMail(evt.target)){
-				// form[iterador].submit();
+				evt.target.submit();
 			}else{
 				evt.target.parentElement.classList.add('has-error');
 				// let btnAceptar = document.getElementById('btnAceptar');
