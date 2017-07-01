@@ -42,21 +42,29 @@
 							    @include('docente.estadisticas.chart_preguntas')
 							    <div class="grafica" id="chart_div_{{$encuesta->id}}{{$curso->id}}"></div>
 							    <div>
-							    <i class="fa fa-paperclip" aria-hidden="true"></i>
-							    <a href="/sendemailprofes/{{$docente->id}}/{{$encuesta->id}}/{{$curso->id}}">
-							    Enviar por e-Mail</a>
+								    <i class="fa fa-paperclip" aria-hidden="true"></i>
+								    <a id="mail" onclick="verCcMail({{$curso->id}});" href="#formcopias">Enviar por e-Mail</a>
 							    </div>
-							    <div>
-							    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-							    <a target="_blank" href="/Docentes/exportar/{{$docente->id}}/{{$encuesta->id}}/{{$curso->id}}">
-							    Exportar a PDF</a>
-							    </div>
-								<div id="formcopias">
-								    <form action="/prueba/{{$docente->id}}/{{$encuesta->id}}/{{$curso->id}}" method="get">
-								    	<label>Si desea realizar una copia del email ingrese cada una de los destinatarios separedos por un espacio</label>
-								    	<input id="copias" name="copias" placeholder="ejemplo@ejemplo.com example@example.com">
-										<button type="submit" class="btn btn-primary">Aceptar</button>
+
+
+								<div id="formcopias{{$curso->id}}" class="formcopias">
+									
+
+								    <form id="formulario{{$curso->id}}" action="/prueba/{{$docente->id}}/{{$encuesta->id}}/{{$curso->id}}" method="get">
+								    	<label style="text-align: center" class="col-md-12 control-label">Si desea realizar una copia del email ingrese cada una de los destinatarios separados por un espacio</label>
+								    	<input class="form-control" id="copias" name="copias" placeholder="ejemplo@ejemplo.com example@example.com">
+								    	<div id="btnAceptar">
+											<button type="submit" class="btn btn-primary">Aceptar</button>
+										</div>
 								    </form>
+
+
+							    </div>
+
+
+							    <div>
+								    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+								    <a target="_blank" href="/Docentes/exportar/{{$docente->id}}/{{$encuesta->id}}/{{$curso->id}}">Exportar a PDF</a>
 							    </div>
 							    <hr>
 						    @endforeach
@@ -74,4 +82,90 @@
         </div>
     </div>
 </div>
+<style type="text/css" media="screen">
+	.formcopias {
+		opacity: 	0;
+		visibility: hidden;
+		/*display: none;*/
+		transition: opacity .6s, visibility .6s;
+
+	}
+
+	.formcopias.activo {
+		opacity: 	1;
+		visibility: visible;
+	}
+	
+	.errormail {
+
+	}
+	div#btnAceptar{
+	    text-align: center;
+	    margin-top: 1rem;
+	}
+</style>
+<script type="text/javascript">
+	function verCcMail(cursoID){
+		let form = document.getElementById("formcopias"+cursoID);
+		let clases = form.className.split(" ");
+		let existe = "";
+		for (let i = 0; i < clases.length; i++){
+			if(clases[i] == 'activo'){
+				console.log(clases[i]);
+				existe = 's';
+				break;
+			}
+		}
+		if(existe == 's')
+			form.classList.remove('activo');
+		else
+			form.classList.add('activo');
+			setTimeout(c => form.classList.add('visible'), 10);
+	}
+
+	let form = document.getElementById("formulario");
+	let divform = document.getElementById("formcopias");
+	// let formulario = 
+	form.addEventListener('submit', function (evt){
+		evt.preventDefault();
+		console.log(validarMail());
+		if(validarMail()){
+			form.submit();
+		}else{
+			divform.classList.add('has-error');
+			// let btnAceptar = document.getElementById('btnAceptar');
+			let span = document.createElement('span');
+			let strong = document.createElement('strong');
+			let texto = document.createTextNode('Compruebe los email ingresados, uno de ello no corresponde a una direccion de email valida');
+			span.classList.add('help-block');
+			span.appendChild(strong);
+			strong.appendChild(texto);
+			form.insertBefore(span, form.childNodes[5]);
+			// divform.appendChild(span);
+		}
+	})
+
+	function validarMail(){
+		let form = document.getElementById('formcopias');
+		let input= document.getElementById('copias');
+		let texto = input.value.trim().split(" ");
+		let valido = true;
+		let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		for (let i = 0; i < texto.length; i++){
+			if(texto[i]==""){
+				texto.splice(i,1);
+				i--;
+			}
+			
+				console.log("est0", texto[i]);
+		  	if(!re.test(texto[i])){
+		  		return false;
+		  	}
+		}
+		console.log("texto: ", texto);
+  		return true;
+		
+	}
+
+</script>
 @endsection

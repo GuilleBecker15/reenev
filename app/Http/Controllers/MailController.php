@@ -41,6 +41,7 @@ class MailController extends Controller
      */
     public function sendemail(Request $request, $user_id, $docente_id, $curso_id, $urlprevia)
     {   
+            $this->authorize('es_admin', User::class);
  
             $user = User::findOrFail($user_id);
             $docente = Docente::findOrFail($docente_id);
@@ -118,9 +119,9 @@ class MailController extends Controller
  
     }
  
- public function sendemailprofes(Request $request, $id_docente, $id_encuesta, $id_curso)
-    {   
+ public function sendemailprofes(Request $request, $id_docente, $id_encuesta, $id_curso){   
 
+            $this->authorize('es_admin', User::class);
             $docente = Docente::find($id_docente);
             $encuesta = Encuesta::find($id_encuesta);
             $curso = Curso::find($id_curso);
@@ -208,6 +209,9 @@ class MailController extends Controller
     }
  
     public function prueba(Request $request, $id_docente, $id_encuesta, $id_curso){
+            $this->authorize('es_admin', User::class);
+
+
             $docente = Docente::find($id_docente);
             $encuesta = Encuesta::find($id_encuesta);
             $curso = Curso::find($id_curso);
@@ -227,7 +231,7 @@ class MailController extends Controller
             }else{
                 $data_toview['semestre'] = "segundo";
             }
-            
+            // dd($request->get('copias'));
             
             // $email_to       = "carlosfrostte@gmail.com";
             $email_to       = $docente->email;
