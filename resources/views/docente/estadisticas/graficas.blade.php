@@ -101,9 +101,6 @@
 		display: block;
 	}
 
-	.errormail {
-
-	}
 	div#btnAceptar{
 	    text-align: center;
 	    margin-top: 1rem;
