@@ -50,7 +50,7 @@
 								<div id="formcopias{{$curso->id}}" class="formcopias">
 									
 
-								    <form id="formulario{{$curso->id}}" action="/prueba/{{$docente->id}}/{{$encuesta->id}}/{{$curso->id}}" method="get">
+								    <form id="formulario{{$curso->id}}" class="formulario" action="/prueba/{{$docente->id}}/{{$encuesta->id}}/{{$curso->id}}" method="get">
 								    	<label style="text-align: center" class="col-md-12 control-label">Si desea realizar una copia del email ingrese cada una de los destinatarios separados por un espacio</label>
 								    	<input class="form-control" id="copias" name="copias" placeholder="ejemplo@ejemplo.com example@example.com">
 								    	<div id="btnAceptar">
@@ -123,27 +123,29 @@
 			setTimeout(c => form.classList.add('visible'), 10);
 	}
 
-	let form = document.getElementById("formulario");
-	let divform = document.getElementById("formcopias");
+	let form = document.getElementsByClassName("formulario");
+	let divform = document.getElementsByClassName("formcopias");
 	// let formulario = 
-	form.addEventListener('submit', function (evt){
-		evt.preventDefault();
-		console.log(validarMail());
-		if(validarMail()){
-			form.submit();
-		}else{
-			divform.classList.add('has-error');
-			// let btnAceptar = document.getElementById('btnAceptar');
-			let span = document.createElement('span');
-			let strong = document.createElement('strong');
-			let texto = document.createTextNode('Compruebe los email ingresados, uno de ello no corresponde a una direccion de email valida');
-			span.classList.add('help-block');
-			span.appendChild(strong);
-			strong.appendChild(texto);
-			form.insertBefore(span, form.childNodes[5]);
-			// divform.appendChild(span);
-		}
-	})
+	for (let i = 0; i < form.length; i++) {
+		form[i].addEventListener('submit', function (evt){
+			evt.preventDefault();
+			console.log(validarMail());
+			if(validarMail()){
+				form[i].submit();
+			}else{
+				divform[i].classList.add('has-error');
+				// let btnAceptar = document.getElementById('btnAceptar');
+				let span = document.createElement('span');
+				let strong = document.createElement('strong');
+				let texto = document.createTextNode('Compruebe los email ingresados, uno de ello no corresponde a una direccion de email valida');
+				span.classList.add('help-block');
+				span.appendChild(strong);
+				strong.appendChild(texto);
+				form[i].insertBefore(span, form[i].childNodes[5]);
+				// divform.appendChild(span);
+			}
+		});
+	}
 
 	function validarMail(){
 		let form = document.getElementById('formcopias');
