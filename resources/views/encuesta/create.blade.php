@@ -6,18 +6,6 @@
 		<div class="col-md-6 col-md-offset-3">
 			<div class="panel panel-default">
 				<div class="panel-heading"><h1>Crear una encuesta</h1></div>
-				<?php 
-// use Carbon\Carbon;
-// var_dump(Carbon::now()->toDateString());
-// $hoy=Carbon::now()->toDateString();
-// var_dump(Carbon::createFromDate(2017, 06, 20)->toDateString());
-// $otro=Carbon::createFromDate(2017, 06, 20)->toDateString();
-// if($hoy<$otro) echo "el mayor";
-//     else echo "no es mayor <br> <br> ";
-//     if(!isset($e)){
-// dd($e);
-//     }
-				?>
 				<div class="panel-body">
 					@include('layouts.flashes')
 					<form action="{{ route('Encuestas.store') }}" role="form" method="POST" class="form-horizontal" accept-charset="utf-8">
@@ -48,12 +36,12 @@
 							<label for="vence" class="col-md-4 control-label">Fecha límite</label>
 							<div class="col-md-6">
 								<div class="col-md-12 input-group date datepicker" data-provide="datepicker">
-								    <input type="text" class="form-control"
-								    id="vence" name="vence" value="{{ old('vence') }}"
-								    placeholder="2000-15-06" required>
-								    <div class="input-group-addon">
-								        <span class="glyphicon glyphicon-calendar"></span>
-								    </div>
+									<input type="text" class="form-control"
+									id="vence" name="vence" value="{{ old('vence') }}"
+									placeholder="2000-15-06" required>
+									<div class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</div>
 								</div>
 								@if ($errors->has('vence'))
 								<span class="help-block">

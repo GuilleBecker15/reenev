@@ -15,7 +15,6 @@
                     @else
                     	<h1>{{ $h1 }}</h1>
                     @endif
-                @include('layouts.flashes')
                 </div>
                 <div class="panel-body">
                 @include('admin.toolbar', ['route' => $route])
@@ -50,6 +49,10 @@
                                     <td>{{ $curso->semestre }}</td>
                                     <td>{{ $curso->abreviatura }}</td>
                                     <td>
+                                    	<a href="{{ route('Cursos.show', $curso->id) }}"
+                                    	class="btn btn-info btn-xs">Ver</a>
+                                    </td>
+                                    <td>
                                         {{ Form::open(['method' => 'GET', 'route' => ['Cursos.edit', $curso->id]]) }}
                                         {{ Form::hidden('id', $curso->id) }}
                                         {{ Form::submit('Editar', ['class' => 'btn btn-xs btn-primary']) }}
@@ -60,6 +63,13 @@
                                         {{ Form::hidden('id', $curso->id) }}
                                         {{ Form::submit('Agregar/quitar docente', ['class' => 'btn btn-xs btn-warning']) }}
                                         {{Form::close()}}
+                                    </td>
+                                    <td>
+                                        <form id="{{ $curso->id }}.formulario" class="form-inline form-delete" method="POST" action="{{ route('Cursos.destroy', $curso->id) }}">
+                                        <input name="_method" type="hidden" value="DELETE">
+                                        {{ csrf_field() }}
+                                        <button id="{{ $curso->id }}.curso" type="submit" class="btn btn-danger btn-xs borrado_confirm">Borrar</button>
+                                        </form>
                                     </td>
                                 </tr>
                             </tbody>

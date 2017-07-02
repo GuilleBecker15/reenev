@@ -7,9 +7,9 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h1>Todos los alumnos que completaron encuestas</h1>
-					@include('layouts.flashes')
 				</div>
 				<div class="panel-body">
+					@include('layouts.flashes')
 					<ul class="nav nav-tabs">
 						<li><a href="{{ route('Encuestas.index')}}">Disponibles</a></li>
 						<li><a href="{{ route('Realizadas.index')}}">Completadas</a></li>
@@ -22,16 +22,11 @@
 								***Aparecen en orden decreciente, en funcion del numero de respuestas negativas
 							</caption>
 							<thead>
-								<tr>
-									<td colspan="3"><center>Datos de la encuesta</center></td>
-									<td colspan="1">Datos del alumno</td>
-									<td colspan="6"><center>Total de respuestas</center></td>
-								</tr>
 								<tr >
 									<th>ID</th>
-									<th>Asunto</th>
-									<th>Fecha</th>
-									<th>Apellido</th>
+									<th>Encuesta</th>
+									<th>Completada</th>
+									<th>Por</th>
 									<th>N/C</th>
 									<th>Muy mal</th>
 									<th>Mal</th>
@@ -45,7 +40,6 @@
 								<tr>
 									<td>{{ $estudiante['encuesta_id'] }}</td>
 									<td>{{ $estudiante['encuesta']['asunto'] }}</td>
-									</td>
 									<td>{{ $estudiante['cuando'] }}</td>
 									<td>{{ $estudiante['apellido1'] }}</td>
 									<td>{{ $estudiante['nocorresponde'] }}</td>

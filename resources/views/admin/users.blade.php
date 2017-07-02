@@ -7,7 +7,6 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h1>{{ $h1 }}</h1>
-                    @include('layouts.flashes')
                 </div>
                 <div class="panel-body">
                 @include('admin.toolbar')
@@ -16,12 +15,10 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Primer nombre</th>
-                                    <th>Segundo nombre</th>
-                                    <th>Primer apellido</th>
-                                    <th>Segundo apellido</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
                                     <th>Fecha de nacimiento</th>
-                                    <th>Generacion</th>
+                                    <th>Generación</th>
                                     <th>C.I.</th>
                                     <th>e-Mail</th>
                                     <th>Tipo</th>
@@ -29,12 +26,12 @@
                             </thead>
                             @foreach ($users as $key => $user)
                             <tbody>
-                                <tr>
+                            	@if ($user->deleted_at)
+                                	<tr style="color : tomato; text-decoration : line-through;">
+                                @endif
                                     <td>{{ $user->id }}</td>
                                     <td>{{ $user->name1 }}</td>
-                                    <td>{{ $user->name2 }}</td>
                                     <td>{{ $user->apellido1 }}</td>
-                                    <td>{{ $user->apellido2 }}</td>
                                     <td>{{ $user->uyNacimiento($user->nacimiento) }}</td>
                                     <td>{{ $user->generacion }}</td>
                                     <td>{{ $user->ci }}</td>

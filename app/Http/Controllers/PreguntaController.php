@@ -14,6 +14,7 @@ use Validator;
 
 class PreguntaController extends Controller
 {
+	
     /**
      * Display a listing of the resource.
      *
@@ -31,17 +32,19 @@ class PreguntaController extends Controller
      */
     public function create($id)
     {
-        $this->authorize('es_admin', User::class);
+    	
+    	$this->authorize('es_admin', User::class);
 
-        $encuesta = Encuesta::findOrFail($id);
-        // $preguntas = Pregunta::with('encuesta')->get();
-        $preguntas = Pregunta::where('encuesta_id',$id)->get();
+    	$encuesta = Encuesta::findOrFail($id);
+    	$preguntas = Pregunta::where('encuesta_id', $id)->get();
 
-        for ($i=0; $i < $preguntas->count() ; $i++) { 
-            $preguntas[$i]->enunciado = str_replace("/", ",", $preguntas[$i]->enunciado);
-        }
-        
-        return view('pregunta.create',['encuesta'=>$encuesta, 'preguntas'=>$preguntas]);
+    	for ($i=0; $i<($preguntas->count()); $i++) {
+    		$preguntas[$i]->enunciado = str_replace("/", ",", $preguntas[$i]->enunciado);
+    	}
+    	
+        // return view('pregunta.create', ['encuesta' => $encuesta, 'preguntas' => $preguntas]);
+    	return view('pregunta.create', compact('encuesta', 'preguntas'));
+    	
     }
 
     /**
@@ -52,61 +55,52 @@ class PreguntaController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $this->authorize('es_admin', User::class);
-        $enun = str_replace(",", "/", $request->get('enunciado'));
-        $request->merge(['enunciado' => $enun]);
 
-        $validator = Validator::make($request->all(),[
-            'enunciado' => 'required|string|max:255|unique:preguntas,enunciado,NULL,'.$request->get('enunciado').',encuesta_id,'.$id.'',
-            
-          ]);
+    	$this->authorize('es_admin', User::class);
 
-        // DB::table('users')
-        //     ->where('name', '=', 'John')
-        //     ->orWhere(function ($query) {
-        //         $query->where('votes', '>', 100)
-        //               ->where('title', '<>', 'Admin');
-        //     })
-        //     ->get();
+    	$enun = str_replace(",", "/", $request->get('enunciado'));
+    	$request->merge(['enunciado' => $enun]);
 
+    	$validator = Validator::make($request->all(), [
+    		'enunciado' => 'required|string|max:255|unique:preguntas,enunciado,NULL,'
+    		.$request->get('enunciado').',encuesta_id,'.$id.'',
+    		]);
 
-        // $existe = DB::table('preguntas')
-        //         ->where('encuesta_id', '=', $id)
-        //         ->where('enunciado', '=', $request->get('enunciado'))->get();
-        // if($existe){
-        //     $validator->errors()->add('Repetido', 'enunciado ya existe');            
-        // }
+    	$encuesta = Encuesta::findOrFail($id);
+    	$preguntas = Pregunta::where('encuesta_id', $id)->get();
 
-        $encuesta = Encuesta::findOrFail($id);
-        $preguntas = Pregunta::where('encuesta_id',$id)->get();
+    	if (Realizada::where('encuesta_id', $id)->get()->isNotEmpty()) {
+    		$request->session()->flash('error', 'La encuesta ya ha generado estadísticas');
+            // return view('pregunta.create',['encuesta' => $encuesta, 'preguntas' => $preguntas]);
+    		return view('pregunta.create', compact('encuesta', 'preguntas'));
+    	}
 
-        if (Realizada::where('encuesta_id', $id)->get()->isNotEmpty()) {
-            $request->session()->flash(
-                'message',
-                'Imposible agregar pregunta, esta encuesta ya fue completada por alguien');
-            return view('pregunta.create',['encuesta'=>$encuesta, 'preguntas'=>$preguntas]);
-        }
+    	if ($validator->fails()) {
+    		$request->session()->flash('error', 'Pregunta no agregada a la encuesta');
+    		return view('pregunta.create', compact('encuesta', 'preguntas'))->withErrors($validator);
+    	}
 
-        if($validator->fails() ){
-            return view('pregunta.create',['encuesta'=>$encuesta, 'preguntas'=>$preguntas])->withErrors($validator,'enunciado');
-        }
+    	$pregunta = new Pregunta;
 
-        $pregunta = new Pregunta;
-        // $preguntas = Pregunta::with('encuesta')->get();
-        $preguntas = Pregunta::where('encuesta_id',$id)->get();
-        $num = $preguntas->count();
-        $data = [
-            'enunciado' => $request->get('enunciado'),
-            'numero' => $num,
-        ];
-        $pregunta->encuesta()->associate($encuesta);
-        $pregunta->numero = $num + 1;
-        $pregunta->enunciado = $request->get('enunciado');
-        $pregunta->save();
-        $request->session()->flash('message', 'Pregunta guardada exitosamente!');
+    	$preguntas = Pregunta::where('encuesta_id',$id)->get();
+    	$num = $preguntas->count();
 
-        // return view('Pregunta.create', ['encuesta'=>$encuesta, 'preguntas'=>$preguntas]);
-        return $this->create($encuesta->id);
+    	$data = [
+    	'enunciado' => $request->get('enunciado'),
+    	'numero' => $num,
+    	];
+    	
+    	$pregunta->encuesta()->associate($encuesta);
+    	
+    	$pregunta->numero = $num + 1;
+    	$pregunta->enunciado = $request->get('enunciado');
+    	
+    	$pregunta->save();
+
+        // return view('Pregunta.create', ['encuesta' => $encuesta, 'preguntas' => $preguntas]);
+    	$request->session()->flash('message', 'Pregunta agregada a la encuesta');
+    	return $this->create($encuesta->id);
+
     }
 
     /**
@@ -117,7 +111,7 @@ class PreguntaController extends Controller
      */
     public function show($id)
     {
-        
+        //
     }
 
     /**
@@ -128,11 +122,12 @@ class PreguntaController extends Controller
      */
     public function edit($id_encuesta, $id_pregunta)
     {
-        $this->authorize('es_admin', User::class);
-        $pregunta = Pregunta::findOrFail($id_pregunta);
-        $pregunta->enunciado = str_replace("/", ",", $pregunta->enunciado);
-        $encuesta = Encuesta::find($pregunta->encuesta()->get()[0]->id);
-        return view('pregunta.edit', ['encuesta'=>$encuesta,'pregunta'=>$pregunta]);
+    	$this->authorize('es_admin', User::class);
+    	$pregunta = Pregunta::findOrFail($id_pregunta);
+    	$pregunta->enunciado = str_replace("/", ",", $pregunta->enunciado);
+    	$encuesta = Encuesta::findOrFail($pregunta->encuesta()->get()[0]->id);
+        // return view('pregunta.edit', ['encuesta' => $encuesta,'pregunta' => $pregunta]);
+    	return view('pregunta.edit', compact('encuesta', 'pregunta'));
     }
 
     /**
@@ -144,38 +139,39 @@ class PreguntaController extends Controller
      */
     public function update(Request $request, $idEncuesta, $idPreg)
     {
-        $this->authorize('es_admin', User::class);
+    	
+    	$this->authorize('es_admin', User::class);
 
-        $pregunta = Pregunta::findOrFail($idPreg);
-        //$enun = str_replace(",", "/", $request->get('enunciado'));
+    	$pregunta = Pregunta::findOrFail($idPreg);
 
-        $enun = str_replace(",", "/", $request->get('enunciado'));
-        $request->merge(['enunciado' => $enun]);
+    	$enun = str_replace(",", "/", $request->get('enunciado'));
+    	$request->merge(['enunciado' => $enun]);
 
-        $validator = Validator::make($request->all(),[
-            'enunciado' => 'required|string|max:255|unique:preguntas,enunciado,NULL,'.$request->get('enunciado').',encuesta_id,'.$idEncuesta.'',
-            
-          ]);
+    	$validator = Validator::make($request->all(), [
+    		'enunciado' => 'required|string|max:255|unique:preguntas,enunciado,NULL,'
+    		.$request->get('enunciado').',encuesta_id,'.$idEncuesta.'',
+    		]);
 
-        if($validator->fails() ){
-            $encuesta = Encuesta::findOrFail($idEncuesta);
-            return view('pregunta.edit',['encuesta'=>$encuesta, 'pregunta'=>$pregunta])->withErrors($validator,'enunciado');
-        }
+    	if ($validator->fails()) {
+    		$encuesta = Encuesta::findOrFail($idEncuesta);
+    		$request->session()->flash('error', 'La pregunta no se pudo actualizar');
+            // return view('pregunta.edit', ['encuesta' => $encuesta, 'pregunta' => $pregunta])
+            // ->withErrors($validator, 'enunciado');
+    		return view('pregunta.edit', compact('encuesta', 'pregunta'))->withErrors($validator);
+    	}
 
-        $idEncuesta = $pregunta->encuesta()->get()[0]->id;
+    	$idEncuesta = $pregunta->encuesta()->get()[0]->id;
 
-        $pregunta->enunciado = $enun ;
+    	$pregunta->enunciado = $enun ;
 
-        if (Realizada::where('encuesta_id', $idEncuesta)->get()->isNotEmpty()) {
-            $request->session()->flash(
-                'message',
-                'Imposible modificar pregunta, esta encuesta ya fue completada por alguien');
-        } else {
-            $pregunta->save();
-            $request->session()->flash('message', 'Pregunta actualizada exitosmente!');
-        }
+    	if (Realizada::where('encuesta_id', $idEncuesta)->get()->isNotEmpty()) {
+    		$request->session()->flash('error', 'La encuesta a la cual pertenece, ya se completó');
+    	} else {
+    		$pregunta->save();
+    		$request->session()->flash('message', 'Pregunta actualizada para la encuesta');
+    	}
 
-        return $this->create($idEncuesta);
+    	return $this->create($idEncuesta);
 
     }
 
@@ -187,24 +183,23 @@ class PreguntaController extends Controller
      */
     public function destroy(Request $request, $idEncuesta, $idPregunta)
     {
-        $this->authorize('es_admin', User::class);
 
-        $pregunta = Pregunta::findOrFail($idPregunta);
+    	$this->authorize('es_admin', User::class);
 
-        $idEncuesta = $pregunta->encuesta()->get()[0]->id;
+    	$pregunta = Pregunta::findOrFail($idPregunta);
 
-        if (Realizada::where('encuesta_id', $idEncuesta)->get()->isNotEmpty()) {
-            $request->session()->flash(
-                'message',
-                'Imposible quitar pregunta, esta encuesta ya fue completada por alguien');
-            return $this->create($idEncuesta);
-        }
+    	$idEncuesta = $pregunta->encuesta()->get()[0]->id;
 
-        $pregunta->forceDelete();
+    	if (Realizada::where('encuesta_id', $idEncuesta)->get()->isNotEmpty()) {
+    		$request->session()->flash('error', 'La encuesta a la cual pertenece, ya se completó');
+    		return $this->create($idEncuesta);
+    	}
 
-        //$table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+    	$pregunta->forceDelete();
 
-        $request->session()->flash('error', 'Pregunta borrada exitosamente');
-        return $this->create($idEncuesta);
+    	$request->session()->flash('message', 'Pregunta eliminada de la encuesta');
+    	return $this->create($idEncuesta);
+
     }
+
 }

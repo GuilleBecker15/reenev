@@ -17,7 +17,6 @@
 				</h1>
 				</div>
 				<div class="panel-body">
-					@include('layouts.flashes')
 					<table class="table table-user-information">
 						<tbody>
 						<caption>
@@ -110,6 +109,17 @@
 							<td>@include('user.btn_hacerAdmin')</td>
 						</tr>
 						@endif
+						@if($user->deleted_at)
+						<tr class="col-md-12 visible-xs">
+							<td><span class="glyphicon glyphicon-asterisk"></span></td>
+							<td>@include('user.btn_recuperarUser')</td>
+						</tr>
+						@else
+						<tr class="col-md-12 visible-xs">
+							<td><span class="glyphicon glyphicon-asterisk"></span></td>
+							<td>@include('user.btn_borrarUser')</td>
+						</tr>
+						@endif
 					</tbody>
 				</table>
 				<div class="col-md-12 hidden-xs">
@@ -122,6 +132,13 @@
 									@include('user.btn_desHacerAdmin')
 									@else
 									@include('user.btn_hacerAdmin')
+									@endif
+								</td>
+								<td>
+									@if($user->deleted_at)
+									@include('user.btn_recuperarUser')
+									@else
+									@include('user.btn_borrarUser')
 									@endif
 								</td>
 							</tr>

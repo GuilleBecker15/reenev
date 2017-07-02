@@ -129,14 +129,30 @@ tbody {
     font-size: 18px;
 }
 
+.error_pagina {
+	background-color: gainsboro;
+	text-align: center;
+}
+
 .error_icono {
-    font-size: 135px;
+    font-size: 100px;
     color: dodgerblue;
+    text-align: center;
+}
+
+.error_icono :hover {
+    color: steelblue;
+}
+
+.error_icono > a {
+	color: dodgerblue;
+    text-decoration: none;
+    font-style: italic;
 }
 
 .error_titulo {
-    font-size: 45px;
-    color: darkslategray;
+    font-size: 100px;
+    color: dimgray;
 }
 
 .error_numero {
@@ -144,7 +160,8 @@ tbody {
 }
 
 .error_explicacion {
-    color: orange;
+	font-size: 25px;
+    color: black;
 }
 
 .app {

@@ -8,7 +8,7 @@
                 <div class="panel-heading">
                 	<h1>
 	                	Estadísticas del docente
-	                	<a target="_blank" href="{{ route('Docentes.show', $docente->id) }}">
+	                	<a href="{{ route('Docentes.show', $docente->id) }}">
 							{{$docente->nombre}} {{$docente->apellido}}
 	                	</a>
                 	</h1>

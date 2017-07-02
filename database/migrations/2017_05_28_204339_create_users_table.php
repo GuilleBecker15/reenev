@@ -27,7 +27,6 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->boolean('esAdmin')->default(false);
-            $table->boolean('estaBorrado')->default(false);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
