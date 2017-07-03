@@ -250,8 +250,8 @@ class DocenteController extends Controller
         $realizadas_encuesta_id = Realizada::where('docente_id', $id_docente)->select('realizadas.encuesta_id')->distinct()->get();
         $realizadas_curso_id = Realizada::where('docente_id', $id_docente)->select('realizadas.curso_id')->distinct()->get();
         
-        $encuesta_ids = array('');
-        $cursos_ids = array('');
+        $encuesta_ids = array();
+        $cursos_ids = array();
 
         foreach ($realizadas_encuesta_id as $r) {
         	array_push($encuesta_ids, (int)$r->encuesta_id);
@@ -260,7 +260,6 @@ class DocenteController extends Controller
         foreach ($realizadas_curso_id as $r) {
         	array_push($cursos_ids, (int)$r->curso_id);
         }
-
         $encuestas = Encuesta::whereIn('id', $encuesta_ids)->get();
         $cursos = Curso::whereIn('id', $cursos_ids)->get();
 
