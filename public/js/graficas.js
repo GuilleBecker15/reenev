@@ -54,6 +54,8 @@ function verCcMail(cursoID){
 		let texto = input[0].value.trim().split(" ");
 		let valido = true;
 		let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		console.log(texto);
+		if(texto == "") return true;
 		for (let i = 0; i < texto.length; i++){
 			if(texto[i]==""){
 				texto.splice(i,1);
