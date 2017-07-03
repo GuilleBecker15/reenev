@@ -25,6 +25,14 @@ function verCcMail(cursoID){
 	while ( iterador < form.length ) {
 		form[iterador].addEventListener('submit', function (evt){
 			evt.preventDefault();
+			let clases = evt.target.parentElement.classList;
+			for (let i = 0; i < clases.length; i++) {
+				if(clases[i] == 'has-error'){
+					evt.target.classList.remove('has-error');
+					let hijo = evt.target.getElementsByTagName('span')
+					evt.target.removeChild(hijo[0]);
+				}
+			}
 			if(validarMail(evt.target)){
 				evt.target.submit();
 			}else{
