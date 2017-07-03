@@ -260,7 +260,6 @@ class DocenteController extends Controller
         foreach ($realizadas_curso_id as $r) {
         	array_push($cursos_ids, (int)$r->curso_id);
         }
-        dd($encuesta_ids);
         $encuestas = Encuesta::whereIn('id', $encuesta_ids)->get();
         $cursos = Curso::whereIn('id', $cursos_ids)->get();
 
