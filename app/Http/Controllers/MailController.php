@@ -41,6 +41,7 @@ class MailController extends Controller
      */
     public function sendemail(Request $request, $user_id, $docente_id, $curso_id, $urlprevia)
     {   
+            $this->authorize('es_admin', User::class);
  
             $user = User::findOrFail($user_id);
             $docente = Docente::findOrFail($docente_id);
@@ -118,9 +119,9 @@ class MailController extends Controller
  
     }
  
- public function sendemailprofes(Request $request, $id_docente, $id_encuesta, $id_curso)
-    {   
+ public function sendemailprofes(Request $request, $id_docente, $id_encuesta, $id_curso){   
 
+            $this->authorize('es_admin', User::class);
             $docente = Docente::find($id_docente);
             $encuesta = Encuesta::find($id_encuesta);
             $curso = Curso::find($id_curso);
@@ -175,10 +176,14 @@ class MailController extends Controller
  
                             $pdf = \PDF::loadView('emails.pdfprofes', $data_toview);
                             $message->from($data['sender'], 'Encuestas Tip');
-                            $message->to($data['emailto'])
-                            ->replyTo($data['sender'], 'Encuestas Tip')
+                            $message->to('eze-kpo_15@hotmail.com')
+                            ->replyTo('guille.becker.15@gmail.com', 'Encuestas Tip Replay')
+                            // $message->from($data['sender'], 'Encuestas Tip');
+                            // $message->to($data['emailto'])
+                            // ->replyTo($data['sender'], 'Encuestas Tip Replay')
                             ->subject('Encuestas Tip');
                             $message->attachData($pdf->output(), 'filename.pdf');
+                            
                             // echo 'The mail has been sent successfully';
  
                         });
@@ -203,5 +208,103 @@ class MailController extends Controller
  
     }
  
+    public function prueba(Request $request, $id_docente, $id_encuesta, $id_curso){
+            $this->authorize('es_admin', User::class);
+
+
+            $docente = Docente::find($id_docente);
+            $encuesta = Encuesta::find($id_encuesta);
+            $curso = Curso::find($id_curso);
+            $cantidad = $encuesta->realizadas->where('curso_id',$id_curso)->where('docente_id',$id_docente)->count();
+            if (!$docente)  return "No se encontro el docente de id=".$id_docente;
+            if (!$encuesta) return "No se encontro la encuesta de id=".$id_encuesta;
+            if (!$curso)    return "No se encontro el curso de id=".$id_curso;
+
+            $data_toview                = array();
+            $data_toview['docente']     = $docente;
+            $data_toview['encuesta']    = $encuesta;
+            $data_toview['curso']       = $curso;
+            $data_toview['anio']        = substr($encuesta->vence, 0, strpos($encuesta->vence, "-"));
+            $data_toview['cantidad']    = $cantidad;
+            if($curso->semestre % 2 == 0){
+                $data_toview['semestre'] = "primer";
+            }else{
+                $data_toview['semestre'] = "segundo";
+            }
+            // dd($request->get('copias'));
+            
+            // $email_to       = "carlosfrostte@gmail.com";
+            $email_to       = $docente->email;
  
+            $email_sender   = env('MAIL_USERNAME', getenv("MAIL_USERNAME"));
+            $email_pass     = env('MAIL_PASSWORD', getenv("MAIL_PASSWORD"));
+            // $email_sender   = env('MAIL_USERNAME', getenv("MAIL_USERNAME"));
+            // $email_pass     = env('MAIL_PASSWORD', getenv("MAIL_PASSWORD"));
+
+            // $email_cc       = env($request->all());
+            // dd($eail_cc);
+            // $copias =['ezegarcia2013@gmail.com', 'eze-kpo_15@hotmail.com']; 
+            $copias = $request->get('copias');
+            $copias = explode(" ",$copias);
+            for($i = 0; $i < count($copias); $i++){
+                //echo($c);
+                if($copias[$i] == "")
+                    unset($copias[$i]);
+            }
+            // dd($copias);
+            // Backup your default mailer
+            // dd();
+            $backup = \Mail::getSwiftMailer();
+ 
+            try{
+ 
+                        //https://accounts.google.com/DisplayUnlockCaptcha
+                        // Setup your gmail mailer
+                        $transport = \Swift_SmtpTransport::newInstance('smtp.gmail.com', 587, 'tls');
+                        $transport->setUsername($email_sender);
+                        $transport->setPassword($email_pass);
+ 
+                        // Any other mailer configuration stuff needed...
+                        $gmail = new Swift_Mailer($transport);
+ 
+                        // Set the mailer as gmail
+                        \Mail::setSwiftMailer($gmail);
+ 
+                        $data['emailto'] = $email_to;
+                        $data['sender'] = $email_sender;
+                        //Sender dan Reply harus sama
+                        // dd($data);
+                        Mail::send('emails.emailprofes', $data_toview, function($message) use ($data, $data_toview, $copias)
+                        {
+ 
+                            $pdf = \PDF::loadView('emails.pdfprofes', $data_toview);
+                            $message->from($data['sender'], 'Encuestas Tip');
+                            $message->to($data['emailto'])
+                            ->replyTo($data['sender'], 'Encuestas Tip')
+                            ->subject('Encuestas Tip porband');
+                            $message->attachData($pdf->output(), 'filename.pdf');
+                            // echo 'The mail has been sent successfully';
+                            $message->setBcc($copias
+                            );
+ 
+                        });
+ 
+                            $request->session()->flash(
+                                'message', 'Se ha enviado correctamente un mail al docente '.$docente->name." ".$docente->apellido
+                                );
+                            return redirect()->back();
+            }catch(\Swift_TransportException $e){
+                $response = $e->getMessage() ;
+                //echo $response;
+                $request->session()->flash(
+                    'error', 'Ha ocurrido un problema al enviar un mail al docente '.$docente->name." ".$docente->apellido
+                    );
+                return redirect()->back();
+            }
+ 
+ 
+            // Restore your original mailer
+            Mail::setSwiftMailer($backup);   
+    }
+
 }

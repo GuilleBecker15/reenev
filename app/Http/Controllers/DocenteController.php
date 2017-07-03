@@ -236,7 +236,7 @@ class DocenteController extends Controller
     }
 
     public function graficas($id_docente) {
-    
+        $this->authorize('es_admin', User::class);
     	/*
     
     	1) Mostrar para este docente, cada encuesta que apunte a el
@@ -282,6 +282,7 @@ class DocenteController extends Controller
     }
 
     public function exportar($id_docente, $id_encuesta, $id_curso) {
+        $this->authorize('es_admin', User::class);
     	// $docente = Docente::find($id_docente);
     	// $encuesta = Encuesta::find($id_encuesta);
     	// $curso = Curso::find($id_curso);
@@ -318,13 +319,14 @@ class DocenteController extends Controller
     }
 
     private function html_to_pdf($data) {
+        $this->authorize('es_admin', User::class);
         // $data = "nombre del docente";
     	$pdf = \PDF::loadView('docente.html', $data);
     	return $pdf;
 	}
 
     private function debug($encuestas, $cursos, $docente) {
-
+        $this->authorize('es_admin', User::class);
     	return view('docente.estadisticas.html_for_pdf',
     			compact('encuestas', 'cursos', 'docente'));
 

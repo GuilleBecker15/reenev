@@ -1,0 +1,22 @@
+	.formcopias {
+		opacity: 	0;
+		visibility: hidden;
+		display: none;
+		transition: opacity .6s, visibility .6s;
+
+	}
+
+	.formcopias.activo {
+		opacity: 	1;
+		visibility: visible;
+		
+	}
+	
+	.formcopias.display {
+		display: block;
+	}
+
+	div#btnAceptar{
+	    text-align: center;
+	    margin-top: 1rem;
+	}
