@@ -66,22 +66,6 @@ class DocenteController extends Controller
 
         if (!$query) return $this->index();
 
-        // $docentes1 = collect([]);
-
-        // if (is_numeric($query)) $docentes1 = Docente::where('id', $query)->get();
-        
-        // $docentes2 = Docente::where('email', 'like','%'.$query.'%')->get();
-        // $docentes3 = Docente::where('ci', 'like','%'.$query.'%')->get();
-        // $docentes4 = Docente::where('nombre', 'like','%'.$query.'%')->get();
-        // $docentes5 = Docente::where('apellido', 'like','%'.$query.'%')->get();
-
-        // $docentes =
-        // $docentes5->merge(
-        //     $docentes4->merge(
-        //         $docentes3->merge(
-        //             $docentes2->merge(
-        //                 $docentes1))));
-
         if (is_numeric($query)) {
 
             $docentes = Docente::where('id', $query)->get();
@@ -237,13 +221,6 @@ class DocenteController extends Controller
 
     public function graficas($id_docente) {
         $this->authorize('es_admin', User::class);
-    	/*
-    
-    	1) Mostrar para este docente, cada encuesta que apunte a el
-    	2) Mostrar para cada encuesta, cada curso a la cual se dirige
-    	3) Mostrar para cada curso, la grafica
-
-    	*/
 
         $docente = Docente::find($id_docente);
 
@@ -265,31 +242,12 @@ class DocenteController extends Controller
 
     	return view('docente.estadisticas.graficas', compact('encuestas', 'cursos', 'docente'));
     	
-        // if ($opcion=='ver_pdf') {
-        // 	$data = compact('encuestas', 'cursos', 'docente');
-        // 	return $this->html_to_pdf($data)->stream();
-        // }
-
-        // if ($opcion=='bajar_pdf') {
-        // 	$data = compact('encuestas', 'cursos', 'docente');
-        // 	$name = $docente->nombre."_".$docente->apellido."_".date('d/m/Y');
-        // 	return $this->html_to_pdf($data)->download($name.".pdf");
-        // }
-
         return $this->debug($encuestas, $cursos, $docente); //SOLO TESTING
 
     }
 
     public function exportar($id_docente, $id_encuesta, $id_curso) {
         $this->authorize('es_admin', User::class);
-    	// $docente = Docente::find($id_docente);
-    	// $encuesta = Encuesta::find($id_encuesta);
-    	// $curso = Curso::find($id_curso);
-        // dd($encuesta->preguntas);
-    	// if (!$docente) return "No se encontro el docente de id=".$id_docente;
-    	// if (!$encuesta) return "No se encontro la encuesta de id=".$id_encuesta;
-    	// if (!$curso) return "No se encontro el curso de id=".$id_curso;
-        // dd($as);
         $docente = Docente::find($id_docente);
             $encuesta = Encuesta::find($id_encuesta);
             $curso = Curso::find($id_curso);
@@ -312,14 +270,11 @@ class DocenteController extends Controller
             $as = str_replace(" ","_",Carbon::now()->toDateTimeString());
             $pdf = \PDF::loadView('emails.pdfprofes', $data_toview);
             return $pdf->download($curso->semestre.'-'.$curso->nombre.'-'.$docente->nombre.'-'.$docente->apellido.'-'.$as.'.pdf');
-            //return redirect()->back();
 
-    	// return view('docente.estadisticas.exportar', compact('docente', 'encuesta', 'curso'));
     }
 
     private function html_to_pdf($data) {
         $this->authorize('es_admin', User::class);
-        // $data = "nombre del docente";
     	$pdf = \PDF::loadView('docente.html', $data);
     	return $pdf;
 	}
