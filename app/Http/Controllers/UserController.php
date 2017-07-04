@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Traits\Utilidades;
-use App\User;
 use App\Realizada;
+use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use Log;
 use Illuminate\Support\Facades\Hash;
-use Validator;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Rule;
+use Log;
 use Session;
+use Validator;
 
 
 class UserController extends Controller
@@ -27,6 +27,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        
         $this->authorize('es_admin', User::class);
     
         $routeEntera = Route::getFacadeRoot()->current()->uri(); //No esta en buscar
@@ -39,18 +40,20 @@ class UserController extends Controller
             $route = implode('/', $routeSeparada);
         }
                 
-        $users = User::all();
+        $users = User::withTrashed()->get();
 
         $h1 = "Usuarios en el sistema";
-        
         $title = "ID, Nombres, Apellidos, Fecha de nacimiento, Generacion, C.I. o eMail"; //Para el tooltrip
-
         $c = "";
 
-        return view(
-            'admin.users',
-            ['users' => $users, 'route' => $route,
-            'title' => $title, 'c' => $c, 'h1' => $h1]);    }
+        // return view(
+        //     'admin.users',
+        //     ['users' => $users, 'route' => $route,
+        //     'title' => $title, 'c' => $c, 'h1' => $h1]);
+
+        return view('admin.users', compact('users', 'route', 'title', 'c', 'h1'));
+
+    }
 
     public function buscar(Request $request)
     {
@@ -60,95 +63,62 @@ class UserController extends Controller
         $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
 
         $query = $request->get('q');
-
         if (!$query) return $this->index();
-
-        // $users1 = collect([]);
-        // $users6 = collect([]);
-
-        // if (is_numeric($query)) $users1 = User::where('id', $query)->get();
-        
-        // if ($this->es_fecha($query)) $users6 = User::where('nacimiento', $query)->get();
-        
-        // $users2 = User::where('name1', 'like', '%'.$query.'%')->get();
-        // $users3 = User::where('name2', 'like', '%'.$query.'%')->get();
-        // $users4 = User::where('apellido1', 'like', '%'.$query.'%')->get();
-        // $users5 = User::where('apellido2', 'like', '%'.$query.'%')->get();
-        // $users7 = User::where('generacion', $query)->get();
-        // $users8 = User::where('ci', 'like', '%'.$query.'%')->get();
-        // $users9 = User::where('email', 'like', '%'.$query.'%')->get();
-
-        // $users =
-        // $users9->merge(
-        //     $users8->merge(
-        //         $users7->merge(
-        //             $users6->merge(
-        //                 $users5->merge(
-        //                     $users4->merge(
-        //                         $users3->merge(
-        //                             $users2->merge(
-        //                                 $users1))))))));
 
         $users = collect([]);
 
         if (is_numeric($query)) {
-
-            $users = User::where('id', $query)
-            ->orWhere('generacion', $query)->get();
-
+        	$users = User::withTrashed()->where('id', $query)->orWhere('generacion', $query)->get();
         } else if ($this->es_fecha($query)) {
-
-            $users = User::where('nacimiento', $query)->get();
-
+            $users = User::withTrashed()->where('nacimiento', $query)->get();
         } else {
-
-            $users = User::where('name1', 'like', '%'.$query.'%')
+            $users = User::withTrashed()->where('name1', 'like', '%'.$query.'%')
             ->orWhere('name2', 'like', '%'.$query.'%')
             ->orWhere('apellido1', 'like', '%'.$query.'%')
             ->orWhere('apellido2', 'like', '%'.$query.'%')
             ->orWhere('ci', 'like', '%'.$query.'%')
             ->orWhere('email', 'like', '%'.$query.'%')->get();
-
         }
 
         $h1 = "Se encontraron ".$users->count()." usuarios";
-
         if ($users->count()==0) $h1 = "No se encontraron usuarios";
-
         $title = "ID, Nombres, Apellidos, Fecha de nacimiento, Generacion, C.I. o eMail"; //Para el tooltrip
-
         $c = $request->consulta;
 
-        return view(
-            'admin.users',
-            ['users' => $users, 'route' => $route,
-            'title' => $title, 'c' => $c, 'h1' => $h1]);
+        // return view(
+        //     'admin.users',
+        //     ['users' => $users, 'route' => $route,
+        //     'title' => $title, 'c' => $c, 'h1' => $h1]);
+
+        return view('admin.users', compact('users', 'route', 'title', 'c', 'h1'));
     
     }
 
     public function show($id)
     {
-        $user = User::find($id);
-        //$this->authorize('es_admin_o_es_el', $user);
+        $user = User::withTrashed()->findOrFail($id);
+        $this->authorize('es_admin_o_es_el', $user);
         return view('user.show', compact('user'));
     }
 
     public function realizadas($id)
     {
-        $user = User::find($id);
+        $user = User::withTrashed()->findOrFail($id);
         $this->authorize('es_el', $user);
         $realizadas = $user->realizadas()->get();
-        // dd($user->realizadas[0]->docentes);
         return view('user.realizadas', compact('realizadas'));
     }
 
     public function edit($id)
     {
-        $user = User::find($id);
+        
+        $user = User::withTrashed()->findOrFail($id);
+
         $this->authorize('es_admin_o_es_el', $user);
-        //Session::set('algo','mi_nombre');
+        
         session(['habilitar' => 'no']);
-        if( session('datos') == null || session('actualizado') == 'ok'){
+        
+        if (session('datos')==null || session('actualizado')=='ok'){
             $datos = User::newModelInstance();
             $datos->name1 = $user->name1;
             $datos->name2 = $user->name2;
@@ -161,8 +131,10 @@ class UserController extends Controller
             $datos->email = $user->email;
             session(['datos' => $datos]);
             return view('user.edit', compact('user'));
-         }
+        }
+        
         return view('user.edit', compact('user'));        
+    
     }
 
     /**
@@ -175,103 +147,65 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         
-        $user = User::find($id);
+        $user = User::withTrashed()->findOrFail($id);
             
         $this->authorize('es_admin_o_es_el', $user);
 
-        $message = [
-                'same' => 'Las contraseñas deben coincidir.'
-            ];
-            $validator=Validator::make($request->all(),[
-                'name1' => 'required|string|max:255',
-                'name2' => 'required|string|max:255',
-                'apellido1' => 'required|string|max:255',
-                'apellido2' => 'required|string|max:255',
-                'nacimiento' => 'required|string', 
-                'generacion' => 'required|integer',
-                'ci' => Rule::unique('users')->ignore($user->id ),
-                'email' => Rule::unique('users')->ignore($user->id),
-                ], $message);
+		$nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
 
-            if($validator->fails())
-               return view('user.edit', ['user'=>$user])->withErrors($validator, 'name1');
+		if ($request->get('name2')=='') $user->name2="-";
+		else $user->name2=$request->get('name2');
+		if ($request->get('apellido2')=='') $user->apellido2="-";
+		else $user->apellido2=$request->get('apellido2');
 
-            if(Hash::check($request->get('pass'), $user->password)
-            	|| $this->authorize('es_admin', $user)){
-                
-                $nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
+		$user->name1=$request->get('name1');
+		$user->apellido1=$request->get('apellido1');
+		$user->nacimiento= $nacimiento;
+		$user->generacion=$request->get('generacion');
+		$user->ci=$request->get('ci');
+		$user->email=$request->get('email');
 
-                $user->name1=$request->get('name1');
-                $user->name2=$request->get('name2');
-                $user->apellido1=$request->get('apellido1');
-                $user->apellido2=$request->get('apellido2');
-                $user->nacimiento= $nacimiento;
-                $user->generacion=$request->get('generacion');
-                $user->ci=$request->get('ci');
-                $user->email=$request->get('email');
+        $message = ['same' => 'Las dos contraseñas deben ser iguales'];
 
-                $user->save();
-                
-                $request->session()->flash('message', 'Usuario actualizado con exito!');
-                session(['actualizado' => 'ok']);
+        $validator=Validator::make($request->all(), [
+        	'name1' => 'required|string|max:255',
+            'name2' => 'nullable|string|max:255',
+            'apellido1' => 'required|string|max:255',
+            'apellido2' => 'nullable|string|max:255',
+            'nacimiento' => 'required|string', 
+            'generacion' => 'required|integer',
+            'ci' => Rule::unique('users')->ignore($user->id ),
+            'email' => Rule::unique('users')->ignore($user->id),], $message);
 
-                return $this->edit($user->id);
+        if ($validator->fails()) {
+        	return view('user.edit', ['user'=>$user])->withErrors($validator, 'name1');
+        }
 
-            }
-            else{
-                // $request->session()->flash('message', 'La contraseña actual es incorrecta');
-                $datos = User::newModelInstance();
-                $datos->name1 = $request->get('name1');
-                $datos->name2 = $request->get('name2');
-                $datos->apellido1 = $request->get('apellido1');
-                $datos->apellido2 = $request->get('apellido2');
-                $datos->nacimiento = $request->get('nacimiento');
-                $datos->generacion = $request->get('generacion');
-                $datos->ci = $request->get('ci');
-                $datos->email = $request->get('email');
-                session(['habilitar' => 'si', 'datos' => $datos]);
-                $validator->errors()->add('pass', 'La contraseña actual es incorrecta');
-                return view('user.edit', ['user'=>$user])->withErrors($validator,'pass');
-            }
+        if (Hash::check($request->get('pass'), $user->password) || Auth::user()->esAdmin) {
+        	$user->save();
+        	$request->session()->flash('message', 'Usuario actualizado');
+            session(['actualizado' => 'ok']);
+            return $this->edit($user->id);
+        }
 
-        
-
-        return $this->edit($user->id);
-// =======
-//         if (Auth::user()->id==$id) {
-
-//             $user = User::find($id);
-
-//             // if($user->password == bcrypt($request->get('confirmarPass'))){
-//             if(Hash::check($request->get('confirmarPass'), $user->password)){
-
-//                 $nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
-
-//                 $user->name1=$request->get('name1');
-//                 $user->name2=$request->get('name2');
-//                 $user->apellido1=$request->get('apellido1');
-//                 $user->apellido2=$request->get('apellido2');
-//                 $user->nacimiento= $nacimiento;
-//                 $user->generacion=$request->get('generacion');
-//                 $user->ci=$request->get('ci');
-//                 $user->email=$request->get('email');
-
-//                 $user->save();
-
-//                 //return $this->edit($user->id);
-//                 $request->session()->flash('message', 'Perfil modificado con exito');
-//                 return redirect()->back();
-//             }
-                        
-//             return redirect()->back()->withErrors('error', 'la contraseña introducida no coincide');
-//         }
-// >>>>>>> master
+        $datos = User::newModelInstance();
+        $datos->name1 = $request->get('name1');
+        $datos->name2 = $request->get('name2');
+        $datos->apellido1 = $request->get('apellido1');
+        $datos->apellido2 = $request->get('apellido2');
+        $datos->nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
+        $datos->generacion = $request->get('generacion');
+        $datos->ci = $request->get('ci');
+        $datos->email = $request->get('email');
+        session(['habilitar' => 'si', 'datos' => $datos]);
+        $validator->errors()->add('pass', 'La contraseña actual es incorrecta');
+        return view('user.edit', ['user'=>$user])->withErrors($validator, 'pass');
 
     }
 
     public function hacerAdmin($id)
     {
-        $user = User::find($id);
+        $user = User::withTrashed()->findOrFail($id);
         $this->authorize('es_admin_y_no_es_el', $user);
         $this->authorize('es_supervisor', $user);
         $user->supervisor=Auth::user()->id;
@@ -288,109 +222,87 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        // // $this->authorize('es_admin', User::class);
-        // $user = User::find($id);
-        // $this->authorize('es_admin_y_no_es_el', $user);
-        // $this->authorize('es_supervisor', $user);
-        // $user->supervisor=Auth::user()->id;
-        // //$user->estaBorrado=!$user->estaBorrado;
-        // if (Realizada::where('user_id', $id)->get()->isNotEmpty()) {
-        //     $request->session()->flash(
-        //         'message',
-        //         'No se puede eliminar al usuario, porque ha completado encuestas');
-        //     return $this->index();
-        // }
-        // $user->save();
-        // $user->delete();
-        // $request->session()->flash('message', 'El usuario ha sido eliminada exitosamente');
-        // return $this->show($user->id);
+    	
+        $user = User::withTrashed()->findOrFail($id);
+
+        $this->authorize('es_admin_y_no_es_el', $user);
+
+        /* 
+        
+        La siguiente politica es devil con datos de prueba:
+        ---------------------------------------------------
+
+        Ya que los usuarios de prueba no tienen supervisor,
+        cualquier administrador del sistema podria eliminarlos.
+        (Ver linea 97 del archivo app/Policies/UserPolicies.php)
+
+        Esto no deberia de afectar, si los admins son delegados
+        utilizando la opcion 'Hacer admin' del panel de control.
+
+        */
+        $this->authorize('es_supervisor', $user);
+
+    	if (Realizada::where('user_id', $id)->get()->isNotEmpty()) {
+    		$request->session()->flash('error',
+    			$user->name1."' ya ha generado estadísticas");
+    		return $this->index();
+    	}
+    	
+    	$user->delete();
+
+    	return $this->show($id);
+    
     }
 
-    public function recuperar(Request $request, $id){
-        //$this->authorize('es_admin', User::class);
-        //$user = User::withTrashed()->where('id', $id)->get();
-        //$user->undelete();
-        //User::restore($id);
-        User::withTrashed()->find($id)->restore();
-        $request->session()->flash('message', 'El usuario ha sido recuperado exitosamente');
-
+    public function recuperar(Request $request, $id)
+    {
+    	$this->authorize('es_admin', User::class);
+    	User::withTrashed()->findOrFail($id)->restore();
         return $this->show($id);
     }
 
-    public function redirectCambiarPass($user){
-        $users = User::find($user);
+    public function redirectCambiarPass($user)
+    {
+        $users = User::withTrashed()->findOrFail($user);
         return view('user.cambiarPass', ['user' => $users]);
     }
 
-    public function updatePass(Request $request, $id){
-        $usuario = User::find($id);
+    public function updatePass(Request $request, $id)
+    {
+
+        $usuario = User::withTrashed()->findOrFail($id);
+        
+        $this->authorize('es_admin_o_es_el', $usuario);
+
         $password = $request->get('pass');
-        if(Auth::user()->id == $id){
-            $message = [
-                'same' => 'Las contraseñas deben coincidir.'
-            ];
-            $validator=Validator::make($request->all(),[
+    
+        if (Auth::user()->id==$id) {
+        	
+        	$message = ['same' => 'Las dos contraseñas deben ser iguales'];
+            $validator=Validator::make($request->all(), [
                 'pass' => 'required|min:6',
                 'pass1' => 'required|min:6',
-                'pass2' => 'required|min:6|same:pass1'
-            ], $message);
+                'pass2' => 'required|min:6|same:pass1'], $message);
 
-            /*$validator->after(function ($validator) {
-                if (  ) {
-                    $validator->errors()->add('incorrecta', 'Algo esta mal con el campo');
-                }
-            });*/
-            if($validator->fails())
-               return view('user.cambiarPass', ['user'=>$usuario])->withErrors($validator, 'pass1');
+            if ($validator->fails()) {
+            	$request->session()->flash('error', 'Contraseña no actualizada');
+            	return view('user.cambiarPass', ['user'=>$usuario])->withErrors($validator, 'pass1');
+            }
 
-
-
-            if(Hash::check($request->get('pass'), $usuario->password)){
+            if (Hash::check($request->get('pass'), $usuario->password)) {
                 $usuario->password=bcrypt($request->pass1);
                 $usuario->save();
-                $request->session()->flash('message', 'Contraseña actualizada con exito!');
-                // return view('user.cambiarPass', ['user'=>$usuario ]);
+                $request->session()->flash('message', 'Contraseña actualizada');
                 return $this->edit($usuario->id);
-            }
-            else{
+            } else {
                 $validator->errors()->add('pass', 'La contraseña actual es incorrecta');
-                // return view('user.cambiarPass', ['user'=>$usuario])->withErrors($validator,'pass');
                 return view('user.cambiarPass', ['user'=>$usuario])->withErrors($validator,'pass');
             }
-            
+
         }
 
         return view('welcome');
+
     }
 
-    public function updateByAjax(Request $request, $id){
-        if($request->ajax()){
-            $user = User::find($id);
-            if(Hash::check($request->get('confirmarPass'),$user->password)){
-                $nacimiento = $this->sqlDateFormat($request->get('nacimiento'));
-                $user->name1=$request->get('name1');
-                $user->name2=$request->get('name2');
-                $user->apellido1=$request->get('apellido1');
-                $user->apellido2=$request->get('apellido2');
-                $user->nacimiento= $nacimiento;
-                $user->generacion=$request->get('generacion');
-                $user->email=$request->get('email');
-                $user->ci=$request->get('ci');
-
-                $user->save();
-                $request->session()->flash('message', 'Perfil modificado con exito');
-                return response(['msg'=>'Actualizado con exito']);
-            }
-            $request->session()->flash('error', 'Contrseña incorrecta');
-            return response(['error'=>'Contraseña incorrecta']);
-        }
-        return response(['error'=>'No es ajax']);
-        /*if($request->ajax()){
-            
-            return response(['msg'=>'Es ajax']);            
-        }
-        return response(['msg'=>'No es ajax']);*/
-    }
-
-    //------------end-----------
 }

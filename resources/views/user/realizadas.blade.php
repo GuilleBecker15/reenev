@@ -26,12 +26,12 @@
                                     <td>{{ $realizada->id }}</td>
                                     <td>{{ $realizada->uyCuando($realizada->cuando) }}</td>
                                     <td>
-                                    <a target="_blank" href="/Realizadas/{{ $realizada->id }}/edit">
+                                    <a href="/Realizadas/{{ $realizada->id }}/edit">
                                         {{ $realizada->encuesta->asunto }}
                                     </a>
                                     </td>
                                     <td>
-                                    <a target="_blank" href="/Docentes/{{ $realizada->docente->id }}">
+                                    <a href="/Docentes/{{ $realizada->docente->id }}">
                                         {{ $realizada->docente->nombre }}
                                         {{ $realizada->docente->apellido }}
                                     </a>

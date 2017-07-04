@@ -7,24 +7,27 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h1>Editar la pregunta</h1>
-					@include('layouts.flashes')
 				</div>
 				<div class="panel-body">
-				<form class="form-horizontal" role="form" action="{{ route('Encuestas.Preguntas.update',[$encuesta->id, $pregunta->id] ) }}" method="POST">
-					<input type="hidden" name="_method" value="PUT">
+					@include('layouts.flashes')
+					<form class="form-horizontal" role="form" action="{{ route('Encuestas.Preguntas.update',[$encuesta->id, $pregunta->id] ) }}" method="POST">
+						<input type="hidden" name="_method" value="PUT">
 						{{ csrf_field() }}
-						<div class="form-group">
+						<div class="form-group{{ $errors->has('enunciado') ? ' has-error' : '' }}">
 							<div class="col-md-12">
-								<input class="form-control" id="enunciado" name="enunciado" value="{{ $pregunta->enunciado }}" autofocus required></input>
-							</div>
-							@if ($errors->has('enunciado'))
+								<p><i>Pregunta para la encuesta '{{$encuesta->asunto}}'</i></p>
+								<input id="enunciado" type="text" class="form-control" name="enunciado" value="{{ $pregunta->enunciado }}" required autofocus>
+								@if ($errors->has('enunciado'))
 								<span class="help-block">
-									<strong>{{ $errors->first('enunciado') }}</strong>	
+									<strong>{{ $errors->first('enunciado') }}</strong>
 								</span>
 								@endif
-						</div> 
+							</div>
+						</div>
 						<div class="form-group">
 							<div class="col-md-12 text-center">
+								<a class="btn btn-default" href="/Encuestas/{{$encuesta->id}}/Preguntas/create">
+									Volver</a>
 								<button class="btn btn-primary" type="submit">Modificar</button>
 							</div>
 						</div>

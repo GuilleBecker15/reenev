@@ -28,20 +28,10 @@
 				<li><a href="{{ route('Docentes.index')}}">Docentes</a></li>
 				<li><a href="{{ route('Encuestas.index')}}">Encuestas</a></li>
 				<li><a href="{{ route('Users.index')}}">Usuarios</a></li>
-				<!-- NO ANDA: -->
-				<!--
-				<li>
-				<a href="/sendemail" onclick="event.preventDefault(); document.getElementById('mail-form').submit();">Mail</a>
-				<form id="mail-form" action="/sendemail" method="get" style="display: none;" accept-charset="utf-8">
-				<input type="hidden" name="id" value="{{ Auth::user()->id }}">
-				{{ csrf_field() }}
-				</form>
-				</li>
-				-->
 				@endcan
-				<li class="dropdown">
+				<li class="dropdown" data-toggle="tooltip" title="{{Auth::user()->name1}} {{Auth::user()->apellido1}}">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-						<span class="hidden-xs glyphicon glyphicon-off"></span>
+						<i class="hidden-xs fa fa-user-circle" aria-hidden="true"></i>
 						<span class="visible-xs" style="font-weight: bold;"> {{Auth::user()->name1}} </span>
 					</a>
 					<ul class="dropdown-menu" role="menu">

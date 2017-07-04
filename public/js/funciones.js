@@ -1,19 +1,28 @@
 var border_error = 'border-color:Tomato;';
 var border_ok = 'border-color:Lime;';
+
 var patron_fecha = /\d{2}\/\d{2}\/\d{4}/g;
 var patron_cedula = /\d{1}[.]\d{3}[.]\d{3}[-]\d{1}/g;
 
 var cadena_ids = "name1,name2,apellido1,apellido2,nacimiento,generacion,ci,email,modificar,cambiarPass,pass";
 
 var arreglo_ids = cadena_ids.split(',');
+
 let idPregunta = 0;
 
 $('document').ready( function() {
+
+	$('.datepicker').datepicker({
+	    format: 'yyyy-mm-dd',
+	    language: 'es',
+	});
+	
 	var combo = document.getElementById('generacion');
-	if (combo) {
+	
+  if (combo) {
 		var valor = combo.getAttribute('value');
 		var hoy = new Date();
-		var html = ""; //Luego se concatenara
+		var html = "<option value='0'>- Sin generación -</option>"; //Luego se concatenara
 		var selected = false;
 		if (isNaN(valor)) valor = 2008; //No es lo mismo que "i"
 		for (var i=2008; i<=hoy.getFullYear(); i++) {
@@ -26,25 +35,32 @@ $('document').ready( function() {
 		}
 		combo.innerHTML = html;
 	}
+  
 	$("#btn-buscar").click(function (e) {
 		var consulta = $("#consulta").val();
 		var nueva_consulta = procesarCampo(consulta);
 		$("#q").val(nueva_consulta);
 	});
-	$("#btn-guardar").click(function (e) {
+
+	// ---------------------------//
+
+  $("#btn-guardar").click(function (e) {
 		var vence = $("#vence").val();
 		var nuevo_vence = procesarCampo(vence);
 		$("#hidden_vence").val(nuevo_vence);
 	});
+  
 	$('.datepicker').datepicker();
-	var id = document.getElementById('habilitar');
+
+  var id = document.getElementById('habilitar');
+  
 	if(id!=null){
 		console.log("se puede habilitar");
 		$( ":checkbox" ).trigger( "click" );
 		console.log("paso");
 	}
+  
 });
-
 
 var inputs = document.querySelectorAll('input[type=fecha],input[type=cedula]');
 
@@ -125,10 +141,9 @@ function validarFecha(id) {
 	var mm = atributos[1];
 	var aaaa = atributos[2];
 	var patron = new RegExp(patron_fecha);
-    var bien_formada = patron.test(fecha);
+   var bien_formada = patron.test(fecha);
 
 	if (!fechaValida(aaaa,mm,dd) || !bien_formada) {
-		
 		input.setAttribute ('style',border_error);
 		return false;
 	} 
@@ -147,6 +162,7 @@ function fechaValida(aaaa,mm,dd) {
 	return true;
 
 }
+
 function validarCedula(id) {
 
 	var input = document.getElementById(id);
@@ -160,9 +176,11 @@ function validarCedula(id) {
 		
 		input.setAttribute ('style',border_error);
 		return false;
-	} 
+	}
+  
 	input.setAttribute ('style',border_ok);
 	return true;
+
 }
 
 function cedulaValida(ci) {
@@ -185,16 +203,21 @@ function digito_verificador(ci) {
 			ci = '0' + ci;
 		}
 	}
-	for (i = 0; i < 7; i++) {
+	
+  for (i = 0; i < 7; i++) {
 		a += (parseInt("2987634"[i]) * parseInt(ci[i])) % 10;
 	}
-	if (a%10 === 0) {
+	
+  if (a%10 === 0) {
 		return 0;
 	} else {
 		return 10 - a % 10;
 	}
+  
 }
+
 function habilitar_o_no() {
+  
     for (var i=0, l=arreglo_ids.length; i<l; i++) {
 
     	var id = arreglo_ids[i];
@@ -208,7 +231,6 @@ function habilitar_o_no() {
     }
 
 }
-
 
 jQuery("#agregarPregunta").click(function(){
 	console.log("entro a la funcion");
@@ -234,9 +256,10 @@ let bot_abrir   = document.getElementById('activar');
 let ventana     = document.getElementsByClassName('modalmio')[0];
 let bots_cerrar = ventana.getElementsByClassName('cerrarYvolver');
 
-if( document.getElementById('comboDocentesParaCrearCurso').childElementCount == 0) {
+if ( document.getElementById('comboDocentesParaCrearCurso').childElementCount == 0) {
     ventana.classList.add('activo');
 }
+
 for (let i = 0, l = bots_cerrar.length; i < l; i++)
 {
     bots_cerrar[i].addEventListener('click', function (evt)

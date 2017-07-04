@@ -6,10 +6,13 @@
 		<div class="col-md-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h1>Alumnos que participaron en la encuesta</h1>
-					@include('layouts.flashes')
+					<h1>
+						Alumnos que participaron en la encuesta
+						<a href="{{ route('Encuestas.show', $idEncuesta)}}">{{ $idEncuesta }}</a>
+					</h1>
 				</div>
 				<div class="panel-body">
+					@include('layouts.flashes')
 					<ul class="nav nav-tabs">
 						<li><a href="{{ route('Encuestas.index')}}">Disponibles</a></li>
 						<li><a href="{{ route('Realizadas.index')}}">Completadas</a></li>
@@ -18,12 +21,14 @@
 					<br>
 					<div class="table-responsive">
 						<table class="table">
+							<caption>
+								Representa el numero de respuestas para cada puntuacion
+							</caption>
 							<thead>
-							<caption>Representa el numero de respuestas para cada puntuacion</caption>
-								<tr >
-									<th>Completada el</th>
-									<th>Por el alumno</th>
-									<th>No corresponde</th>
+								<tr>
+									<th>Fecha</th>
+									<th>Alumno</th>
+									<th>N/C</th>
 									<th>Muy mal</th>
 									<th>Mal</th>
 									<th>Normal</th>
@@ -35,7 +40,10 @@
 							<tbody>
 								<tr>
 									<td>{{ $estudiante->cuando }}</td>
-									<td>{{ $estudiante->name1 }} {{ $estudiante->apellido1 }}</td>
+									<td>
+										{{ $estudiante->name1 }}
+										{{ $estudiante->apellido1 }}</a>
+									</td>
 									<td>{{ $estudiante->nocorresponde }}</td>
 									<td>{{ $estudiante->muymal }}</td>
 									<td>{{ $estudiante->mal }}</td>

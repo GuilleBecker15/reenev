@@ -28,7 +28,7 @@ tbody {
     line-height: 1.42857143;
     vertical-align: middle;
     border-top: 1px solid #ddd;
-}*/
+}
 
 .grafica {
     padding: 0;
@@ -68,6 +68,7 @@ tbody {
 }
 
 .modalmio .ventana {
+	border: solid 1px dimgray;
     position: fixed;
     left: calc(50% - 250px);
     top: -350px;
@@ -75,10 +76,10 @@ tbody {
 
     width: 90%;
     max-width: 500px;
-    padding: 26px 5px;
+    padding: 10px;
 
-    background: #8dbffe;
-    border-radius: 6px;
+    background: gainsboro;
+    border-radius: 0.5em;
 
     transition: top .5s;
 }
@@ -88,28 +89,34 @@ tbody {
 }
 
 .modalmio .cuerpo {
+	margin-top: 25px;
+	margin-bottom: 15px;
     padding: 1em;
     background: white;
-    border-radius: 6px;
+    border-radius: 0.5em;
 }
 
 .modalmio .boton-cerrar {
     display: inline-block;
 
     position: absolute;
-    right: 5px; top: 5px;
+    right: 10px; top: 10px;
 
-    font-family:    sans-serif;
-    font-weight:    bold;
-    font-size:      12px;
-    text-align:     center;
-    text-decoration:none;
+    /*font-family:    sans-serif;*/
+    /*font-weight:    bold;*/
+    /*font-size:      12px;*/
+    /*text-align:     center;*/
+    /*text-decoration:none;*/
 
-    background: red;
-    color: white;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
+    /*background: red;*/
+    color: black;
+    /*width: 16px;*/
+    /*height: 16px;*/
+    /*border-radius: 50%;*/
+}
+
+.modalmio .boton-cerrar :hover {
+	color: dimgray;
 }
 
 #activar {
@@ -122,14 +129,30 @@ tbody {
     font-size: 18px;
 }
 
+.error_pagina {
+	background-color: gainsboro;
+	text-align: center;
+}
+
 .error_icono {
-    font-size: 135px;
+    font-size: 100px;
     color: dodgerblue;
+    text-align: center;
+}
+
+.error_icono :hover {
+    color: steelblue;
+}
+
+.error_icono > a {
+	color: dodgerblue;
+    text-decoration: none;
+    font-style: italic;
 }
 
 .error_titulo {
-    font-size: 45px;
-    color: darkslategray;
+    font-size: 100px;
+    color: dimgray;
 }
 
 .error_numero {
@@ -137,7 +160,8 @@ tbody {
 }
 
 .error_explicacion {
-    color: orange;
+	font-size: 25px;
+    color: black;
 }
 
 .app {
@@ -183,8 +207,8 @@ tbody {
     font-size: 14px;
     font-weight: bold;
     letter-spacing: .1rem;
-    /*    text-decoration: none;
-*/}
+    /*text-decoration: none;*/
+}
 
 .m-b-md {
     margin-bottom: 30px;

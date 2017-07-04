@@ -7,7 +7,6 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h1>Encuestas completadas</h1>
-                    @include('layouts.flashes')
                 </div>
                 <div class="panel-body">
 				<ul class="nav nav-tabs">
@@ -21,8 +20,8 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Asunto</th>
                                     <th>Finaliza</th>
+                                    <th>Asunto</th>
                                     <th>Encuestados</th>
                                 </tr>
                             </thead>
@@ -30,8 +29,8 @@
                             <tbody>
                                 <tr>
                                     <td>{{ $r->id }}</td>
-                                    <td>{{ $r->asunto }}</td>
                                     <td>{{ $r->vence }}</td>
+                                    <td>{{ $r->asunto }}</td>
                                     <td>
                                     {{ $r->realizadas->groupBy('user_id')->count() }}
                                      alumnos</td>

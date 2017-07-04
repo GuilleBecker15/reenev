@@ -15,6 +15,7 @@
     <link href="{{ asset('css/estilos.css') }}" rel="stylesheet">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link href="{{ asset('/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/bootstrap-datepicker-1.6.4-dist/css/bootstrap-datepicker.css') }}" rel="stylesheet">
     <style>
         .slow .toggle-group { transition: left 1s; -webkit-transition: left 1s; }
         .fast .toggle-group { transition: left 0.1s; -webkit-transition: left 0.1s; }
@@ -35,7 +36,7 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="{{ asset('/js/funciones.js') }}"></script>
-    <script src="{{ asset('/bootstrap-datepicker-dist/js/bootstrap-datepicker.min.js') }}"></script>
-    
+    <script src="{{ asset('/bootstrap-datepicker-1.6.4-dist/js/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('/bootstrap-datepicker-1.6.4-dist/locales/bootstrap-datepicker.es.min.js') }}"></script>    
 </body>
 </html>
