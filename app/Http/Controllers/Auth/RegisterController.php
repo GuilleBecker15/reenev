@@ -77,8 +77,8 @@ class RegisterController extends Controller
         $name2 = '-';
         $apellido2 = '-';
 
-    	if ($data['name2']!='') $user->name2=$data['name2'];
-    	if ($data['apellido2']!='') $user->apellido2=$data['apellido2'];
+    	if ($data['name2']!='') $name2=$data['name2'];
+    	if ($data['apellido2']!='') $apellido2=$data['apellido2'];
 
         return User::create([
             'name1' => $data['name1'],
