@@ -41,7 +41,7 @@ Route::get('/Realizadas/todos',['uses'=>'RealizadaController@todos','as'=>'Reali
 Route::get('/Users/borrados/{si_o_no}', 'UserController@borrados');
 Route::get('/Users/completadas/{id}', 'UserController@realizadas');
 Route::get('/Cursos/docente/{id}', 'CursoController@docente');
-Route::get('/Docentes/graficas/{id_docente}', 'DocenteController@graficas');
+Route::get('/Docentes/graficas/{id_docente}', ['uses' => 'DocenteController@graficas', 'as' => 'Docentes.graficas']);
 Route::get('/Docentes/exportar/{id_docente}/{id_encuesta}/{id_curso}', 'DocenteController@exportar');
 
 Route::resource('Cursos', 'CursoController');
@@ -70,4 +70,5 @@ Route::put('/Users/{User}/Recuperar', ['uses' => 'UserController@recuperar', 'as
 
 
 Route::get('/sendemail', 'MailController@sendemail');
-Route::get('/sendemailprofes/{idDocente}/{idEncuesta}/{idCurso}', 'MailController@sendemailprofes');
+// Route::get('/sendemailprofes/{idDocente}/{idEncuesta}/{idCurso}', 'MailController@sendemailprofes');
+Route::get('/sendemailprofes/{docente}/{idEncuesta}/{idCurso}', 'MailController@sendemailprofes');

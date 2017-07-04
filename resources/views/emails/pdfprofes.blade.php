@@ -78,6 +78,9 @@
 		    vertical-align: bottom;
 		    border-bottom: 2px solid #ddd;
 		}
+		.saltodepagina {
+			PAGE-BREAK-AFTER: always;
+		}
 	</style>
 </head>
 <header>
@@ -103,6 +106,9 @@
 		<p>5 - Muy bueno</p>
 		<p>N/C - No corresponde</p>
 	</div>
+
+	<br><table style='page-break-after:always;'></br></table><br>
+	
 	<div class="table-responsive">
 		<table class="table">
 			<caption>
@@ -137,6 +143,8 @@
 			</tbody>
 		</table>
 	</div>
+<!-- 	<h1 class="saltodepagina"></h1> -->
+	<br><table style='page-break-after:always;'></br></table><br>
 
 	<div class="table-responsive">
 		<table class="table">
