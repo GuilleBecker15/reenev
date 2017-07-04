@@ -14,17 +14,7 @@
                 	</h1>
                 </div>
                 <div id="chartparent" class="panel-body">
-	                <!-- <ul class="nav nav-tabs">
-		                <li class="active">
-		                	<a href="/Docentes/estadisticas/{{$docente->id}}/graficas">
-		                	Gráficas</a>
-		                </li>
-		                <li>
-		                	<a href="/Docentes/estadisticas/{{$docente->id}}/exportar">
-		                	Exportar</a>
-		                </li>
-		                <li><a href="#">Enviar</a></li>
-	                </ul> -->
+	                @include('layouts.flashes')
 					@foreach ($encuestas as $encuesta)
         				@if ($encuesta->preguntas->count()>0)
 					       	<h3>
@@ -50,7 +40,7 @@
 								<div id="formcopias{{$curso->id}}" class="formcopias">
 									
 
-								    <form id="formulario{{$curso->id}}" class="formulario" action="/prueba/{{$docente->id}}/{{$encuesta->id}}/{{$curso->id}}" method="get">
+								    <form id="formulario{{$curso->id}}" class="formulario" action="/sendemailprofes/{{$docente->id}}/{{$encuesta->id}}/{{$curso->id}}" method="get">
 								    	<label style="text-align: center" class="col-md-12 control-label">Si desea realizar una copia del email ingrese cada una de los destinatarios separados por un espacio</label>
 								    	<input class="form-control" id="copias" name="copias" placeholder="ejemplo@ejemplo.com example@example.com">
 								    	<div id="btnAceptar">
