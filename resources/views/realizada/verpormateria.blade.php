@@ -6,8 +6,10 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h1>Cursos afectados por la encuesta</h1>
-                    @include('layouts.flashes')
+                    <h1>
+                    Cursos afectados por la encuesta
+                    <a href="{{ route('Encuestas.show', $id)}}">{{ $id }}</a>
+                    </h1>
                 </div>
                 <div class="panel-body">
 				<ul class="nav nav-tabs">
@@ -20,7 +22,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <!-- <th>ID</th> -->
                                     <th>Curso</th>
                                     <th>Docente</th>
                                 </tr>
@@ -29,7 +31,7 @@
 								@php $mates = $materias->groupBy('docente_id') @endphp
                             <tbody>
                                 <tr>
-                                    <td>{{ $materias->first->get()->id }}</td>
+                                    <!-- <td>{{ $materias->first->get()->id }}</td> -->
                                     @foreach ( $mates as $key => $profes)
                                     <td>{{ $profes[0]->nombre }}</td>
                                     <td>{{ $profes[0]->nombredocente }} {{ $profes[0]->apellido }}</td>

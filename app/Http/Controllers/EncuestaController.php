@@ -4,22 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Encuesta;
 use App\Http\Traits\Utilidades;
-use App\User;
-use App\Realizada;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Input;
-
-use Carbon\Carbon;
 use App\Pregunta;
+use App\Realizada;
+use App\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
+use Illuminate\Validation\Rule;
 use Validator;
 
 class EncuestaController extends Controller
 {
 
-    use Utilidades;
+	use Utilidades;
 
     /**
      * Display a listing of the resource.
@@ -28,19 +28,19 @@ class EncuestaController extends Controller
      */
     public function index()
     {
-        
-        $this->authorize('es_admin', User::class);
-        
+    	
+    	$this->authorize('es_admin', User::class);
+    	
         $routeEntera = Route::getFacadeRoot()->current()->uri(); //No esta en buscar
         $routeSeparada = explode('/', $routeEntera);
 
         if (last($routeSeparada)!='buscar') {
-            $route = implode('/', $routeSeparada);
-            $route = $route.'/buscar';
+        	$route = implode('/', $routeSeparada);
+        	$route = $route.'/buscar';
         } else {
-            $route = implode('/', $routeSeparada);
+        	$route = implode('/', $routeSeparada);
         }
-                
+        
         $encuestas = Encuesta::all();
 
         $h1 = "Encuestas disponibles";
@@ -49,66 +49,36 @@ class EncuestaController extends Controller
 
         $c = "";
 
-        return view(
-            'admin.encuestas',
-            ['encuestas' => $encuestas, 'route' => $route,
-            'title' => $title, 'c' => $c, 'h1' => $h1]);
-    
+        // return view(
+        //     'admin.encuestas',
+        //     ['encuestas' => $encuestas, 'route' => $route,
+        //     'title' => $title, 'c' => $c, 'h1' => $h1]);
+
+        return view('admin.encuestas', compact('encuestas', 'route', 'title', 'c', 'h1'));
+        
     }
 
     public function buscar(Request $request)
     {
 
-        $this->authorize('es_admin', User::class);
-        
+    	$this->authorize('es_admin', User::class);
+    	
         $route = Route::getFacadeRoot()->current()->uri(); //Ya esta en buscar
         
         $query = $request->get('q');
-
         if (!$query) return $this->index();
-
-        // $encuestas1 = collect([]);
-        // $encuestas2 = collect([]);
-        // $encuestas3 = collect([]);
-
-        // if (is_numeric($query)) $encuestas1 = Encuesta::where('id', $query)->get();
-        
-        // if ($this->es_fecha($query)) {
-
-        //     $encuestas2 = Encuesta::where('inicio', $query)->get();
-        //     $encuestas3 = Encuesta::where('vence', $query)->get();
-
-        // }
-
-        // $encuestas4 = Encuesta::where('asunto', 'like','%'.$query.'%')->get();
-        // $encuestas5 = Encuesta::where('descripcion', 'like','%'.$query.'%')->get();
-
-        // $encuestas =
-        // $encuestas5->merge(
-        //     $encuestas4->merge(
-        //         $encuestas3->merge(
-        //             $encuestas2->merge(
-        //                 $encuestas1))));
 
         $encuestas = collect([]);
 
         if (is_numeric($query)) {
-
-            $encuestas = Encuesta::where('id', $query)->get();
-        
+        	$encuestas = Encuesta::where('id', $query)->get();
         } else if ($this->es_fecha($query)) {
-
-            $encuestas = Encuesta::where('inicio', $query)
-            ->orWhere('vence', $query)->get();
-
+        	$encuestas = Encuesta::where('inicio', $query)
+        	->orWhere('vence', $query)->get();
         } else {
-
-            $encuestas = Encuesta::where('asunto', 'like', '%'.$query.'%')
-            ->orWhere('descripcion', 'like', '%'.$query.'%')->get();
-
+        	$encuestas = Encuesta::where('asunto', 'like', '%'.$query.'%')
+        	->orWhere('descripcion', 'like', '%'.$query.'%')->get();
         }
-
-        // dd(DB::getQueryLog());
 
         $h1 = "Se encontraron ".$encuestas->count()." encuestas";
 
@@ -118,11 +88,13 @@ class EncuestaController extends Controller
 
         $c = $request->consulta;
 
-        return view(
-            'admin.encuestas',
-            ['encuestas' => $encuestas, 'route' => $route,
-            'title' => $title, 'c' => $c, 'h1' => $h1]);
-    
+        // return view(
+        //     'admin.encuestas',
+        //     ['encuestas' => $encuestas, 'route' => $route,
+        //     'title' => $title, 'c' => $c, 'h1' => $h1]);
+
+        return view('admin.encuestas', compact('encuestas', 'route', 'title', 'c', 'h1'));
+
     }
 
     /**
@@ -132,8 +104,8 @@ class EncuestaController extends Controller
      */
     public function create()
     {
-        $this->authorize('es_admin', User::class);
-        return view('encuesta.create');
+    	$this->authorize('es_admin', User::class);
+    	return view('encuesta.create');
     }
 
     /**
@@ -144,44 +116,27 @@ class EncuestaController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('es_admin', User::class);
+
+    	$this->authorize('es_admin', User::class);
 
         $inicio = Carbon::now()->toDateString();  // 1975-12-25
-        $arreglo = explode("/", $request->get('vence'));
-
-        // dd(strtotime(Carbon::createFromDate($arreglo[2], $arreglo[1], $arreglo[0])));
-
-        $vence = Carbon::createFromDate($arreglo[2], $arreglo[1], $arreglo[0])->toDateString();
-        $messages = [ 'after' => 'La fecha limite debe ser posterior al dia de hoy'];
-
-        // $validator = Validator::make($request->all(),[
-        //         'vence' => 'required',
-        //    ],$messages
-        // );
 
         $validator = Validator::make($request->all(), [
-        	'hidden_vence' => 'required|date|after:today',
+        	'vence' => 'required|date|after:today',
         	'asunto' => 'required|string|max:50',
-            'descripcion' => 'required|string|max:100',
+        	'descripcion' => 'required|string|max:100',
         	]);
 
-        // if($inicio >= $vence){
-        //     $validator->errors()->add('vence', 'La fecha limite debe ser posterior al dia de hoy');
-        //     return view('encuesta.create')->withErrors($validator, 'vence');
-        // }
-
         if ($validator->fails()) {
-
-            return redirect('Encuestas/create')->withErrors($validator)->withInput();
-
+        	$request->session()->flash('error', 'Encuesta no creada');
+        	return redirect('Encuestas/create')->withErrors($validator)->withInput();
         }
 
         $data = [
-            'asunto'=>$request->get('asunto'),
-            'descripcion'=>$request->get('descripcion'),
-            'inicio'=>$inicio,
-            // 'vence'=>$vence,
-            'vence'=>$request->get('hidden_vence')
+        'asunto' => $request->get('asunto'),
+        'descripcion' => $request->get('descripcion'),
+        'inicio' =>$inicio,
+        'vence' => $request->get('vence')
         ];
 
         $ultima_encuesta = Encuesta::all()->sortBy('updated_at')->last();
@@ -192,16 +147,16 @@ class EncuestaController extends Controller
 
         	$ultimas_preguntas = $ultima_encuesta->preguntas()->get()->toArray();
 
-	        foreach ($ultimas_preguntas as $u_p) {
-	            $pregunta = new Pregunta;
-	            $n = $encuesta->preguntas()->count();
-	            $pregunta->encuesta()->associate($encuesta);
-	            $pregunta->numero = $n+1;
-	            $pregunta->enunciado = $u_p['enunciado'];
-	            $pregunta->save();
-	        }
+        	foreach ($ultimas_preguntas as $u_p) {
+        		$pregunta = new Pregunta;
+        		$n = $encuesta->preguntas()->count();
+        		$pregunta->encuesta()->associate($encuesta);
+        		$pregunta->numero = $n+1;
+        		$pregunta->enunciado = $u_p['enunciado'];
+        		$pregunta->save();
+        	}
 
-	    }
+        }
 
         return $this->show($encuesta->id);
         
@@ -213,19 +168,16 @@ class EncuestaController extends Controller
      * @param  \App\Encuesta  $encuesta
      * @return \Illuminate\Http\Response
      */
-    public function show($id){
-
-        $encuesta = Encuesta::findOrFail($id);
-        // $pregunta = $encuesta->preguntas();
-        // $preguntas = Pregunta::with(['encuesta' => function($query){
-        //         $query->where('encuesta_id');
-        //     }])->get();
-        // $preguntas = Pregunta::with('encuesta')->find($id);
-        $preguntas = Pregunta::where('encuesta_id',$id)->get();
-        $cant = $preguntas->count();
-        $encuesta->vence = $this->uyDateFormat($encuesta->vence);
-        $encuesta->inicio = $this->uyDateFormat($encuesta->inicio);
-        return view('encuesta.show', ['encuesta' => $encuesta,'preguntas'=>$preguntas,'cant'=>$cant]);
+    public function show($id)
+    {
+    	$this->authorize('es_admin', User::class);
+    	$encuesta = Encuesta::findOrFail($id);
+    	$preguntas = Pregunta::where('encuesta_id',$id)->get();
+    	$cant = $preguntas->count();
+    	$encuesta->vence = $this->uyDateFormat($encuesta->vence);
+    	$encuesta->inicio = $this->uyDateFormat($encuesta->inicio);
+        // return view('encuesta.show', ['encuesta' => $encuesta,'preguntas'=>$preguntas,'cant'=>$cant]);
+    	return view('encuesta.show', compact('encuesta', 'preguntas', 'cant'));
     }
 
     /**
@@ -236,14 +188,9 @@ class EncuestaController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('es_admin', User::class);
-        //return view('encuesta.edit', compact($encuesta));
-        $encuesta = Encuesta::findOrFail($id);
-        $encuesta->vence = $this->uyDateFormat($encuesta->vence);
-
-        
-        // return View::make('encuesta.edit', ['id'=>$encuesta->id])->with('encuesta', $encuesta);        
-        return view('encuesta.edit', ['id'=>$encuesta->id])->with('encuesta', $encuesta);        
+    	$this->authorize('es_admin', User::class);
+    	$encuesta = Encuesta::findOrFail($id);        
+    	return view('encuesta.edit', ['id' => $encuesta->id])->with('encuesta', $encuesta);
     }
 
     /**
@@ -255,46 +202,32 @@ class EncuestaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->flash());
-        $this->authorize('es_admin', User::class);
 
-        $encuesta = Encuesta::findOrFail($id);
+    	$this->authorize('es_admin', User::class);
 
+    	$encuesta = Encuesta::findOrFail($id);
 
-        $inicio = Carbon::now()->toDateString();  // 1975-12-25
-        $arreglo = explode("/", $request->get('vence'));
-        $vence = Carbon::createFromDate($arreglo[2], $arreglo[1], $arreglo[0])->toDateString();
-        
+    	$encuesta->asunto = $request->get('asunto');
+    	$encuesta->descripcion = $request->get('descripcion');
+    	$encuesta->vence = $request->get('vence');
+    	
+    	$validator = Validator::make($request->all(), [
+    		'vence' => 'required|date|after:inicio',
+    		'asunto' => ['required', 'string', 'max:50',
+    		Rule::unique('encuestas')->ignore($encuesta->id),],
+    		'descripcion' => ['required', 'string', 'max:100',
+    		Rule::unique('encuestas')->ignore($encuesta->id),],
+    		]);
 
+    	if ($validator->fails()) {
+    		$request->session()->flash('error','Encuesta no actualizada');
+    		return redirect('Encuestas/'.$id.'/edit')->withErrors($validator)->withInput();
+    	}
 
-        $messages = [ 'after' => 'La fecha limite debe ser posterior al dia de hoy'];
-        $validator = Validator::make($request->all(),[
-                'vence' => 'required',
-           ],$messages
-        );        
-        if($inicio >= $vence){
-            $validator->errors()->add('vence', 'La fecha limite debe ser posterior al dia de hoy');
-            //dd(old());
-            $encuesta->vence = $this->uyDateFormat($encuesta->vence);
-            return view('encuesta.edit',['id'=>$encuesta->id])->with('encuesta', $encuesta)->withErrors($validator, 'vence')->withOldFormData(Input::all());
-        }
+    	$encuesta->save();
 
-
-        if($validator->fails()){
-            // return view('encuesta.edit', ['id'=>$encuesta->id])->withErrors($validator, 'vence');
-            //dd($validator->errors());
-            return $this->edit($id)->withErrors($validator,'vence');
-        }
-
-
-        $encuesta->asunto = $request->get('asunto');
-        $encuesta->descripcion = $request->get('descripcion');
-        $encuesta->vence = $vence;
-        $encuesta->save();
-
-        $request->session()->flash('message','Encuesta actualizada exitosamente');
-        return $this->show($id);
-        
+    	return $this->show($id);
+    	
     }
 
     /**
@@ -305,47 +238,41 @@ class EncuestaController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $this->authorize('es_admin', User::class);
-        //$flight->history()->forceDelete();
-        // $encuesta = Encuesta::findOrFail($id);
-        // $pre = $encuesta->preguntas()->get();
-        // return view('encuesta.help',['pregunta'=>$pre]);
-        
-        $encuesta = Encuesta::findOrFail($id);
-//<<<<<<< guilleArreglar19Junio
-        //if (Realizada::where('encuesta_id', $id)->get()->isNotEmpty()) {
-        //dd($encuesta->realizadas()->get()->isNotEmpty());
-        //if($encuesta->realizadas()->get()->isNotEmpty()){
-        //    $request->session()->flash('error', 'Encuesta no se puede eliminar porque alguien ya la completo');
-        //    return $this->index();
-        //}
-//=======
+    	
+    	$this->authorize('es_admin', User::class);
+    	
+    	$encuesta = Encuesta::findOrFail($id);
 
-        if (Realizada::where('encuesta_id', $id)->get()->isNotEmpty()) {
-            $request->session()->flash(
-                'message',
-                'No se puede eliminar la encuesta. Ya fue completada por alguien');
-            return $this->index();
-        }
+    	if (Realizada::where('encuesta_id', $id)->get()->isNotEmpty()) {
+    		$request->session()->flash('error',
+    			"La encuesta '".$encuesta->asunto."' ya ha generado estadísticas");
+    		return $this->index();
+    	}
 
-//>>>>>>> master
-        $encuesta->preguntas()->delete();
-        $encuesta->delete();
-        // parent::delete();
-        $request->session()->flash('message', 'Encuesta borrada exitosamente!');
-        return $this->index();
+    	// $encuesta->preguntas()->delete();
+    	$encuesta->preguntas()->forceDelete();
+    	
+        // $encuesta->delete();
+    	$encuesta->forceDelete();
+    	
+    	$request->session()->flash('message',
+    			"La encuesta '".$encuesta->asunto."' ha sido eliminada");
+    	return $this->index();
 
     }
 
-    public function completadas() {
+    public function completadas()
+    {
 
-		$realizadas = Realizada::all()->reject(function ($item, $key) {
-			$user = User::find($item->user_id);
-			return !$user;
-		});
+    	$this->authorize('es_admin', User::class);
+
+    	$realizadas = Realizada::all()->reject(function ($item, $key) {
+    		$user = User::find($item->user_id);
+    		return !$user;
+    	});
 
     	return view('encuesta.realizadas', compact('realizadas'));
-    
+    	
     }
 
 }
