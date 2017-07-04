@@ -11,9 +11,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>Editar la encuesta</h1></div>
                 <div class="panel-body">
-                <?php 
-                    //dd($old_form_data);
-                ?>
+                
                         @include('layouts.flashes')
                         <form id=formEncuesta action="{{ route('Encuestas.update', $encuesta->id) }}" method="POST" class="form-horizontal" accept-charset="utf-8">
                         <input name="_method" type="hidden" value="PUT">
@@ -21,7 +19,7 @@
                             <div class="form-group{{ $errors->has('asunto') ? 'has-error' : '' }}">
                                 <label type="text" name="asunto" class="col-md-4 control-label" for="asunto" value="">Asunto</label>  
                                 <div class="col-md-6"> 
-                                    <input class="form-control" id="asunto" name="asunto" value="{{ old('asunto') }}" placeholder="" required autofocus >
+                                    <input class="form-control" id="asunto" name="asunto" value="{{ $encuesta->asunto }}" placeholder="" required autofocus >
                                     @if ($errors->has('asunto'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('asunto') }}</strong>

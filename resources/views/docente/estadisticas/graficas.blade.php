@@ -42,7 +42,15 @@
 
 								    <form id="formulario{{$curso->id}}" class="formulario" action="/sendemailprofes/{{$docente->id}}/{{$encuesta->id}}/{{$curso->id}}" method="get">
 								    	<label style="text-align: center" class="col-md-12 control-label">Si desea realizar una copia del email ingrese cada una de los destinatarios separados por un espacio</label>
-								    	<input class="form-control" id="copias" name="copias" placeholder="ejemplo@ejemplo.com example@example.com">
+										<input name="mails" type="hidden">
+										<div class="input-container">
+											<div id="fake-textarea" class="fake-textarea clearfix focus" >
+												<div class="tag-input-wrapper">
+													<input tabindex="4" type="text" autocomplete="off" class="tag-input">
+												</div>
+											</div>
+										</div>
+
 								    	<div id="btnAceptar">
 											<button type="submit" class="btn btn-primary">Aceptar</button>
 										</div>
@@ -72,8 +80,11 @@
         </div>
     </div>
 </div>
+
 <link href="{{ asset('css/graficas.css') }}" rel="stylesheet">
+<link href="{{ asset('css/tags.css') }}" rel="stylesheet">
 
 <script src="{{ asset('/js/graficas.js') }}"></script>
+<script src="{{ asset('/js/tags.js') }}"></script>
 
 @endsection
