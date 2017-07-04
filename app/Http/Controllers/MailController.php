@@ -105,7 +105,7 @@ class MailController extends Controller
     public function sendemailprofes(Request $request, $id_docente, $id_encuesta, $id_curso){
             $this->authorize('es_admin', User::class);
 
-
+            // dd($request->get('mails'));
             $docente = Docente::find($id_docente);
             $encuesta = Encuesta::find($id_encuesta);
             $curso = Curso::find($id_curso);
@@ -129,7 +129,7 @@ class MailController extends Controller
  
             $email_sender   = env('MAIL_USERNAME', getenv("MAIL_USERNAME"));
             $email_pass     = env('MAIL_PASSWORD', getenv("MAIL_PASSWORD"));
-            $copias = $request->get('copias');
+            $copias = $request->get('mails');
             $copias = explode(" ",$copias);
             for($i = 0; $i < count($copias); $i++){
                 if($copias[$i] == "")

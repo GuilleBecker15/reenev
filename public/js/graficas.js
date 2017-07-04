@@ -30,11 +30,16 @@ function verCcMail(cursoID){
 				if(clases[i] == 'has-error'){
 					evt.target.classList.remove('has-error');
 					let hijo = evt.target.getElementsByTagName('span')
+					if (hijo.length > 0){
 					evt.target.removeChild(hijo[0]);
+					//evt.target.removeChild(hijo[0]);
+					}
 				}
 			}
-			if(validarMail(evt.target)){
+			// if(validarMail(evt.target)){
+			if(validar(evt.target)){
 				evt.target.submit();
+				// alert("se puede enviar!");
 			}else{
 				evt.target.parentElement.classList.add('has-error');
 				let span = document.createElement('span');
@@ -49,21 +54,34 @@ function verCcMail(cursoID){
 		iterador++;
 	}
 
-	function validarMail(form){
-		let input= form.getElementsByTagName('input');
-		let texto = input[0].value.trim().split(" ");
-		let valido = true;
-		let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		console.log(texto);
-		if(texto == "") return true;
-		for (let i = 0; i < texto.length; i++){
-			if(texto[i]==""){
-				texto.splice(i,1);
-				i--;
+	// function validarMail(form){
+	// 	let input= form.getElementsByTagName('input');
+	// 	let texto = input[0].value.trim().split(" ");
+	// 	let valido = true;
+	// 	let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	// 	console.log(texto);
+	// 	if(texto == "") return true;
+	// 	for (let i = 0; i < texto.length; i++){
+	// 		if(texto[i]==""){
+	// 			texto.splice(i,1);
+	// 			i--;
+	// 		}
+	// 	  	if(!re.test(texto[i])){
+	// 	  		return false;
+	// 	  	}
+	// 	}
+ //  		return true;
+	// }
+
+	function validar(form){
+		let spans = form.querySelectorAll(".input-container > .fake-textarea > span");
+		for (let i = 0; i < spans.length; i++) {
+			let clases = spans[i].className.split(" ");
+			for (let i = 0; i < clases.length; i++){
+				if(clases[i] == 'novalido'){
+					return false;
+				}
 			}
-		  	if(!re.test(texto[i])){
-		  		return false;
-		  	}
 		}
-  		return true;
+		return true;
 	}
